@@ -1,0 +1,232 @@
+\chapter{Structure of measures and integrals}
+\section{Hahn--Jordan decomposition of signed measures} \label{sec:signed}
+Previously we generalized integrals of nonnegative function to integrals of general signed functions and complex functions. We can make a similar generalization of positive measures to $\R$ and $\C$-valued measures. One of the key goals of this chapter is to explore the intrinsic relationships between measures, functions, and integrals.
+\begin{defn}
+    Given a measurable space $(X,\A)$, a \df{signed/real measure} (resp.\ \df{complex measure}) on the space is a function $\mu\colon \A \to \R$ (resp.\ $\mu\colon \A \to \C$) such that \begin{enumerate}
+        \item \label{enu:emptyset-signed}$\mu(\emptyset) = 0$; 
+        \item \label{enu:sigma-additivity-signed-measure} $\mu$ is $\sigma$-additive, i.e., $\mu(E) = \sum_{n=1}^\infty \mu(E_n)$ for all measurable partitions $\{E_n\}$ of $E$.
+    \end{enumerate}
+\end{defn}
+
+Note condition~\ref{enu:sigma-additivity-signed-measure} implicitly requires the series $\sum \mu(E_n)$ to be absolutely convergent. An important result that says a series is absolutely convergent if and only if any rearrangement of terms in a series yields the same limiting sum; see \cite[Theorems~3.54 and 3.55]{Rudin_principles_1976}. Also note that condition~\ref{enu:sigma-additivity-signed-measure} implies condition~\ref{enu:emptyset-signed}, but we have stated it for clarity.
+
+Many textbooks define the codomain of a signed measure to include one of $+\infty$ or $-\infty$. We do not adopt this convention because it is hardly used in applications, and many complications are avoided. Furthermore, restricting the codomain to the reals allows us to discuss signed and complex measures simultaneously.
+
+In this section, we will state all our proofs for signed measures, which can all be easily extended to complex measures. To distinguish signed/complex measures from the measures we have been discussing previously, we call measures that take nonnegative values \df[positive measure]{positive measures}.
+
+Continuity from above and below still holds for signed and complex measures. The proof here is the same as the one for positive measures.
+\begin{xca}
+    Let $\mu$ be a signed/complex measure. If $E_n \uparrow E$ or $E_n \downarrow E$ in $\A$, then $\mu(E) = \lim_n(E_n)$.
+\end{xca}
+Also the inclusion-exclusion formula still holds by $\sigma$-additivity.However monotonicity no longer holds for signed/complex measures, but we may make the following definitions for a signed measure.
+
+\begin{defn}
+    For a signed measure $\mu$, a measurable set $A$ is a \df[positive/negative/null set for a signed measure]{positive (negative, or null) set} if for every measurable subset $B$ of $A$, $\mu(B)\geq0$ ($\leq 0$, or $=0$). Equivalently, the measurable set $A$ is positive (negative, or null) if for all $E\in \A$, $\mu(E\cap A) \geq 0$ ($\leq 0$, or $= 0$).
+\end{defn}
+
+\begin{namedthm}[Hahn decomposition] \label{thm:hahn-decomp}
+    Let $\mu$ be a signed measure on $(X,\A)$. Then $X$ has a partition into $P$ and $N$ such that $P$ is a positive set and $N$ is a negative set.
+
+    Furthermore, if $P'$ and $N'$ is another such partition, then $P \symdiff P' = N \symdiff N'$ is null. This means that the Hahn decomposition is \emph{essentially unique}.
+\end{namedthm}
+\begin{proof}
+    First we show the essential uniqueness. Consider a measurable set $E_1 \subseteq P - P'$. This $E_1$, as a subset of $P$, must have measure $\geq 0$. Yet at the same time $E_1 \subseteq N' - N\subseteq N'$, which implies that $\mu(E_1)\leq 0$. Therefore $\mu(E_1) = 0$. By the same reasoning with $P'$ switching $P$ and $N$ switching $N'$, we should have $\mu(E_2) = 0$ for all measurable subsets $E_2$ of $P'-P$. Since $P\symdiff P' = N \symdiff N' = (P - P')\cup(P' - P)$, it is clear that this is a null set with respect to the signed measure $\mu$.
+
+    Now we prove the existence. We follow the presentation in \cite{Falkner_2019}, which avoids the axiom of dependent choice used in the proofs of most textbook authors.
+
+    To show the existence of the partition $X = P \cup N$, it suffices\footnote{This is also a necessary condition.} to find some measurable $N$ such that for all $E \in \A$, $\mu(E)\geq \mu(N)$. Now we prove this claim. By assumption we have $\mu(N)\leq \mu(\emptyset) = 0$. Now for any $A \in \A$, we have \[
+        \mu(N) + \mu(N\cap A) \leq \mu(N-A) + \mu(N\cap A) = \mu(N).
+    \] Therefore $N$ is a negative set. For any $A \in \A$, we also have $P\cap A = A - N$ and \[
+        \mu(N) \leq \mu(A) = \mu(A - N) + \mu(N).
+    \] Therefore $\mu(P\cap A)\geq 0$, which means $P$ is a positive set.
+    
+    Now we find such an $N$ with the smallest measure over all measurable sets. Let $L = \inf\{\mu(A): A\in \A\}$, then we need to find $N \in \A$ such that $L = \mu(N)$. Since $\A \neq \emptyset$, by countable choice we can take a sequence $\{D_n\}\subseteq \A$ with $\mu(D_n)\to L$.
+
+    Let $\A_n$ be the algebra of subsets of $\cup_{n=1}^\infty D_n$ generated by $\{D_k\}_{k=1}^n$, which is a finite collection\footnote{As an exercise, show that the ($\sigma$-)algebra generated by a collection of $n$ sets can have at most $2^{2^n}$ sets.}. Therefore $\mu_n \coloneqq \mu|_{\A_n}$ achieves its minimum on the collection $\A_n$, say at $E_n$. Note the same argument that proved the sufficient condition for finding a Hahn decomposition clearly works for the premeasure $\mu|_{\A_n}$ on the algebra $\A_n$: we have $E_n$ is a $\mu_n$-negative set and $E_n^\cpl$ is a $\mu_n$-positive set on $\A_n$.
+
+    We claim that the desired $N = \liminf_m E_m$. First let $A_m^n=\cap_{k=m}^n E_m$ and let $A_m = \cap_{k\geq m}E_m$. Then  \[\mu(A_m^n)\to \mu(A_m)\] as $n\to \infty$. Furthermore the limit above is a decreasing one: note \begin{align*}
+        \mu(A_m^{n-1}) & = \mu(A_m^n) + \mu(A_m^{n-1} - E_k) \\
+        & = \mu(A_m^n) + \mu(A_m^{n-1}\cap E_n^\cpl) \\
+        & \geq \mu(A_m^n), 
+    \end{align*}
+    where the last inequality follows from the observation that $E_n^\cpl$ is $\mu_n$-positive set on $\A_n$ and $A_m^{n-1} \in \A_n$.
+
+    Now by our choice of $E_m$, we have \[
+        \mu(D_m) \geq \mu(E_m) = \mu(A_m^m)\geq \mu(A_m^{m+1}) \geq \dotsb.
+    \] Therefore \[\mu(D_m) \geq \mu(A_m) \geq L,\] and taking $m \to \infty$ gives us $\mu(A_m) \to L$ as $m\to \infty$. Now the magic takes place. We know $A_m \uparrow \liminf_m E_m$, and thus $\mu(\liminf E_m) = \lim \mu(A_m)$. The two limits must agree, and hence $L = \mu(\liminf E_m)$. This finishes the proof. 
+\end{proof}
+
+In the proof above we have constructed some set that attains $\inf\{\mu(A):A\in \A\}$. This implies the boundedness of $\mu$ from both above and below. (Apply the argument to $-\mu$.)
+
+We define the \df[total variation!measure of a signed/complex measure]{total variation} of the signed/complex measure $\mu$ to be a function $\abs{\mu}\colon \mathcal{A} \to [0,\infty]$ given by \begin{equation} \label{eq:ttl-var-defn}
+    \abs{\mu}(E) = \sup\biggl\{\sum_{n=1}^\infty \abs{\mu(E_n)} : \{E_n\}\text{ is a measurable partition of } E\biggr\},
+\end{equation}
+the maximized ``variation'' over all partitions of a given set in $\A$.
+
+The definition in \eqref{eq:ttl-var-defn} can be significantly simplified. Because the summands are nonnegative, we can break it into two sums: \begin{align*}
+    \sum_{n=1}^\infty \abs{\mu(E_n)} & = \sum_{j:\mu(E_j) \geq 0} \abs{\mu(E_j)} + \sum_{k:\mu(E_k) < 0} \abs{\mu(E_k)} \\
+    & = \biggl\vert\sum_{j:\mu(E_j) \geq 0} \mu(E_j)\biggr\vert + \biggl\vert\sum_{k:\mu(E_k)<0} \mu(E_k)\biggr\vert \\ & = 
+    \abs{\mu(\widehat{E})} + \abs{\mu(\widetilde{E})},
+\end{align*}
+where $\widehat{E} = \bigcup\{E_j : \mu(E_j) \geq 0\}$ and $\widetilde{E} = \bigcup\{E_k : \mu(E_k) < 0\}$.
+Therefore \begin{equation} \label{eq:ttl-var-equiv}
+    \abs{\mu}(E) = \sup\{ \abs{\mu(E_1)} + \abs{\mu(E_2)} : E_1\text{ and } E_2 \text{ are measurable and partition } E\}.
+\end{equation} It is clear that we may also take finite partitions here. We may also take the partition to a measurable partition of any measurable subsets of $E$ instead.
+
+By the equivalent definition in \eqref{eq:ttl-var-equiv}, since $\mu$ is a bounded function on $\A$, $\abs{\mu}$ is also bounded. This is in fact the hardest part\footnote{There is a very interesting direct argument that proves the finiteness of $\abs{\mu}$ using the axiom of dependent choice; see \cite{Rudin_realcomplex_1987,Ambrosio_2011,Axler_2020}.} of establishing the following fact.
+\begin{thm}
+    The total variation $\abs{\mu}$ of a signed/complex measure $\mu$ is a finite positive measure on $(X,\A)$.
+\end{thm}
+\begin{proof}
+    Obviously $\abs{\mu}(\emptyset) = 0$. It remains to check countable additivity.
+\end{proof}
+
+\begin{defn}
+    Let the space of signed (resp.\ complex) measure on $(X,\A)$ be denoted by $\M(X)$. The \df[total variation!norm]{total variation norm} is defined to be the function $\nm{\blank}\colon \M(X)\to \R$ (resp.\ $\C$) given by \[
+        \nm{\mu} = \abs{\mu}(X).
+    \]
+\end{defn}
+
+Let us first show that this $\nm{\blank}$ is indeed a norm on $\M(X)$.
+
+\begin{thm}
+    The space of signed/complex measures $\M(X)$ with the total variation norm is a Banach space.
+\end{thm}
+\begin{proof}
+    
+\end{proof}
+
+The most important implication of \nameref{thm:hahn-decomp} is a \emph{unique} decomposition of a signed measure $\mu$ into a positive and negative part, known as the \emph{Jordan decomposition}. As we will see soon, the Jordan decomposition offers another characterization of the total variation measure we have just discussed.
+
+Before we start, we need an additional definition.
+
+\begin{defn}
+    Let $\mu$ and $\nu$ be two positive/signed/complex measures on $(X, \A)$. We say $\mu$ and $\nu$ are \df{mutually singular}, denoted by $\mu \perp \nu$, if $X$ can be partitioned into two measurable subsets $A$ and $B$, such that \[
+        \mu(B) = 0 \quad \text{and} \quad \nu(A) = 0,
+    \] or equivalently, for all $E\in \A$, \[
+        \mu(E) = \mu(E\cap A) \quad \text{and} \quad \nu(E) = \nu(E \cap B).
+    \]
+\end{defn}
+
+\begin{namedthm}[Jordan decomposition]
+    Let $\mu$ be a signed measure on $(X,\A)$. Then there exist unique two finite positive measures $\mu^+$ and $\mu^-$ on $(X,\A)$ such that \[
+        \mu = \mu^+ - \mu^- \quad \text{and} \quad \mu^+ \perp \mu^-.
+    \]
+\end{namedthm}
+\begin{defn} \label{def:abs-cont}
+     Let $\mu$ be a positive measure and $\nu$ be a positive/signed/complex measure on $(X, \A)$. We say $\nu$ is \df[absolutely continuous measures]{absolutely continuous} with respect to $\mu$, or $\nu$ is \df[dominating measure]{dominated by} $\mu$, denoted by $\nu \ll \mu$, if for all $E\in \A$, \begin{equation} \label{eq:def-abs-cont}
+         \mu(E) = 0 \implies \nu(E) = 0.
+     \end{equation}
+        
+    More generally, to define absolute continuity $\nu \ll \mu$ for signed/complex $\mu$, we change \eqref{eq:def-abs-cont} to \begin{equation} \label{eq:def-abs-cont-sign-cplx}
+        \abs{\mu}(E) = 0 \implies \nu(E) = 0.
+    \end{equation} This is a definition not used much in practice.
+\end{defn}
+One should check that $\nu \ll \mu$ if and only if $\abs{\nu} \ll \mu$ if and only if $\nu^+ \ll \mu$ and $\nu^- \ll \mu$. Also check that $\nu$ and $\nu$ are \df{equivalent measures}, in the sense that \[
+    \nu \ll \abs{\nu} \ll \nu.
+\]
+
+
+\section{Radon--Nikodym theorem and Lebesgue decomposition}
+Depending on what kind of measures we are looking at, there exists multiple versions of the Radon--Nikodym theorem. The following version is the most basic one in practice. It considers a pair of $\sigma$-finite and finite measures.
+\begin{namedthm}[Radon--Nikodym theorem] \label{thm:Radon-Nikodym}
+    Let $\mu$ be a $\sigma$-finite measure and $\nu$ be a finite measure on $(X,\A)$, where $\nu \ll \mu$. Then there exists an $\A$-measurable function $f$ such that \[
+        \nu(E) = \int_E f \,d\mu \quad \text{for all }E\in \mathcal{A}.
+    \]
+    Furthermore this $f$ is nonnegative and unique in $L^1(X,\A,\mu)$.
+
+    If the $\nu$ above is given as a signed/complex measure instead, then the same conclusions still hold after dropping $f$ is nonnegative. If $\nu$ is given as a $\sigma$-finite measure instead, the function $f$ becomes nonnegative real-valued\footnote{i.e., $f$ takes values in $[0,\infty)$.}, and is unique a.e.
+\end{namedthm}
+Our $f$ here is called the \df{Radon--Nikodym derivative/density} of $\nu$ with respect to $\mu$, denoted by $d\nu/d\mu$.
+
+We summarize two standard proofs of this theorem. The first of which uses results from Hilbert spaces, while the second one is based on variational principles.
+\begin{proof}[Proof 1, using Hilbert spaces]
+    
+\end{proof}
+\begin{proof}[Proof 2, using variational principles]
+    
+\end{proof}
+
+\begin{namedthm}[Lebesgue decomposition]\label{thm:Leb-decomp}
+     Let $\mu$ be a positive measure and $\nu$ be a signed/complex measure on $(X,\A)$. Then 
+     \begin{enumerate}
+         \item \label{enu:decomp} there exist two unique signed/complex measures $\nu_a$ and $\nu_s$ on $(X,\mathcal{A})$ such that \[
+            \nu = \nu_{a} + \nu_{s}\text{, where }\nu_a \ll \mu \text{ and } \nu_s \perp \mu;
+         \]
+         \item \label{enu:derivative} % there exists an $\A$-measurable function $f$, nonnegative and unique in $L^1(X,\A,\mu)$, such that \[\nu_a(E) = \int_E f \,d\mu \quad \text{for all }E\in \mathcal{A}.\]
+     \end{enumerate}
+\end{namedthm}
+
+We briefly discuss Lebesgue decomposition for other types of measures below.
+\begin{itemize}
+    \item If $\nu$ is given as a positive/finite/$\sigma$-finite measure instead, then ``positive'' becomes ``positive''/``finite''/``$\sigma$-finite'' in conclusion~\ref{enu:decomp}.
+    \item If $\nu$ is given as a $\sigma$-finite measure instead, then in conclusion~\ref{enu:decomp} $\nu_a$ and $\nu_s$ become $\sigma$-finite.
+    \item Conclusion~\ref{enu:decomp} continues to hold if $\mu$ and $\nu$ are both signed or complex. Recall the definition of absolute continuity in this case from \eqref{eq:def-abs-cont-sign-cplx}.
+    \item The theorems can be generalized to the case when $\mu$ has no assumption while $\nu$ is an \df[s-finite measure@$s$-finite measure]{$s$-finite measure}, which is a sum of countably many finite measures. See \cite{Falkner_2019}.
+\end{itemize}
+\begin{rem}
+    % This paragraph is borrowed from \cite[Section 3.2]{Bogachev_2007}.
+    
+    % Given a $\sigma$-finite positive measure $\mu$ on $(X,\A)$, then every finite nonnegative measurable function (not necessarily integrable) defines the $\sigma$-finite positive measure $d\nu_{a} = f d\mu.$ Since $X$ can be written as $\cup_{n=1}^\infty X_n$, where each $X_n$ is $\mu$-finite. 
+    If $\nu$ is given as a signed measure instead, then write $\nu = \nu^+ - \nu^-$, and then use the above version of \nameref{thm:Leb-decomp} to write
+    
+    For each $n\in \N$, set $\nu_n (E) = \nu(E\cap X_n)$ for all $E\in \A$ and get a finite measure $\nu_n$. Now apply \nameref{thm:Leb-decomp} for finite $\nu$ above
+\end{rem}
+
+Radon--Nikodym derivative with respect to counting measure
+
+Lebesgue decomposition of a monotonic function (p344 345 Bogachev) % https://proofwiki.org/wiki/Lebesgue_Decomposition_of_Finite_Borel_Measure
+\section{Differentiation}
+\begin{namedthm}[Vitali covering lemma]
+    
+\end{namedthm}
+
+\begin{defn}
+    Hardy--Littlewood maximal function
+\end{defn}
+
+\begin{namedthm}[Lebesgue differentiation theorem]
+    
+\end{namedthm}
+
+\section{Functions of bounded variations}
+\section{Absolutely continuous functions}
+\begin{defn}
+    Let $I \subseteq \R$ be an interval. A function $f\colon I\to \R$ is absolutely continuous if for all $\epsilon > 0$, there exists $\delta > 0$ such that \[
+        \sum_{i=1}^n (b_i - a_i) < \delta \implies \sum_{i=1}^n \abs{f(b_i) - f(a_I)} <\epsilon
+    \] holds for any finite family of pairwise disjoint open intervals $\{(a_i,b_i)\}_{i=1}^n$ contained in $I$.
+\end{defn}
+\section{Fundamental theorem of calculus}
+\begin{namedthm}[Fundamental theorem of calculus (for Lebesgue integrals)]
+    For $f\colon [a,b]\to \R$, the following are equivalent: 
+    \begin{enumerate}
+        \item $f$ is absolutely continuous; 
+        \item there exists a Lebesgue integrable function $g$ on $[a,b]$ such that \[
+            f(x) = f(a) + \int_a^x g(t)\,dt
+        \] for all $x \in [a,b]$.
+        \item $f$ has derivative $f'$ almost everywhere, and $f'$ is Lebesgue integrable with \[
+            f(x) = f(a) + \int_{a}^x f'(t)\,dt
+        \] for all $x \in [a,b]$.
+    \end{enumerate}
+\end{namedthm}
+
+Bogachev 5.4.5 4.7.60
+
+\section{Riesz' theorems and vague convergence of measures}\label{sec:Riesz-thm}
+
+\begin{namedthm}[Riesz' theorem for compact metric spaces]
+    Let $(X,d)$ be a compact metric space, then the dual space $C(X)^*$ is isometrically isomorphic to $\M(X)$, i.e., for all linear functionals $L \in C(X)^*$, there is a unique $\mu \in \M(X)$ such that \[
+        L(f) = \int_X f\,d\mu\quad \text{for all }f\in C(X);
+    \] meanwhile $\nm{L}_{u} = \nm{\mu}$.
+\end{namedthm}
+
+\begin{namedthm}[Riesz' theorem for l.c.H.\ spaces]
+    Let $X$ be an l.c.H.\ space, then the dual space $C_0(X)^*$ is isometrically isomorphic to $\M_\mathrm{R}(X)$, i.e., for all linear functionals $L \in C_0(X)^*$, there is a unique $\mu \in \M_\mathrm{R}(X)$ such that \[
+        L(f) = \int_X f\,d\mu\quad \text{for all }f\in C_0(X);
+    \] meanwhile $\nm{L}_{u} = \nm{\mu}$.
+
+    In particular, if $X$ is further assumed to be second countable, then the space of Radon measures $\M_r(X)$ above can be replaced by the space of Borel measures $\M(X)$ instead.
+\end{namedthm}
+% https://math.stackexchange.com/questions/184766/when-is-c-0x-separable
+
+finite Radon measure (Bogachev 7.1)

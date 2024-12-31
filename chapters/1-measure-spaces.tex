@@ -1,0 +1,511 @@
+\chapter{Measure spaces}
+\section{Basic setup}
+We let $X$ be a nonempty set in Part I.
+\begin{defn}
+    For $\{A_n\}_{n=1}^\infty\subseteq \wp(X)$, we define \[
+        \limsup_{n \to \infty} A_n = \bigcap_{n=1}^\infty \bigcup_{m=n}^\infty A_m \quad \text{and}\quad \liminf_{n \to \infty} A_n = \bigcup_{n = 1}^\infty \bigcap_{m = n}^\infty A_m.
+    \]
+\end{defn}
+Note $\bigcap$ can be seen as ``for all'' and $\bigcup$ can be seen as ``there exists''. Therefore $\limsup_n A_n$ consists of elements that belong to infinitely many $A_n$'s (spread out across $n \in \N$), while $\liminf_n A_n$ consists of elements that belong to all but finitely $A_n$ (the $n$'s at the beginning). To compare this with the $\limsup$ and $\liminf$ of a sequence of numbers, one may try the following exercise.
+
+\begin{xca}
+    Show that \begin{align*}
+        \limsup_{n \to \infty}  A_n = A & \iff \limsup_{n \to \infty} \ind_{A_n} = \ind_A, \\
+        \liminf_{n \to \infty}  A_n = A & \iff \liminf_{n \to \infty} \ind_{A_n} = \ind_A.
+    \end{align*}
+
+    Here $\ind_A\colon X \to \{0,1\}$ given by \[
+        \ind_A(x)= \begin{cases}
+            1 & \text{if } x \in A, \\
+            0 & \text{if } x \not\in A.
+        \end{cases}
+    \]
+    is called the \df{indicator function} (\df[characteristic function (measure theory)]{characteristic function} for analysts who choose to write $\chi_A$).
+\end{xca}
+
+If $\{A_n\}_{n=1}^\infty$ is an increasing sequence of sets, then \[
+    \liminf_n A_n = \limsup_n A_n = \bigcup_n A_n;
+\] if the sequence is decreasing, then \[
+    \liminf_n A_n = \limsup_n A_n = \bigcap_n A_n.
+\] Also remember that, by De Morgan's Law, \[
+    \limsup_n A_n^\cpl = \bigl(\liminf_n A_n\bigr)^\cpl \quad \text{and}\quad 
+    \liminf_n A_n^\cpl = \bigl(\limsup_n A_n \bigr)^\cpl.
+\]
+
+Here is another exercise.
+
+\begin{xca}
+    Consider a sequence of functions $f_n$ that convergences to $f$ pointwise on some set $E$. If we define \[
+        E_{n,\epsilon} = \{x:\abs{f_n(x) - f(x)} < \epsilon\}
+    \] for $\epsilon > 0$ and $n\in \N$, then \[
+        E = \bigcap_{k=1}^\infty \liminf_m E_m^{1/k} = \bigcap_{k=1}^\infty \bigcup_{m=1}^\infty \bigcap_{n\geq m} E_n^{1/k}.
+    \]
+\end{xca}
+
+\begin{defn}
+    A nonempty collection of subsets of $X$ is an \df{algebra} if \begin{enumerate}
+        \item $\emptyset,X \in \A$;
+        \item closed under complement;
+        \item \label{enu:algebra-finite-union} closed under finite unions and intersections.
+    \end{enumerate}
+    Furthermore, $\A$ is called a \df[sigma-algebra@$\sigma$-algebra]{$\sigma$-algebra} if condition~\ref{enu:algebra-finite-union} asks for countable unions and intersections.
+\end{defn}
+
+An algebra can be constructed from a more basic structure called semialgebra, which we define below.
+\begin{defn}
+    A \df{semialgebra} $\mathcal{E}$ is a collection of sets such that \begin{enumerate}
+        \item \label{enu:cond1-semialgebra}$\emptyset \in \mathcal{E}$;
+        \item closed under finite intersections;
+        \item if $A \in \mathcal{E}$ then $A^\cpl$ is a finite disjoint union of elements in $\mathcal{E}$.
+    \end{enumerate}
+\end{defn}
+Some authors drop condition~\ref{enu:cond1-semialgebra}, while others add the condition that $X \in \mathcal{E}$. But of course there is no essential difference. Now comes the main result.
+
+\begin{prop}[{\cite[Proposition~1.7]{folland1999}}] \label{prop:semialgebra-to-algebra}
+    If $\mathcal{E}$ is a semialgebra\footnote{Folland calls this elementary family.}, then all finite disjoint unions of sets in $\mathcal{E}$ form an algebra.
+\end{prop}
+
+The most important example of a semialgebra consists of the empty set and all sets of the form \[
+    (a_1,b_1] \times \dotsb \times (a_d,b_d] \subseteq \R^d,
+\] where $-\infty \leq a_j<b_j \leq \infty$. The finite disjoint unions of half-open half-closed cubes should therefore form an algebra.
+
+From now on we will assume $\A$ is by default a $\sigma$-algebra. Obviously the largest $\sigma$-algebra on $X$ is the power set $\wp(X)$.
+
+Given a $\sigma$-algebra $\A$ on $X$, the couplet $(X,\mathcal{A})$ is called a \df{measurable space}, a space on which we can possibly attach a measure. Given a measurable space $(X,\A)$, we call a set $E$ is $\A$-measurable if $E\in \A$.
+
+Also in analysis, ``$\sigma$'' means countable union while ``$\delta$'' means countable intersection. An \df[F-sigma set@$F_\sigma$ set]{$F_{\sigma}$ set} is a countable union\footnote{\emph{somme} in French} of closed\footnote{\emph{fermé} in French} sets, while a \df[G-delta set@$G_\delta$ set]{$G_\delta$ set} is a countable intersection\footnote{\emph{Durchschnitt} in German} of open\footnote{\emph{Gebiet} in German} sets.
+
+We know that the preimage of a function $f\colon X \to Y$ is a mapping $f^{-1}\colon \wp(Y) \to \wp(X)$ that preserves unions, intersections, and complements, which are also operations in the definition of a $\sigma$-algebra. The next result makes the relationship between the two explicit. See \cref{sec:measurable-functions} for the use.
+\begin{prop}[{\cite[Lemma 1.3]{Kallenberg_2002}}] \label{prop:induce-s-alg-meas-map}
+    Consider $f\colon X \to Y$, and $\mathcal{M}$ and $\mathcal{N}$ be two respective $\sigma$-algebras on $X$ and $Y$. The preimage $f^{-1}$ induces two $\sigma$-algebras: \begin{enumerate}
+        \item \label{enu:backward-ind-s-alg} $\mathcal{M}' =\{f^{-1}(A) : A \in \mathcal{N}\}$ on $X$, in the backward direction; 
+        \item \label{enu:forward-ind-s-alg} $\mathcal{N}' = \{B \subseteq Y : f^{-1}(B) \in \mathcal{M}\}$ on $Y$, in the forward direction.
+    \end{enumerate}
+\end{prop}
+
+\begin{defn}
+    Within $X$, given a family of subsets $\mathcal{S}$, the smallest $\sigma$-algebra containing $\mathcal{S}$, i.e., the intersection of all $\sigma$-algebras that contains $\mathcal{S}$, is called the \df[sigma-algebra generated by@$\sigma$-algebra generated by!sets]{$\sigma$-algebra generated by $\mathcal{S}$} , denoted by $\sigma(\mathcal{S})$.
+
+    Similar definitions hold for other types of structures.
+\end{defn}
+Remember the phrase ``the generated is the smallest'', and this should indicate how some proofs should proceed.
+
+Check that the intersection of a family of algebras/$\sigma$-algebras is an algebra/$\sigma$-algebra. Note that the union is not.
+
+If $X$ is a topological space, then the \df[Borel sigma-algebra@Borel $\sigma$-algebra]{Borel $\sigma$-algebra} on $X$, which we denote by $\B_X$ or $\B(X)$, is the $\sigma$-algebra generated by all open sets. One can of course replace the ``open'' here by ``close''.
+
+If $X = \R$ with the standard Euclidean topology, then $\B(\R)$ is generated  
+\begin{itemize}
+    \item by open intervals (or closed), 
+    \item by left-open right-closed intervals (or the other way around), 
+    \item by open rays $\{(a,\infty):a\in\R\}$ (or the other way around),
+    \item or by close rays $\{[a,\infty):a\in\R\}$ (or the other way around).
+    \item One may replace the endpoints of intervals by rationals as well.
+\end{itemize}
+
+The first bullet point boils down the fact that an open set in $\R$ can always be written into the disjoint union of a countable number of open intervals. The proof of this requires us to show that 
+
+\begin{xca}
+    Given a set $U$ open in $\R$. The relationship $\sim$ on $U$ given by $x \sim y$ if $[x \land y, x \lor y] \subseteq U$ is an equivalence relation.
+\end{xca}
+The theorem is of significant importance throughout measure theory, and is key to the construction of Lebesgue measure on the real line that we will see soon. The notations $x \land y$ and $x \lor y$ are shorthand for $\min\{x,y\}$ and $\max\{x,y\}$. We will use them later more often.
+
+\begin{defn}
+     A \df{measure} $\mu$ on $(X,\A)$ is a function $\mu\colon\A\to[0,\infty]$ such that \begin{enumerate}
+         \item $\mu(\emptyset) = 0$;
+         \item \label{enu:countable-additivity-positive-measure} $\mu$ is \df[countably additive/$\sigma$-additive], i.e., let $\{E_n\}_{n=1}^\infty$ be any measurable partition of $E \in \A$, we have  \[
+            \mu(E) = \mu\biggl(\bigcup_{n=1}^\infty E_n\biggr) = \sum_{n=1}^\infty \mu(E_n).
+         \]
+     \end{enumerate}
+\end{defn}
+
+For two different rearrangements of the same measurable partition of $E$, $\mu(E)$ should have the same value, because the sum of nonnegative values does not change under reordering. An easy way to see this is to note \[
+    \sum_{n=1}^\infty a_n= \sup\biggl\{\sum_{n\in I} a_n:I\text{ is a finite subset of }\N\biggr\}.
+\] In fact the RHS above is how we define generalized sums over possibly uncountable indices. Therefore condition~\ref{enu:countable-additivity-positive-measure} makes sense.
+
+From now on we assume by default that $\mu$ is a measure. The triplet $(X,\A,\mu)$ is called a \df{measure space}.
+
+A measure $\mu$ on $(X,\A)$ is a \df{probability measure}\footnote{Why use this name? Because the probability of the entire sample space should be 1.} if $\mu(X) = 1$; $\mu$ is \df[finite measure]{finite} if $\mu(X) < \infty$; and $\mu$ is \df[sigma-finite measure@$\sigma$-finite measure]{$\sigma$-finite} if $X$ can be written as a countable union of measurable sets $A_n \in \A$, each of which is of finite measure. Note for a $\sigma$-finite measure, we can replace this countable collection of finite-measure sets that make up $X$ by an increasing sequence of finite-measure sets. We may even further assume that the sets are mutually disjoint. These assumption can be handy in some proofs.
+
+It is clear that any probability measure is a finite measure, which is in turn a $\sigma$-finite measure. The probability measure is the essential example of a finite measure, because mostly you can normalize the measure of the whole space to $1$.
+
+A $\sigma$-finite measure means it is a normal kind of measure. The Lebesgue measure that we will rigorously see soon, for example, is $\sigma$-finite. Some major results in measure theory, for example the Fubini--Tonelli theorem (see \cref{sec:prod-integrate}), are only true for $\sigma$-finite measure spaces. A measure that is not $\sigma$-finite is considered, in some sense, a little pathological.
+
+The following facts will come up a couple of times.
+\begin{fact} \label{fact:restrict-meausre-original-space}
+    Fix some $S \in \A$. The function $\nu\colon \A\to [0,\infty]$ given by $\nu(E) = \mu(E \cap S)$ is still a measure on $(X,\A)$.
+\end{fact}
+\begin{fact} \label{fact:restrict-meausre-restrict-space}
+    Fix $S\in \A$. By intersecting $S$ we can get a sub-$\sigma$-algebra $\A|_S$ on $S$, where \[
+        \A|_S = \{E \cap S: E\in\A\}.
+    \] Such $(S,\A|_S)$ is called a \df{measurable subspace} of $(X,\A)$. Note that $\mu$ restricted to the $\sigma$-algebra $\A|_S$ is a measure on $\A|_S$. We denoted this restricted measure on $(S,\A|_S)$ by $\mu|_S$, or simply $\mu$ when the context is clear. 
+\end{fact}
+
+Below are some important basic properties about measures that are used all the time.
+\begin{prop}\label{prop:basic-properties-measure}
+    We have the following properties about a measure $\mu$ on $(X,\A)$.
+    \begin{enumerate}
+        \item monotonicity: for $A,B\in \A$, \[
+            A\subseteq B \implies \mu(A)\leq \mu(B);
+        \]
+        \item inclusion-exclusion: for $A,B \in \A$ with $\mu(A \cap B) < \infty$, we have \[
+            \mu(A \cup B) = \mu(A) + \mu(B) - \mu(A\cap B).
+        \]
+        \item \df[sigma-subadditivity@$\sigma$-subadditivity]{$\sigma$-subadditivity}: for possibly intersecting sets\footnote{Recall in $\sigma$-additivity the sets must be mutually disjoint.} $\{E_n\}_{n=1}^\infty \subseteq \A$, \[
+            \mu\biggl(\bigcup_{n=1}^\infty E_n\biggr) \leq \sum_{n=1}^\infty \mu(E_n).
+        \]
+        \item continuity from below: for a sequence of sets $\{E_n\}_{n=1}^\infty \subseteq \A$ that increases to $E$, we have \[
+            \mu(E_n) \uparrow \mu(E).
+        \]
+        \item continuity from above (when the first set is of finite measure): for a sequence of sets $\{E_n\}_{n=1}^\infty \subseteq \A$ with $\mu(E_1)<\infty$ and $E_n \downarrow E$, we have \[
+             \mu(E_n) \downarrow \mu(E).
+        \]
+    \end{enumerate}
+\end{prop}
+All these properties above require the famous disjointification trick to prove: we partition the sets in question into pairwise disjoint pieces, and then use countable additivity of the measure.
+
+Now we discuss two important examples of measure extremely useful in application\footnote{In this note we will avoid going deep into facts/examples/counterexmaples that are ultimately not very useful in practice. One such ``useless'' example that is often mentioned here is the countable-cocountable measure on an uncountable set. One may also list the collection of all countable and cocountable sets as an example of a $\sigma$-algebra earlier, but we have omitted for the same reason. Some results of greater generality and particular examples add further insight to the subject matter and help our understanding, but in many situations this is not the case.}.
+
+The first one is the \df{counting measure}. Consider the measurable space $\bigl(X,\wp(X)\bigr)$. The function $\mu\colon \wp(X) \to [0,\infty]$ given by $\mu(E) = \abs{E}$ is a measure. Basically it counts how many elements are in each subset of $X$.
+
+The second one is the \df{Dirac point mass}. Given $(X,\A)$ and some $x\in X$, we define the function $\delta_X\colon \A \to \{0,1\}$ given by \[
+    \delta_x(A) = \begin{cases}
+        1 & \text{if } x \in A, \\
+        0 & \text{if } x \not\in A.
+    \end{cases}
+\]
+This is clearly a probability measure. Notice its difference from the indicator function. The point mass $\delta_x(A)$ takes in a set and spits out $1$/$0$, while the corresponding indicator $\ind_A(x)$ takes in a point and spits out $1$/$0$.
+
+A countable linear combination of Dirac point mass defines a measure $\mu$ on $\A$ called the \df{discrete measure} To be precise, given a countable set $Y \subseteq X$, and a function $c\colon y \mapsto [0,\infty]$ at each $y \in Y$, we can define $\mu\colon \A \to \infty$ by \[
+    \mu = \sum_{y \in Y} c(y)\delta_y.
+\] The meticulous reader should notice that the function $c$ here resembles the probability mass function on a discrete probability space; see \cref{sec:dist}.
+
+We now introduce two additional elementary results about measures, which are simple consequences from \cref{prop:basic-properties-measure}. These two results are important in probability theory, but both are indeed purely measure-theoretic.
+\begin{cor}[(Upper and lower semicontinuity of measures)]
+    For $\{E_n\}_n \subseteq \A$, we have \[
+        \mu\bigl(\liminf_n E_n\bigr) \leq \liminf_n \mu(E_n).
+    \]
+    If in addition $\mu$ is finite, then \[
+        \limsup_n \mu(E_n) \leq \mu\bigl(\limsup_n E_n\bigr).
+    \]
+\end{cor}
+
+\begin{namedthm}[Borel--Cantelli lemma, part I] \label{thm:BorelCantelli-meas-th}
+    For $\{E_n\}_n \subseteq \A$, assume $\sum_{n} \mu(E_n) <\infty$, then \[
+        \mu\bigl(\limsup_n E_n\bigr) = 0.
+    \]
+\end{namedthm}
+
+We will see that the above result will be used to prove almost everywhere convergence of functions, a notion that will be introduced in \cref{chap:meas-func-int}.
+
+One can skip the rest of this section for now, and come back after reading about the Lebesgue measure on the real line.
+
+Given $(X,\A,\mu)$, a subset $E\subseteq X$ is called a \df{null set}
+if there is $B\in\mathcal{A}$ such that $E\subseteq B$ and $\mu(B)=0$.
+If $\A$ contains all these null sets, then the measure space is \df{complete}.
+The \df{completion} $\A^\mu$ is the smallest $\sigma$-algebra containing $\A$ such that there exists a measure $\bar{\mu}$, which extends $\mu$ to $\A^\mu$, that makes $(X,\A^\mu)$ complete.
+
+Why is a complete measure space sometimes desirable? In some cases we want to make all subsets of measure zero sets measurable to avoid some technical peculiarity, and meanwhile we can measure a larger collection of sets. However, it is important to remember that a larger $\sigma$-algebra can lead to more technical peculiarities as well. In many cases the additional measurable sets after completion may not be well-behaved with respected functions, which we will see in \cref{sec:measurable-functions}. In addition, even a complete measure space $(X,\A,\mu)$ may still not measure every subset of $X$.
+
+The completion of a measure space is given explicitly, as stated in the following theorem.
+
+\begin{thm}[{\cite[Theorem 1.9]{folland1999}}]
+    The completion $\A^\mu$ is unique, which is given by \[
+        \A^\mu =\{E\cup F:E\in\A\text{ and }F\subseteq N\text{, where }N\text{ is a null set}\}.
+    \]
+    In addition, the measure $\bar{\mu}$ given by $\bar{\mu}(E\cup F)=\mu(E)$ not only completes $\A$, but also is the unique extension of $\mu$ from $\A$ to $\A^\mu$.
+\end{thm}
+\begin{proof}
+    The first part of the proof is given in the reference. For the uniqueness part, suppose there is some other measure $\hat{\mu}$ on $\A^\mu$ such that $\hat{\mu}(E) = \mu(E)$ for all $E \in \A$. However, there exists some $D \subseteq N$, where $\mu(N) = 0$, such that $\hat{\mu}(E \cup D) \neq \mu(E) = \hat{\mu}(E)$. This implies $\hat{\mu}(D - E) > 0$. Yet $D - E \subseteq N$ where $\hat{\mu}(N) = 0$. This contradicts monotonicity.
+\end{proof}
+
+To similarly avoid peculiarities caused by null sets, we give the following definitions. Let $\mu$ be a finite measure. The set $A \in \A$ is called an \df{atom} of the measure $\mu$ if the set has measure $\mu(A) > 0$, but all its measurable subsets must be either of measure $0$ or of measure $\mu(A)$. A measure is \df[atomless measure]{atomless} if there are no atoms. A measure $\mu$ is \df[purely atomic measure@(purely) atomic measure]{(purely) atomic} if the measure $\mu$ is concentrated on a countable union of atoms $\cup_{n=1}^\infty A_n$, i.e., $\mu(X - \cup_n A_n) = 0$.
+
+\section{Two tools from set theory}
+\begin{defn}
+A \df[pi-system@$\pi$-system]{$\pi$-system} on $X$ is a nonempty collection of subsets of $X$ that is closed under finite intersections.
+
+A \df[lambda-system@$\lambda$-system]{$\lambda$-system} $\mathcal{L}$ on $X$ is a collection of subsets of $X$ such that 
+\begin{enumerate}
+    \item $X\in\mathcal{L}$; 
+    \item \label{enu:prop-diff-lam-sys} if $A,B\in\mathcal{L}$ and $A\subseteq B$, then $B-A\in\mathcal{L}$; (closed under proper differences)
+    \item if $A_{n}\in\mathcal{L}$ and $A_{n}\uparrow A$ then $A\in\mathcal{L}$. (closed under ascending countable unions)
+\end{enumerate}
+\end{defn}
+\begin{defn}
+    A \emph{monotone class} on $X$ is a collection of subsets of $X$ that is closed under ascending countable unions and descending countable intersections.
+    
+\end{defn}
+\begin{namedthm}[Dynkin's $\pi$-$\lambda$ theorem] \label{thm:pi-lambda}
+     Within $X$, if $\mathcal{K}$ is a $\pi$-system that is contained in a $\lambda$-system $\mathcal{L}$, then $\sigma(\mathcal{K})\subseteq\mathcal{L}$.
+\end{namedthm}
+\begin{namedthm}[Monotone class theorem] \label{thm:monotone-class}
+     Given an algebra $\A_0$ of sets, then the monotone class $\mathcal{M}$ generated by $\A_0$ coincides with the $\sigma$-algebra $\sigma(\A_0)$ generated by $\A_0$.
+\end{namedthm}
+
+We do not prove these results in this note; they are very complicated and not very interesting in the end. ``The generated is the smallest'' is the main idea behind these proofs though. The proof of the next result should provide the readers with a general idea what proofs of this sort look like.
+
+This next result is of theoretical significance. It tells us a $\pi$-system that generates the $\sigma$-algebra identifies the measure. 
+
+Suppose we want to show some property holds on the entire $\A$. The way we apply the \nameref{thm:pi-lambda} usually looks like this. First we prove that the collection of sets with this property is a $\lambda$-system. If we have a $\pi$-system with this property that generates $\A$, then the entire $\A$ must agree with this $\lambda$-system.
+
+\begin{namedthm}[Coincidence criterion {\cite[Proposition~1.15]{Ambrosio_2011}}]
+    Let $\mu_1$ and $\mu_2$ be two measures on $(X,\A)$. Suppose we can find a $\pi$-system $\mathcal{K}$ on which the two measures agree, and $\sigma(\mathcal{K}) = \A$.
+
+    If $\mu_1(X) = \mu_2(X) < \infty$ (for example, both are probability measures), then the two measures agree on the entire $\A$.
+
+    More generally, if there exists $\{X_n\} \subseteq \mathcal{K}$ such that $X_n \uparrow X$ and \[
+        \mu_1(X_n) = \mu_2(X_n) <\infty \text{ for all }n\in \N,
+    \] then the two measures agree on the entire $\A$.
+\end{namedthm}
+\begin{proof}
+    Assume $\mu_1(X) = \mu_2(X) < \infty$. Define $\mathcal{D}$ to be the collection of all sets in $\A$ on which the two measures agree. It is easy to verify that $\mathcal{D}$ becomes a $\lambda$-system. Now invoke \nameref{thm:pi-lambda} and conclude that $\mathcal{D} = \mathcal{A}$. Without the finiteness assumption, we cannot verify condition~\ref{enu:prop-diff-lam-sys} for a $\lambda$-system  that makes $\mu(B) - \mu(A)$ computable.
+
+    Now consider the general assumption. We define for each $n$ \begin{align*}
+        \A_n & = \{E \cap X_n : E \in \A\}\text{, which is a $\sigma$-algebra, and} \\
+        \mathcal{K}_n & = \{E \cap X_n : E \in \mathcal{K}\}\text{, which is a $\pi$-system contained in $\A_n$.}
+    \end{align*}
+    Then $\mu_1$ and $\mu_2$ restricted to $(X_n,\A_n)$ is a finite measure. By the special case above, the two measures coincide on $\sigma(\mathcal{K}_n)$.
+
+    Now we prove $\A_n \subseteq \sigma(\mathcal{K}_n)$. Check that since $X_n \in \mathcal{K}$, \[
+        \{E \subseteq X : E \cap X_n \in \sigma(\mathcal{K}_n)\}
+    \] is a $\sigma$-algebra containing $\mathcal{K}$, and hence $\A$.
+
+    Now for each $n$ and all $E \in \mathcal{A}$, the two measures agree on $E \cap X_n$. Now take $n \to \infty$ and we see that $\mu_1 = \mu_2$.
+\end{proof}
+
+\section{Extension theorems}
+\begin{defn}
+    An \df{outer measure} on $X$ is a function $\mu^{*}\colon\wp(X)\to[0,\infty]$ such that 
+    \begin{enumerate}
+    \item $\mu^{*}(\emptyset)=0$; (emptyset)
+    \item if $A\subseteq B$, then $\mu^{*}(A)\leq\mu^{*}(B)$; (monotonicity)
+    \item For subsets $A_{1},A_{2},\dotsc$ of $X$, $\mu^{*}(\cup_{i=1}^{\infty}A_{i})\leq\sum_{i=1}^{\infty}\mu^{*}(A_{i})$. ($\sigma$-subadditivity)
+    \end{enumerate}
+    A \df[outer null set]{null set} with respect to the outer measure $\mu^{*}$ is just a set with $\mu^{*}$-value 0.
+\end{defn}
+
+Let $\mathcal{C}$ be a collection of subsets of $X$ such that $\emptyset\in\mathcal{C}$ and there are $D_{1},D_{2},\dotsc$ in $\mathcal{C}$ such that $\cup_{i\in\N}D_{i}=X$. Suppose $\ell\colon\mathcal{C}\to[0,\infty]$ with $\ell(\emptyset)=0$. Now if we define for all $E\in \wp(X)$ 
+\[
+    \mu^{*}(E)=\inf\biggl\{\sum_{i=1}^{\infty}\ell(A_{i}):E\subseteq\bigcup_{i=1}^{\infty}A_{i}\text{, where every }A_{i}\in\mathcal{C}\biggr\},
+\]
+then $\mu^{*}$ is an outer measure on $X$. (Note that by assumption
+the infimum is taken over a nonempty set, and hence always exists. For simplicity one may just assume $X \in \mathcal{C}$ as well.)
+The proof is routine.
+
+    Here are some forewords to what we will construct.
+\begin{itemize}
+\item Let $X=\R$, $\mathcal{C}$ be the collection of all left-open right-closed
+intervals, and $\ell\bigl((a,b]\bigr)=b-a$. This gives the Lebesgue
+outer measure $m^{*}$ used to construct the Lebesgue measure $m$.
+\item Let $f\colon\R\to\R$ be an increasing right-continuous\footnote{We will use ``increasing'' and ``strictly increasing'' in our note. Right-continuity at $x$ means continuity from $x^{+}$.}
+function. we let $\ell\bigl((a,b]\bigr)=f(b)-f(a)$. The $\mu^{*}$
+that arises from this is used to construct the Lebesgue--Stieltjes measure.
+\end{itemize}
+
+\begin{defn}
+    For an outer measure $\mu^{*}$, a set $A\subseteq X$ is \df[outer measurable]{$\mu^{*}$-measurable} if for all $E\subseteq X$, \[
+        \mu^{*}(E)=\mu^{*}(E\cap A)+\mu^{*}(E\cap A^\cpl).
+    \] 
+\end{defn}
+
+    This characterizes a collection of sets that are well-behaved under set operations, which leads to the next theorem. Note it $A$ is $\mu^{*}$-measurable if and only if for all $E$ with $\mu^{*}(E)<\infty$, \[
+        \mu^{*}(E)\geq\mu^{*}(E\cap A)+\mu^{*}(E\cap A^\cpl).\]
+\begin{namedthm}[Carathéodory's theorem]
+    Given an outer measure $\mu^{*}$ on $X$, then the collection $\A$ of $\mu^{*}$-measurable sets is in fact a $\sigma$-algebra on $X$. Let $\mu=\mu^{*}|_{\mathcal{A}}$, then $\mu$ is a measure. Also the $\sigma$-algebra $\A$ contains all the null sets, i.e., $(X,\A,\mu)$ is complete.
+\end{namedthm}
+
+\begin{proof}
+$\A$ is clearly closed under complements. We then check $\A$ is an algebra (the union of two sets in $\A$ is still in $\A$), and show $\mu^{*}$ is finitely additive on $\A$.
+
+We wish to extend finite additivity to countable additivity. We let
+$B_{n}=\cup_{j=1}^{n}A_{j}$ and $B=\cup_{j=1}^{\infty}A_{j}$. For
+any $E$, we may conclude that 
+\[
+\mu^{*}(E\cap B_{n})=\sum_{j=1}^{n}\mu(E\cap A_{j}).
+\]
+It follows that $\mu^{*}(E)\geq\sum_{j=1}^{n}\mu^{*}(E\cap A_{j})+\mu(E\cap B^{\mathrm{c}}).$
+Take $n\to\infty$ we may conclude 
+\begin{align*}
+\mu^{*}(E) & \geq\sum_{j=1}^{\infty}\mu^{*}(E\cap A_{j})+\mu^{*}(E\cap B^{\mathrm{c}})\\
+ & \geq\mu^{*}\Bigl(\bigcup_{j=1}^{\infty}(E\cap A_{j})\Bigr)+\mu^{*}(E\cap B^{\mathrm{c}})\\
+ & =\mu^{*}(E\cap B)+\mu^{*}(E\cap B^{\mathrm{c}})\geq\mu^{*}(E).
+\end{align*}
+It follows that $B\in\A$, and if we let $E=B$, the first inequality
+(which is an equality) gives countable additivity.
+
+It is easy to show $\A$ contains all $\mu^{*}$-null sets: for $N$
+such that $\mu^{*}(N)=0$, for any $E$ we have 
+\[
+\mu^{*}(E)\leq\mu^{*}(E\cap N)+\mu^{*}(E\cap N^{\mathrm{c}})\leq\mu^{*}(E\cap N^{\mathrm{c}})\leq\mu(E).\qedhere
+\]
+\end{proof}
+
+\begin{namedthm}[Carathéodory extension theorem] \label{thm:Caratheodory-ext}
+    For algebra $\A_{0}$ on $X$ and its premeasure
+$\mu_{0}$, let 
+\[
+\mu^{*}(E)=\inf\biggl\{\sum_{i=1}^{\infty}\mu_{0}(A_{i}):E\subseteq\bigcup_{i=1}^{\infty}A_{i}\text{, where every }A_{i}\in\A_{0}\biggr\}
+\]
+for all $E\subseteq X$. Then (1) $\mu^{*}$ is an outer measure on $X$, and hence by Carathéodory's theorem it gives a meausure space
+$(X,\sigma(\A_{0}),\mu)$; (2) $\mu^{*}|_{\A_{0}}=\mu_{0}$; (3) every
+set in $\A_{0}$ is $\mu^{*}$-measurable; (4) if $\mu_{0}$ is $\sigma$-finite,
+then $\mu$ in (1) is the unique extension of $\mu_{0}$ from $\A_{0}$
+to $\sigma(\A_{0})$.
+\end{namedthm}
+
+\begin{proof}
+When proving $\mu^{*}(E)\geq\mu_{0}(E)$ in (2), consider the disjoint
+sets $B_{n}=E\cap(A_{n}-\cup_{i=1}^{n-1}A_{i})$. Then $\cup_{n=1}^{\infty}B_{n}=E$,
+which implies $\sum_{n=1}^{\infty}\mu_{0}(A_{n})\geq\sum_{n=1}^{\infty}\mu_{0}(B_{n})=\mu_{0}(E)$.
+Then take infimum. (3) is fairly straightforward from definition.
+
+To prove (4), let measure $\nu$ be another extension. Consider $E\in\sigma(\A_{0})$
+and $\{A_{i}\}_{i=1}^{\infty}\subseteq\A_{0}$ that covers $E$, we
+have 
+\[
+\nu(E)\leq\sum_{i=1}^{\infty}\nu(A_{i})=\sum_{i=1}^{\infty}\mu_{0}(A_{i}).
+\]
+Take infimum and we get $\nu(E)\leq\mu(E)$.
+
+Now let $A=\cup_{i=1}^{\infty}A_{i}$, then 
+\[
+\mu(A)=\lim_{n\to\infty}\mu(\cup_{i=1}^{n}A_{i})=\lim_{n\to\infty}\nu(\cup_{i=1}^{n}A_{i})=\nu(A).
+\]
+If $\mu(E)<\infty$, then for any $\epsilon>0$ we may choose $\{A_{i}\}_{i=1}^{\infty}$
+such that $\mu(A-E)<\epsilon$. It follows that 
+\[
+\mu(E)\leq\mu(A)=\nu(A)=\nu(E)+\nu(A-E)<\nu(E)+\epsilon.
+\]
+ Therefore $\mu(E)=\nu(E)$.
+
+Now suppose we have $X=\cup_{j=1}^{\infty}B_{j}$ such that $\mu_{0}(B_{j})<\infty$
+and that the $B_{j}$'s are pairwise disjoint. Then for $E\in\sigma(\A_{0})$,
+we have 
+\[
+\mu(E)=\sum_{j=1}^{\infty}\mu(E\cap B_{j})=\sum_{j=1}^{\infty}\nu(E\cap B_{j})=\nu(E),
+\]
+where the second equality follows from what we have previously.
+\end{proof}
+
+\section{The Lebesgue measure}
+\begin{fact}
+    Assuming the full axiom of choice, we can use Zorn's lemma to assert that $\mathcal{L} \neq \wp(X)$.
+\end{fact}
+
+\begin{fact}
+    Assuming the countable axiom of choice, we can explicitly show that $\mathcal L \neq \mathcal B$.
+\end{fact}
+
+We know as a consequence of \cref{prop:semialgebra-to-algebra} that the finite disjoint unions of $(a,b]$, where $a,b\in \R$, form an algebra on $\R$. We refer to this algebra as $\A_0$ below.
+
+\begin{thm} \label{thm:premeasure-h-intervals}
+    For an increasing right-continuous function $F\colon \R \to \R$, the function $\mu_0\colon \A_0 \to [0,\infty]$ such that $\mu_0(\emptyset) = 0$ and \[
+        \mu_0\biggl(\bigcup_{j=1}^n (a_j,b_j]\biggr) = \sum_{j=1}^n F(b_j) - F(a_j)\quad \text{for disjoint }\{(a_j,b_j]\}_{j=1}^n
+    \] is countably additive, and hence a premeasure on $\A_0$.
+\end{thm}
+
+\begin{thm}[{\cite[Theorem~1.16]{folland1999}}] \label{thm:increasing-rcont-Borel-measure-connection} \leavevmode
+    \begin{enumerate}
+        \item \label{enu:CDF-measure} Let $F\colon \R \to \R$ be an increasing, right-continuous function, then there is a unique associated Borel measure $\mu_F$ on $\R$ such that \[
+            \mu_F(a,b] = F(b) - F(a)\quad \text{for all }a\leq b.
+        \]
+    If $G$ is another increasing, right-continuous function, then $\mu_F = \mu_G$ if and only if $F$ and $G$ differ by a constant.
+        \item \label{enu:measure-CDF} Conversely, if $\mu$ is a finite Borel measure on $\R$, then the function $F\colon \R \to \R$ given by $F(x) = \mu(-\infty,x]$ is increasing and right-continuous. Furthermore $\mu = \mu_F$, and the function has left limits, i.e., $\lim_{y \to x^-} F(y)$ exists at every $x \in \R$. More specifically, \begin{equation} \label{eq:CDF-left-limits}
+             \lim_{y \to x^-} F(y) = \mu(-\infty,x).
+        \end{equation}
+    \end{enumerate}
+\end{thm}
+
+Regarding equation \eqref{eq:CDF-left-limits}, it is customary to write $F(x-) = \lim_{y \to x^-} F(y)$ when the limit exists. Note that having left limits implies \[\mu\{x\} = F(x) - F(x-)\] for all $x \in \R$.
+
+\begin{proof} \leavevmode
+    \begin{enumerate}
+        \item Following \cref{thm:premeasure-h-intervals}, we have a premeasure $\mu_0$ on $\A_0$ given by \[
+          \mu_0(a,b] = F(b) - F(a).
+        \] Note $\mu_0$ is $\sigma$-finite as $\R = \cup_{j\in \Z} (j,j+1]$. Therefore by \nameref{thm:Caratheodory-ext}, it has a unique extension to a measure on $\sigma(\A_0) = \B(\R)$.
+        
+        The $\mu_F = \mu_G$ if and only if $F - G$ is a constant part is easy.
+        \item $F$ is increasing because $\mu$ is a nonnegative function. Right-continuity follows from \begin{align*}
+            \lim_{y \to x^+} F(y) & = \lim_{y \to x^+} \mu(-\infty,y] \\ & = \lim_{n\to \infty} \mu\Bigl(-\infty,x+\frac{1}{n}\Bigr]\\& = \mu\biggl(\bigcap_{n=1}^\infty \Bigl(-\infty,x+\frac{1}{n}\Bigr]\biggr) \\
+            & = \mu(-\infty,x] = F(x).
+        \end{align*} Note that the second equality is justified because $\lim_{y \to x^+} F(y)$ exists in the first place.
+
+        To show $\mu = \mu_F$, we check for any $a \leq b$, \begin{align*}
+            \mu(a,b] & = \mu(-\infty,b] - \mu(-\infty,a] \\
+                & = F(b) - F(a),
+        \end{align*} and use part~\ref{enu:CDF-measure}.
+
+        It remains to show for every $x \in \R$ that \eqref{eq:CDF-left-limits} holds: \begin{align*}
+            \lim_{y \to x^-} F(y) & = \lim_{y \to x^-} \mu(-\infty,y] \\ 
+            & = \lim_{n \to \infty} \mu\Bigl(-\infty,x-\frac{1}{n}\Bigr] \\
+            & = \mu\biggl(\bigcup_{n=1}^\infty\Bigl(-\infty, x -\frac{1}{n}\Bigr]\biggr) \\
+            & = \mu(-\infty,x). \qedhere
+        \end{align*}
+    \end{enumerate}
+\end{proof}
+
+    For part~\ref{enu:measure-CDF}, if $\mu$ is a Borel measure on $\R$ that is finite on all bounded Borel sets, then $F$ can be instead defined by \[
+        F(x) = \begin{cases*}
+            \mu (0,x] & if $x > 0$, \\
+            0 & if $x = 0$, \\
+            -\mu(x,0] & if $x < 0$,
+        \end{cases*}
+    \] and all conclusions still hold.
+
+    In the context of part~\ref{enu:CDF-measure}, the $\mu_F$ is called the \df{Lebesgue--Stieltjes measure} associated to $F$. When the function $F$ is the identity function, $\mu_F$ is called the \df{Lebesgue measure} on $\R$, which we will denote by $m$ in this note\footnote{Other common notations include $\lambda,\mathcal L,\abs{\blank}$.}. It generalizes the notion of length of intervals to a wide collection of subsets of $\R$, that is sufficient for application most of the time.
+    
+    In some cases it is useful to consider the completion of $(\R,\B,\mu_F)$, so that we can measure more sets than the Borel sets. The completion of $\B$ with respect to the Lebesgue measure $m$ is called the Lebesgue $\sigma$-algebra, which we denote by $\mathcal L$. 
+    
+\begin{thm}
+    The Lebesgue measure $m$ on $(\R,\B)$ is the only nontrivial measure, up to multiplicative constants, that is translation invariant and locally finite.
+\end{thm}
+
+\section{Regularity of measures}
+\begin{defn}
+    A measure $\mu$ on $(X,\A)$ is \df{outer regular} if for all $E\in \A$, \[
+        \mu(E) = \inf\{\mu(G): G\text{ is open in }X \text{ and } G\supseteq E\};
+    \] it is \df{closed inner regular} if \[
+        \mu(E) = \sup\{\mu(F): F\text{ is closed in }X \text{ and } F\subseteq E\};
+    \] it is \df{compact inner regular} if \[
+        \mu(E) = \sup\{\mu(K): K\text{ is compact in }X  \text{ and } K\subseteq E\}.\]
+    We say a finite measure $\mu$ is \df[tight measure]{tight} if \[
+        \mu(X) = \sup\{\mu(K): K\text{ is compact in }X  \text{ and } K\subseteq X\}.
+    \]
+\end{defn}
+
+\begin{prop}
+    Every finite measure on a topological space is outer regular if and only if it is closed inner regular.
+\end{prop}
+
+The proof is obvious. If a set is outer regular, then its complement is inner regular.
+
+\begin{thm}[{\cite[Theorem~1.1]{Billingsley_1999}}]
+    For a finite measure $\mu$ on a metric space $X$ with the Borel $\sigma$-algebra, $\mu$ is both outer regular and closed inner regular. It follows that a tight Borel measure is compact inner regular, by \cref{prop:closed-compact-intersect}.
+\end{thm}
+\begin{proof}
+    Here is a common way to characterize the regularity of measures: for all $E\in \B(X)$, for all $\epsilon$, there exist closed $F$ and open $G$ such that $F\subseteq E \subseteq G$ with $\mu(G - F) < \epsilon$. We will refer to this as the regularity condition in this problem.
+
+    If we can prove that 1) the above claim holds for all closed sets $E$, and then show that 2) the collection of all $E$'s satisfying the regularity condition forms a $\sigma$-algebra, then we are done.
+
+    Let $E$ be closed, and define $U_n = \{x : d(x,E) < \frac{1}{n}\}$.\footnote{See \cref{prop:dist-set-cont} if you are not familiar with the definition of $d(\blank,E)$.} These $U_n$'s are open, since $U_n^\cpl$ is the continuous preimage of a closed set $[1/n,\infty)$. Also $U_n \downarrow \{x : d(x,E) = 0 \}$, which is exactly $E$ since $E$ is closed. Therefore $\mu(U_n) \to \mu(E)$. This proves 1).
+
+    Now we show 2). Clearly if $E$ is regular, then $E^\cpl$ is regular. It remains to prove that the regularity condition is closed under countable union. Let $E_1,E_2,\dotsc$ be regular. Fix $\epsilon > 0$, then we can choose $F_n$ and $G_n$ such that $F_n \subseteq E_n \subseteq G_n$ and $\mu(G_n - F_n) < \epsilon/2^{n+1}$ for each $n$. Let $G = \cup_{n=1}^\infty G_n$, which is open, and \[\mu\biggl(G - \bigcup_{n=1}^\infty F\biggr) \leq \mu\biggl(\bigcup_{n=1}^\infty (G_n - F_n)\biggr) \leq \sum_{n=1}^\infty \mu(G_n -F_n) < \epsilon / 2.\] Also let $F = \cup_{n=1}^N F_n$, a closed set, where the picked $N$ forces $\mu(\cup_{n=1}^\infty F_n - F) < \epsilon/2$. (This is possible because $\mu$ is a finite measure.) Combining these two gives us $\mu(G - F) < \epsilon$, where $F \subseteq E \subseteq G$, as desired.
+\end{proof}
+
+If $X$ is $\sigma$-compact, then $X$ is compact inner regular.
+
+\begin{thm}
+    Lebesgue--Stieltjes measures are compact inner regular (hence closed inner regular) and outer regular.
+\end{thm}
+
+\begin{defn}
+    A \df{Polish space} is a separable topological space that admits a complete metrization.
+    
+    A \df{standard Borel space} is a measurable space isomorphic to a Borel subset of a Polish space.
+\end{defn}
+
+
+\begin{namedthm}[Ulam's theorem]
+    In a Polish space, every Borel measure is tight.
+\end{namedthm}

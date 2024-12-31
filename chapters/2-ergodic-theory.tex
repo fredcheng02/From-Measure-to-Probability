@@ -1,0 +1,57 @@
+\chapter{A cornucopia of ergodic theory}
+Given a probability space $(\Omega,\F,\mu)$, a \df{measure-preserving transformation} (MPT) $T$ is a measurable function from $(\Omega,\F)$ to itself such that \[
+    \mu(T^{-1}A) = \mu(A)\text{ for all }A\in \F.
+\] The resulting quartet $(\Omega,\F,\mu,T)$ is called a \df{measure-preserving dynamical system} (MPDS). If $T$ is invertible, and $T^{-1}$ is measurable, then it is equivalent to say $T$ is measure-preserving if \[
+    \mu(TA) = \mu(A) \text{ for all }A\in \F.
+\]
+
+An MPT $T$ is said to be $\mu$-\df{ergodic} (or the measure $\mu$ is said to be $T$-\emph{ergodic}) if for all $A\in \F$, we have \[
+    \mu(A \symdiff T^{-1} A) = 0 \implies \mu(A) = 0 \text{ or } 1.
+\] A set $A\in \F$ satisfying $\mu(A \symdiff T^{-1} A) = 0$ is called \df[almost invariant@(almost) invariant]{(almost) invariant}. If instead we have $T^{-1}A = A$, then $T$ is \df{strictly invariant}. The ergodicity of $T$ can be equivalently defined by \[
+    T^{-1} A = A \implies \mu(A) = 0 \text{ or } 1,
+\] that is, we only need to check strictly invariant sets must be of measure $0$ or $1$.
+
+One direction is obvious. For the other direction, one can check that for any set $A\in \F$, the set $B = \limsup_n T^{-n} A$ is always going to be strictly invariant.
+
+\begin{defn}
+    An MPDS $(\Omega,\F,\mu,T)$ is said to be \df[mixing!strong]{strong mixing} if for all $A,B\in \F$, \begin{equation}
+        \lim_n \mu(A\cap T^{-n} B) = \mu(A) \mu(B); \label{eq:strong-mix}
+    \end{equation}
+    it is said to be \df[mixing!weak]{weak mixing} if for all $A,B\in \F$,\begin{equation} \label{eq:weak-mix}
+        \lim_n \frac{1}{n} \sum_{k=0}^{n-1} \bigl\lvert \mu(A \cap T^{-k} B) - \mu(A) \mu(B) \bigr\rvert = 0,
+    \end{equation} i.e., $\bigl\lvert \mu(A \cap T^{-k} B) - \mu(A) \mu(B) \bigr\rvert$ converges to $0$ in the Cesàro sense.
+\end{defn}
+
+Hence strong mixing implies weak mixing. In fact weak mixing further implies the system is ergodic. Let $A = B\in \F$ be strictly invariant, then we may replace $T^{-k} B$ by $B$ in \eqref{eq:weak-mix} and get $\mu(B) = \mu(B)^2.$
+
+Notice that the above argument remains true if we remove the $\abs{\blank}$ in the definition \eqref{eq:weak-mix} of weak mixing. It turns out that \[
+    \lim_n \frac{1}{n} \sum_{k=0}^{n-1} \mu(A \cap T^{-k} B) = \mu(A)\mu(B)\quad \text{for all }A,B\in \F
+\] is in fact equivalent to the saying that the system is ergodic. But the converse requires the \nameref{thm:Birkhoff-ergodic}, which is the most important result of ergodic theory.
+
+Most ergodic dynamical systems of interest to probabilists turns out to be strong mixing.
+
+Dyadic transformation
+
+strongly ergodic
+completely positive entropy
+isomorphic to Bernoulli shift
+
+occurrence time
+recurrence time
+sojourn time
+
+
+
+\begin{namedthm}[Poincaré recurrence theorem]
+    $\mu(\{x\in E: T^n x\in E \text{ i.o.}\}) = 1$.
+\end{namedthm}
+
+\begin{namedthm}[Von Neumann mean ergodic theorem]
+    
+\end{namedthm}
+
+\begin{namedthm}[Birkhoff ergodic theorem] \label{thm:Birkhoff-ergodic}
+    
+\end{namedthm}
+
+induced transformation

@@ -1,0 +1,361 @@
+\chapter*{\Large Appendices}
+\addcontentsline{toc}{chapter}{Appendices}
+\chaptermark{Appendices}
+\numberwithin{equation}{section}
+\makeatletter
+\renewcommand\thesection{\@Alph\c@section}
+\makeatother
+
+\section{Helpful results from analysis and topology} \label{sec:helpful-analysis}
+\begin{prop} \label{prop:subseq-further-subseq-top-space}
+    In a given topological space $X$, a sequence $\{x_n\}$ converges to $x$ if and only if every subsequence of $x_n$ has a further subsequence that converges to $x$.
+\end{prop}
+\begin{proof}
+    The only if direction is obvious. To prove the if direction, suppose $x_n \not\to x$ under the assumption. Let $n_0 = 1$. There is some (open) neighborhood $U$ of $x$ such that for every $k\in \N$, we can find a smallest $n_k \geq n_{k-1}$ such that $x_{n_k} \notin U$. However, this implies that the subsequence $\{x_{n_k}\}$ of $\{x_n\}$ does not have a subsequence that converges to $x$, which contradicts the assumption.
+\end{proof}
+
+% \begin{fact}
+%     In a given metric space $(X,d)$, $x_n \to x$ if and only if $\limsup_n d(x_n,x) = 0$.
+% \end{fact}
+
+% The proof is obvious, but using the triangular inequality of limit superior sometimes give cleaner arguments.
+
+\begin{prop}[(Sequential criterion for limits and continuity)]
+    
+\end{prop}
+
+\begin{prop} \label{prop:discont-countable}
+    For an increasing function $f\colon \R\to \R$, the set of discontinuities is countable.
+\end{prop}
+
+\begin{prop}\label{prop:dist-set-cont}
+    Given a set $A$ in a metric space $(X,d)$, the function $d(\blank,A)\colon X \to [0,\infty)$ given by \[
+        d(x,A) = \inf\{d(x,y) : y\in A\}
+    \] is a continuous function. Also $d(x,A) = 0$ if and only if $x \in \ol{A}$.
+\end{prop}
+
+\begin{namedthm}[Abel's theorem]
+    Assume $S(x) = \sum_{n=0}^\infty a_n x^n$ converges, and let $R$ be the radius of convergence \[ \frac{1}{\limsup_n {\abs{a_n}}^{1/n}}.\] If the series converges at $x = R > 0$, then the series converges uniformly over $[0,R]$. In particular this implies that $S(x)$ is continuous at $R^-$.
+\end{namedthm}
+
+\begin{prop}
+    Infinite subset of a compact set has a limit point.
+\end{prop}
+
+\begin{prop}\label{prop:closed-compact-intersect}
+    Intersection of a closed set and a compact set is compact.
+\end{prop}
+
+\begin{prop}\label{prop:compact-subset-Hausdorff}
+    Compact subsets of a Hausdorff space are closed.
+\end{prop}
+
+\begin{namedthm}[Urysohn's lemma]
+    Let $X$ be normal. If $A$ and $B$ are two disjoint closed sets in $X$, then there exists a continuous function $f\colon X \to [0,1]$ such that $f(A)=\{0\}$ and $f(B) = \{1\}$.
+\end{namedthm}
+
+If $X$ is a metric space (which is necessarily normal), then this is easy. We may just take \[f(x) = \frac{d(x,A)}{d(x,A) + d(x,B)}.\]
+
+Here is a sketch of the standard proof of this important result in topology. Based on normality, we may inductively dyadically choose (i.e., using \textsf{DC}) an increasing sequence of sets $U_{j/2^n}$ that ``lie between'' $A$ and $B$: \[
+    A \subseteq U_{1/2^n},\quad \dotsc\quad ,\ol{U}_{(j-1)/2^n} \subseteq U_{j/2^n},\quad \dotsc\quad , \ol{U}_{(2^{n-1})/2^n} \cap B =\emptyset.
+\]
+One can show that the function $f\colon X\to [0,1]$ given by \[
+    f(x) = \begin{cases}
+        \inf\{r : x\in U_r\} & \text{if the set is nonempty}, \\
+        1 & \text{otherwise}.
+    \end{cases}
+\] is continuous.
+
+The use of \textsf{DC} can be avoided when $X$ is second countable and regular, by the proof of the following proposition.
+
+\begin{prop}
+    Every second countable regular space is normal.
+\end{prop}
+
+\begin{namedthm}[Urysohn metrization theorem]
+    Every second countable regular space is metrizable.
+\end{namedthm}
+
+In particular, every lcscH space is metrizable.
+
+\begin{prop} \label{prop:2nd-count-separable-lindlof} \leavevmode
+    \begin{enumerate}
+        \item A second countable space is separable; the converse is also true when we are in a metric space.
+        \item A second countable space is Lindelöf, the converse is also true when we are in a metric space.
+    \end{enumerate}
+\end{prop}
+
+\begin{prop}[{\cite[Theorem 1.2.13]{Bogachev_2020}}] \label{prop:Lind-property-sep-metric-space}
+    Every collection of open sets in a separable metric space contains an at most countable subcollection with the same union.
+\end{prop}
+
+\begin{namedthm}[Uniqueness theorem] \label{thm:uniqueness-cplx}
+    Let $G$ be a region (i.e., nonempty open connected subset of $\C$). If $f$ and $g$ are both holomorphic in $G$, and $f$ and $g$ agree on some $S \subseteq G$ that has a limit point in $G$, then $f$ and $g$ agrees everywhere on $G$.
+\end{namedthm}
+
+\begin{namedthm}[Mean value inequality for $\R^d$-valued functions {\cite[Theorem 5.19]{Rudin_principles_1976}}]
+    Let $f\colon [a,b] \to \R^d$ be continuous, and $f$ be differentiable in $(a,b)$, then there exists $x \in (a,b)$ such that \[
+        \abs{f(b) - f(a)} \leq (b-a) \sup_{a< x < b} \abs{b - a}.
+    \]
+\end{namedthm}
+\begin{proof}
+    Apply the ordinary mean-value theorem to the continuous $\phi\colon [a,b] \to \R$ defined by \[
+        \phi(t) = \inp{f(b) - f(a)}{f(t)},
+    \] and use the \nameref{thm:Cauchy-Schwarz}.
+\end{proof}
+
+\begin{namedthm}[Mean value inequality for $\C$-valued functions]
+    Let $f$ be defined on an open set containing the segment $\gamma^*$ between $z$ and $z_0$, and $f$ be differentiable everywhere on $\gamma^*$. Then \[
+        \frac{\abs{f(z) - f(z_0)}}{\abs{z - z_0}} \leq \sup_{w\in \gamma^*}\abs{f'(w)}.
+    \]
+\end{namedthm}
+\begin{proof}
+    This follows from the Fundamental theorem of calculus for parameterized paths and the Estimation lemma: \begin{align*}
+         \abs{f(z) - f(z_0)} & = \biggl\vert \int_\gamma f'(w)\,dw\biggr\vert \\ & \leq \sup_{w\in \gamma^*} \abs{f'(w)}\cdot \operatorname{length}(\gamma) \\ & = \sup_{w\in \gamma^*} \abs{f'(w)}\cdot \abs{z - z_0}. \qedhere
+    \end{align*}
+\end{proof}
+
+\begin{namedthm}[Uniform convergence of derivatives {\cite[Theorem~7.17]{Rudin_principles_1976}}\footnote{Also see Theorem~8.15 and Remark~8.16 in \cite{Krantz_2022}.}]
+    Let $f_n \colon (a,b)\to \R$ be a sequence of differentiable functions that converges pointwise to $f$. If $f_n'$ converges uniformly to some function $g$, then $f_n\to f$ uniformly and also $f' = g$.
+\end{namedthm}
+The key part of the proof is the use of the mean value theorem on $f_n' - f_m'$. 
+
+\section{Banach spaces}
+Let $X$ and $Y$ be two normed spaces in this section.
+
+We use $\mathcal{L}(X,Y)$ for the space of linear maps between normed spaces $X$ and $Y$, and we denote $\mathcal L(X,\mathbf F)$ by $X^*$, called the dual space of $X$.
+\begin{prop}
+    For $T \in \mathcal{L}(X,Y)$, then $T$ is bounded if and only if it is continuous if and only if it is continuous at $0_X$.
+\end{prop}
+
+\begin{prop}
+    If $Y$ is complete, then $\mathcal{L}(X,Y)$ is complete. In particular dual spaces are complete.
+\end{prop}
+
+\begin{namedthm}[Uniform boundedness principle]
+    
+\end{namedthm}
+
+\begin{namedthm}[Open mapping theorem]
+    
+\end{namedthm}
+
+\begin{namedthm}[Closed graph theorem]
+    
+\end{namedthm}
+
+\begin{namedthm}[Baire category theorem]
+    
+\end{namedthm}
+
+\section{Hilbert spaces}
+A \df{Hilbert space} is an inner space with a complete metric induced from the inner product. We assume the underlying field is $\C$ for this section.
+
+\begin{prop}
+    An inner product space (resp.\ Hilbert space) is a normed space (resp.\ Banach space) with the \df{parallelogram law}: \[
+        \nm{x - y}^2 + \nm{x + y}^2 = 2 \nm{x}^2 + 2\nm{y}^2 \quad \text{for all }x\text{ and }y.
+    \]
+\end{prop}
+
+\begin{namedthm}[Cauchy--Schwarz inequality] \label{thm:Cauchy-Schwarz}
+    On an inner product space $V$, we have \[
+        \abs{\inp{u}{v}} \leq \nm{u}\nm{v},
+    \] with equality if and only if one is a scalar multiple of the other.
+\end{namedthm}
+\begin{proof}
+    Expand the nonnegative expression $f(\lambda) \coloneqq \nm{u+\lambda v}^2$ for all $\lambda\in \R$, which contains the desired (real part of the) inner product and has discriminant $\leq 0$.
+\end{proof}
+
+With the additional topological assumption that Hilbert spaces have complete metric, most of the results for finite-dimensional inner product spaces carry over to infinite dimensional Hilbert spaces. To motivate the upcoming results, it is recommended to review their finite-dimensional analogs through \cite[Section~6]{Axler_2024}, and understand why these results should be true.
+
+\begin{namedthm}[Projection theorem] \label{thm:proj-Hilbert} Given a Hilbert space $H$ and a closed convex subset $Y$,
+\begin{enumerate} 
+    \item for each $x \in H$ there exists a unique \[
+        y = \argmin_{z \in Y} \nm{x - z},
+    \] which we call the \df[Hilbert space projection]{projection} of $x$ to $Y$, denoted by $\pi_Y(x)$.
+
+    Moreover, the projection $y = \pi_Y(x)$ is characterized by the property \begin{equation} \label{eq:proj-cc-set-char}
+        \Re \inp{x - y}{z - y} \leq 0\quad\text{for all }z\in Y.
+    \end{equation}
+    \item if $Y$ is furthermore a closed subspace of $H$, then the characterization above for $\pi_Y(x)$ may be further replaced by \begin{equation} \label{eq:proj-closed-sub-char}
+        \inp{x- y}{z} = 0\quad \text{for all }z\in Y.
+    \end{equation}
+\end{enumerate}
+\end{namedthm}
+\begin{proof} \leavevmode
+    \begin{enumerate}
+        \item Let $D = \inf_{z\in Y}\nm{x-z}$, and since $Y$ is close, we may choose a sequence $\{y_n\}$ such that $\nm{x - y_n} \to D$ from above. Our goal is to show that it is a Cauchy sequence, and hence converges.
+
+        For $n > m \geq 1$, by the parallelogram law we have \[
+            \nm{y_n -y_m}^2 = 2\nm{x - y_n}^2 + 2 \nm{x - y_m}^2 - 4 \Bigl\Vert x - \frac{y_n + y_m}{2} \Bigr\Vert^2.
+        \] Since $\frac{y_n + y_m}{2} \in Y$ by convexity, we have \[
+             \nm{y_n -y_m}^2 \leq 2\nm{x - y_n}^2 + 2 \nm{x - y_m}^2 - 4D^2.
+        \] It follows that as $n, m \to \infty$, $\nm{y_n - y_m}\to 0$, as desired. Since closed subset of a complete metric space is complete, $y_n$ should converges to some $y \in Y$. By $\nm{x - y_n} \to \nm{x - y}$ we conclude that $\nm{x - y} = D$.
+
+        To show the uniqueness of $y$: for two $y$ and $y'$ that attains the infimum $D$, use the parallelogram law again we have \begin{align*}
+            \nm{y -y'}^2 & = 2\nm{x - y}^2 + 2 \nm{x - y'}^2 - 4 \Bigl\Vert x - \frac{y + y'}{2} \Bigr\Vert^2 \\
+            & \leq 2D^2 + 2D^2 - 4D^2 = 0.
+        \end{align*}
+        
+        Now we want to show this $y$ satisfies \eqref{eq:proj-cc-set-char}. Let $z \in Y$ be arbitrary. To get (the real part of) the inner product\footnote{like in the proof of Cauchy--Schwarz} we consider the expression \[
+            f(\lambda) \coloneqq \nm{\lambda(z-y) - (x-y)}^2 = \nm{y +\lambda(z - y)-x}^2.
+        \] For all $\lambda\in [0,1]$, by convexity $y + \lambda(z-y) \in Y$, and hence $f(\lambda) \geq \nm{x - y}^2$. Now expanding $f(\lambda)$ gives us \[
+            \lambda^2 \nm{z - y}^2 - 2\lambda\Re \inp{x-y}{z-y} \geq 0.
+        \] Hence \[ \lambda \nm{z - y}^2 \geq 2\Re \inp{x-y}{z-y} \quad\text{for all }\lambda\in [0,1],
+        \] and take $\lambda \to 0^+$ gives us \eqref{eq:proj-cc-set-char}.
+
+        For the converse, now suppose \eqref{eq:proj-cc-set-char} holds for some $y \in Y$, and we want to show \[
+            \nm{x - y} \leq \nm{x - z}\quad \text{for all }z\in Y.
+        \] We trace our steps back: first, \[
+            2\Re \inp{x-y}{z-y} \leq 0\leq \nm{z - y}^2.
+        \] It follows that \[
+            \nm{x - y}^2 \leq \nm{(z - y) - (x - y)}^2,
+        \] as desired.
+        \item To show the second part, it suffice to prove that \eqref{eq:proj-cc-set-char} and \eqref{eq:proj-closed-sub-char} are equivalent. Because $Y$ is now a subspace of $H$, equation \eqref{eq:proj-cc-set-char} is equivalent to \[
+            \Re\inp{x-y}{z} = 0\quad\text{for all }z\in Y.
+        \] Notice that \[
+            \Im\inp{x-y}{z} = \Re -i\inp{x-y}{z} = \Re \inp{x-y}{iz},
+        \] which completes the proof. \qedhere
+    \end{enumerate}
+\end{proof}
+
+\begin{prop}
+    For $H$ and its closed subspace $Y$, $\pi_Y$ has the following properties:
+    \begin{enumerate}
+        \item $\pi_Y \in \mathcal{L}(H)$;
+        \item $\pi_Y^2 =\pi_Y$;
+        \item $\ran \pi_Y = Y$ and $\nul \pi = Y^\perp$;
+        \item $\nm{\pi_Y(x)} \leq \nm{x}$ for all $x \in H$.
+    \end{enumerate}
+\end{prop}
+
+\begin{namedthm}[Riesz representation theorem]
+    For each linear functional $f \in H^*$, there exist a unique $v \in H$ such that \[
+        f(x) = \inp{x}{v}\quad\text{for all }x\in H.
+    \] Moreover $\nm{f} = \nm{v}$.
+\end{namedthm}
+
+An \df{orthonormal system} $\{e_\alpha\}_{\alpha \in I}$ is a possibly infinite collection of vectors such that \[\inp{e_\alpha}{e_\beta} = \begin{cases}
+    1 & \alpha = \beta, \\
+    0 & \alpha \neq \beta.\end{cases}
+\]
+
+The order of $\alpha$ does not matter when $I$ is countable.
+
+\begin{prop}
+    Suppose we have a finite orthonormal system $\{e_j\}_{j=1}^n$ that spans $Y$. If $Y \subseteq H$. Then the projection of any $x\in H$ is explicitly $\pi_Y(x) = \sum_{j=1}^n \inp{x}{e_j}e_j$.
+\end{prop}
+
+\begin{prop}
+    $\sum_{\alpha \in I}\inp{x}{e_\alpha} e_\alpha$ 
+\end{prop}
+
+\begin{thm}
+Let $\{e_\alpha\}_{\alpha\in I}$ be an orthonormal system, then \begin{enumerate}
+    \item $\sum_{\alpha \in I} \inp{x}{e_\alpha}^2 \leq \nm{x}^2$, which is known as \df{Bessel's inequality};
+    \item the equality above holds if and only if the series $x = \sum_{\alpha \in I}\inp{x}{e_\alpha} e_\alpha$ in $H$.
+\end{enumerate}
+\end{thm}
+
+Orthonormal decomposition
+
+Parseval's identity
+
+Gram--Schmidt process
+
+\begin{thm}[(complete orthonormal system)]
+    $\{e_\alpha\}_{\alpha \in I}$ is an orthonormal basis of $H$ if and only if $\operatorname{span}\{e_\alpha\}$ is dense in $H$.
+\end{thm}
+
+\begin{thm}
+    $H$ has a countable orthonormal basis if and only if $H$ is separable. Additionally in this case, all bases have the same cardinality.
+\end{thm}
+
+
+
+\section{Weak and weak-star topologies on normed spaces}
+\begin{namedthm}[Sequential Banach--Alaoglu theorem]
+    For a separable normed vector space $X$, every bounded sequence in $X^*$ has a weak-star convergent subsequence (i.e., $X^*$ is weak-star sequentially compact).
+\end{namedthm}
+
+\begin{namedthm}[Banach--Alaoglu theorem]
+    For a normed vector space $X$, every closed and bounded subset of $X^*$ is weak-star compact.
+\end{namedthm}
+
+metrizability
+
+\begin{namedthm}[Tychonoff's theorem]
+    Arbitrary product of compact topological spaces is compact.
+\end{namedthm}
+
+\begin{thm}[(Tychonoff's theorem for countable product)]
+    Countable product of compact topological spaces is compact.
+\end{thm}
+
+Tychonoff's theorem is equivalent to the axiom of choice.
+
+See discussion in  \cite[Section~4.8]{Herrlich_2006}.
+
+If the product is finite, then no choice is needed.
+
+\begin{xca}
+    Give a direct proof of Tychonoff's theorem for the countable product of compact metric spaces, using metrization.
+\end{xca}
+
+\begin{thm}
+    The countable product of sequentially compact spaces is sequentially compact.
+\end{thm}
+
+Every weakly convergent sequence is norm bounded
+
+\section{Weak convergence of general measures} \label{sec:weak-conv-general-meas}
+
+\section{Topological groups and Haar measures}
+
+\section{A gentle introduction to optimal transport}
+
+\section{Facts and tools in probability}
+$e^x \geq x + 1$ log sum inequality
+$\frac{x-1}{x}\leq \log x \leq x - 1$ for $x > 0$
+
+\[\frac{1}{x}\leq \log\Bigl(\frac{x}{x-1}\Bigr) = \int_{x-1}^x \frac{1}{t}\,dt\leq \frac{1}{x-1}\]
+
+Therefore for all $n$, \[
+    \sum_{x=2}^n \frac{1}{x} \leq \log n = \int_1^n \frac{1}{t}\,dt \leq \sum_{x=2}^n \frac{1}{x-1}
+\]
+Hence \[
+    \log(n+1) \leq \sum_{x=1}^n\frac{1}{x}\leq \log(n) +1
+\]
+
+
+For two independent random variables $X$ and $Y$, the following two are equivalent: 
+\begin{enumerate}
+    \item $X\sim \Exp(\lambda)$ and $Y\sim \Exp(\mu)$, 
+    \item $\min\{X,Y\} \sim \Exp(\lambda + \mu)$, and $P(X \leq Y) = \frac{\lambda}{\lambda + \mu}$.
+\end{enumerate}
+
+(a)$\implies$(b) follows from independence and the memoryless property: 
+
+\begin{namedthm}[Birthday problem]
+    
+\end{namedthm}
+
+\begin{namedthm}[Pólya's urn]
+    
+\end{namedthm}
+
+\begin{namedthm}[Gambler's ruin]
+    
+\end{namedthm}
+
+\begin{namedthm}[Coupon collector's problem]
+    
+\end{namedthm}
+
+\begin{namedthm}[Simple random walks on $\Z^d$]
+    
+\end{namedthm}
+
+\begin{namedthm}[Bernoulli bond percolation]
+    
+\end{namedthm}

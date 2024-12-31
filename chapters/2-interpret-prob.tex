@@ -1,0 +1,346 @@
+\chapter{Interpreting probability using measure theory}
+\section{Distributions} \label{sec:dist}
+From now on ($\sigma$-)algebras will be called {($\sigma$-)fields}. The measure space $(X,\A,\mu)$ will be replaced by $(\Omega,\F,P)$ with $P(\Omega)=1$, which we call a \df{probability space}. In the probability triplet $\Omega$ is called the \df{sample space}, and $\F$ is called the \df{event space}, which contains all the possible \df[event]{events}. If $\Omega$ is a countable set and $\F = \wp(\Omega)$, then the probability space is \df[discrete probability space]{discrete}.
+
+Given an underlying measurable spaces $(\Omega,\F)$, a measurable function $X\colon (\Omega,\F) \to (S,\mathcal{S})$ is called a \df{random variable}. If $(\Omega,\F,P)$ is discrete, then the image of any function $X$ is forced to be countable. We may then let $S = X(\Omega)$ and $\mathcal S = \wp(S)$, and $X$ is obviously measurable. The random variable defined on a discrete space is called a \df{discrete random variable}, and its distribution is also \df[discrete distribution]{discrete}. If $(S,\mathcal S)$ is a measurable subspace of $(\R,\B)$, we call the random variable \df[real-valued random variable]{real-valued}. In general when $(S,\mathcal S)$ is a measurable subspace of $(\R^d,\B^d)$, then $X$ may be called a \df{real random vector}. The preference of Borel $\sigma$-field over the Lebesgue $\sigma$-field has been discussed in \cref{sec:measurable-functions}.
+
+Given a random variable $X$, following \cref{sec:image-measure} we may define a probability measure $\mu$ on $(S,\mathcal{S})$ given by \begin{equation} \label{eq:official-prob-dist-defn}
+    \mu(A) = P\bigl(X^{-1}(A)\bigr) = P(X\in A) \text{ for all }A\in \mathcal{S}.
+\end{equation}
+We call this the \df{probability distribution/law}\footnote{Another common notation is $\mathcal{L}$ that stands for ``law''.} of $X$, denoted by $X \sim \mu$. It characterizes how probability of (the image of) $X$ is distributed across the target space $(S,\mathcal S)$\footnote{In comparison, $P$ characterizes the \emph{underlying} space $(\Omega,\F)$.}. The $X \in A$ above is a shorthand for $\{\omega\in \Omega:X(\omega)\in A\}$, and this convention\footnote{In fact we have used this shorthand before, when discussing uniform integrability.} is widely adopted throughout probability, as long as the context is clear. It also corresponds to the intuitive understanding of a random variable $X$ as a ``variable'' taking random values by ignoring the underlying $\omega$, but we must not take this formally. When two $(S,\mathcal{S})$-valued random variables $X$ and $Y$ (on possibly different underlying spaces) have the same distribution $\mu$, we write $X \eqD Y$.
+
+It is clear that a measure $\mu$ on a measurable subspace of $(\R,\B)$ can be naturally extended to a measure on $(\R,\B)$ (by setting all the new sets to measure $0$). Therefore it always makes sense to regard the distribution of any real-valued random variable as a Borel measure on $\R$.
+
+\begin{rem}
+    Another perspective we can take is to always let real-valued random variables take $(S,\mathcal S)$ to be exactly $(\R,\B)$. In this setup $\mu$ will always be a Borel measure. When $X$ is a random variable with $S \coloneqq X(\Omega)\subsetneq \R$, we can always consider the restriction of the distribution $\mu_X$ to $(S,\B|_S)$ to obtain our adopted definition of probability distribution in \eqref{eq:official-prob-dist-defn}. This alternative perspective is suitable for discussing distribution functions, while our previous perspective is suitable for discussing density functions, as we will see.
+\end{rem}
+
+\begin{rem}
+Throughout the notes, random variables are \emph{almost always} taken to be real-valued\footnote{We have only discussed the integration of real/complex-valued functions. Some generalizations can definitely be made (to for example, Banach-valued functions/random variables), but it is beyond the scope of this survey.}. The exceptions should be noted by the readers on their own.
+\end{rem}
+
+The \df[cumulative distribution function@(cumulative) distribution function]{(cumulative) distribution function} of a real-valued random variable $X$ is defined to be a function $F\colon \R \to [0,1]$ given by \[
+    F(x) = P(X \leq x) = \mu(-\infty,x].
+\]
+
+We now slightly modify \cref{thm:increasing-rcont-Borel-measure-connection}\ref{enu:CDF-measure}\ref{enu:measure-CDF} to suit our purpose. Note now we instead start with the original part~\ref{enu:measure-CDF}.
+\begin{thm} \label{thm:measure-CDF-prob}
+    Let $X$ be a real-valued random variable with distribution $\mu$ on $(\R,\B)$, then its distribution function $F$ has the following properties:
+        \begin{itemize}
+            \item $\lim_{x \to -\infty} F(x) = 0$ and $\lim_{x \to \infty} F(x) = 1$;
+            \item it is increasing and right-continuous; 
+            \item it has left limits in the sense that \[
+                F(x-) = \lim_{y \to x^-} F(y) = \mu(-\infty,x),
+            \] which also implies $\mu\{x\} = F(x) - F(x-)$.
+        \end{itemize}
+\end{thm}
+Since $\mu$ is now a probability measure, the first bullet point follows directly. The rest has been proved already before. We remark also that every distribution function has countably many discontinuities (by \cref{prop:discont-countable}), and is hence continuous a.e.
+
+Recall \cref{thm:increasing-rcont-Borel-measure-connection}\ref{enu:CDF-measure}. We can slightly modify its statement and proof to get the version for obtaining a unique Borel probability measure.
+
+\begin{thm} \label{thm:CDF-measure-prob}
+    Conversely, let $F\colon \R\to [0,1]$ be an increasing, right-continuous function with \[
+        \lim_{x \to -\infty} F(x) = 0\quad \text{and} \quad \lim_{x \to \infty} F(x) = 1,
+    \] then there is a unique probability measure $\mu$ on $(\R,\B)$ such that \[
+        \mu(-\infty,x] = F(x) \quad \text{for all }x\in \R.
+    \]
+\end{thm}
+
+\Cref{thm:CDF-measure-prob} tells us that as long as we have the distribution function of a random variable $X$, which increases from $0$ to $1$ and is right-continuous, then the distribution function determines the distribution of the random variable. Formally we can state 
+\begin{cor} \label{cor:dist-cdf-equiv}
+    For two real-valued random variables $X$ and $Y$, we have $F_X = F_Y$ if and only if $\mu_X = \mu_Y$, i.e., a one-to-one correspondence between distribution functions and distributions.
+\end{cor}
+
+This observation further suggests that given a random variable, we may specify its distribution solely in terms of a function $F\colon \R \to [0,1]$ that is increasing, right-continuous, with \[
+        \lim_{x \to -\infty} F(x) = 0\quad \text{and} \quad \lim_{x \to \infty} F(x) = 1.
+\] We call such a function $F$ a \df[cumulative distribution function@(cumulative) distribution function]{(cumulative) distribution function} on its own. And we write $X \sim F$ if $X \sim \mu_F$, the unique probability measure associated to the distribution function $F$.
+
+\begin{thm}
+    Indeed any distribution function $F \colon \R \to [0,1]$ can be realized as the distribution function of some random variable $X$ on some probability space $(\Omega,\F,P)$. In particular we can take the probability space to be $([0,1],\B_{[0,1]},m)$.
+\end{thm}
+\begin{proof}[First construction]
+    By \cref{thm:CDF-measure-prob}, we know every distribution function $F$ gives rise to a unique probability measure $\mu$ on $(\R,\B)$. Now let $(\Omega,\F,P) = (\R,\B,\mu)$ and let $X$ be the identity map on $\R$.
+\end{proof}
+As long as one knows \cref{thm:CDF-measure-prob}, this first proof is indeed a very trivial construction. The second proof, independent of \cref{thm:CDF-measure-prob}, is more interesting and certainly of significance to us.
+\begin{proof}[Second construction]
+    Let $(\Omega,\F,P) = ([0,1],\B_{[0,1]},m)$, and we define \begin{equation}
+        X(\omega) = \inf\{y : F(y) \geq \omega\}. \label{eq:dist-func-inv-def}
+    \end{equation}
+    It is clear to see that $X(\omega) \leq y$ if and only if $\omega \leq F(y)$. Therefore for all $y\in \R$, \[
+        P(X \leq y) = P\bigl(\omega\leq F(y)\bigr) = F(y).\qedhere
+    \]
+    
+\end{proof}
+
+There are three things we need to mind here. Firstly, one can show that $\inf\{y : F(y) \geq \omega\} = \sup\{y : F(y) < \omega\}$. The ``$\geq$'' direction is obvious. To see the ``$\leq$'' direction, consider any $x > \sup\{y : F(y) < \omega\}$. It is clear that $F(x) \geq \omega$, and thus by right-continuity we have $F(\sup\{y : F(y) < \omega\})\geq \omega$. Note that we have also just proved that the infimum in \eqref{eq:left-cont-inv} can be attained.    
+
+Secondly, the $X$ defined here in \eqref{eq:dist-func-inv-def} is sometimes called the \df{left-continuous inverse} of the distribution function $F$, denoted by $F^{-1}$. Distributions functions are not in general invertible, but this almost invertibility between $\R$ and $[0,1]$ motivates our definition. When $F$ is one-to-one, then our $X$ is just the usual inverse.
+
+We now show $X(\omega)$ is indeed continuous from the left, i.e., for all $a \in (0,1]$, \begin{equation}
+    \lim_{\omega \to a^-} X(\omega) = X(a) \label{eq:left-cont-inv}.
+\end{equation} Since $F$ is increasing, the limit exists and the ``$\leq$'' direction follows. Now suppose we have the strict inequality ``$<$''. This implies $F\bigl(\lim_{\omega \to a^-} X(\omega)\bigr) < a$. Since $F\bigl(X(\omega)\bigr) \geq \omega$, we get a contradiction. Hence we have the equality in \eqref{eq:left-cont-inv}.
+
+Finally, we remark that $\ol{X}(\omega) = \sup\{y:F(y)\leq \omega\} = \inf\{y:F(y) > \omega\}$ has the same distribution as our $X$ defined in \eqref{eq:dist-func-inv-def}. In fact $X$ and $\ol{X}$ differ at countably many points; $X(\omega) \neq \ol{X}(\omega)$ if and only if $X([0,\omega]) - X\bigl([0,\omega)\bigr)$, i.e., there is a jump for $X$ at $\omega$. For distinct $\omega\in [0,1]$ these intervals have to be disjoint, and hence there are only countably many such intervals. The proof of this final step is included in \cref{prop:discont-countable}. We leave it as an exercise to reader to show that this $\ol{X}$ is right-continuous.
+
+We will generalize this result later.
+
+Let $X\colon (\Omega,\F)\to (S,\mathcal S)$ have distribution $\mu$, and the codomain $(S,\mathcal S)$ has a natural underlying measure $\rho$ with $\mu \ll \rho$. The \df[probability density function@(probability) density function]{(probability) density function} (p.d.f.)\footnote{or \emph{frequency function}} of the random variable $X$ is Radon--Nikodym derivative $d\mu/d\rho$ of the probability distribution with respect to this underlying measure for the image space.
+
+Specifically, when $X$ is a discrete random variable, then the counting measure is a natural measure for $(S,\mathcal S)$, and obviously $\mu \ll \mathrm{count}$. Hence $d\mu/d(\mathrm{count})\colon x \mapsto \mu\{x\}$ is the density function, which is also called the \df{probability mass function} (p.m.f.)\footnote{to emphasize we are in the discrete setting}.
+
+On the other hand, recall \cref{fact:restrict-meausre-restrict-space}. Given a random variable $X$, if the codomain $S$ is a Borel subset of $\R$ and $\mathcal S = \B|_S$, and in addition $\mu \ll m|_S$, then $d\mu/d(m|_S)$ is the density function. We call such $X$ a \df{continuous random variable}\footnote{The term ``continuous'' here refers to absolute continuity, and does not indicate that the density function is continuous}. Note in this continuous case the density function is a.e.\ defined, but in the discrete case the density (p.m.f.)\ is exact. Later on when discussing continuous random variables, we usually only write out the case $(S,\mathcal{S}) = (\R,\B)$ for brevity, since the density function $d\mu / d(m|_S)$ defined on $S$ can naturally be extended to the entire $\R$.
+
+The definition of density function for a continuous random vector is the same as above, with the Lebesgue measure replaced by the product Lebesgue measure. Also notice that the product of counting measures on marginal spaces is the counting measure on the product space, so we do not need to make a separate note for p.m.f.\ when $(S,\mathcal S)$ is a product of discrete spaces. In contrast to distribution functions which are only nice to work with in dimension $1$, density functions is defined for general random vectors, as long as $\mu \ll m$.
+
+We can define the class of distributions with densities solely in terms of their density functions. When the distribution of $X$ is discrete, it is clear that we can specify the distribution using a \df{probability mass function} (on its own), i.e., a function $p\colon X(\Omega) \to [0,1]$ such that \[\sum_{x\in X(\Omega)} p(x) = 1.\] When the distribution of $X$ is continuous, then a nonnegative Borel-measurable function $f$ satisfying \[
+    \int_\R f(x)\,dx = 1,
+\] called a \df[probability density function@(probability) density function]{(probability) density function} (on its own) specifies the distribution. In summary, probability mass and density functions let us generate discrete and continuous random variables.
+
+
+\section{Moments, independence, and joint distributions} \label{sec:moment-indep-joint}
+
+\subsection{Expectations as integrals}
+
+The average value of function
+
+Following the theory of Lebesgue integration we have developed, 
+
+\begin{defn}
+    Let $X$ be a nonnegative random variable, its \df{expectation/expected value} is given by \[
+    \E X = \int_\Omega X\,dP.
+    \]
+    
+    If $X$ is a signed real-valued random variable, with one of $\E X^+$ and $\E X^-$ being finite, then we can define the \emph{expectation} of $X$ to be \[
+        \E X = \int_\Omega X\,dP = \E X^+ - \E X^-.
+    \]
+    In particular, when $\E \abs X < \infty$\footnote{One often prefers to write $\E\abs{X} < \infty$ for integrability of $X$ in probability. However, when we are dealing integration with respect to two different measures, then the $L^1$ notation should again be helpful.}, $\E X$ always exists. This is the case we are interested in mostly.
+\end{defn}
+
+Since the distribution $\mu$ on $(S,\mathcal{S})$ is given as the image measure $P\circ X^{-1}$, by \cref{prop:image-meas-cov} we have for $g\colon (S,\mathcal S) \to (\R,\B)$, if $g \geq 0$ or $g\circ X \in L^1(\Omega)$, then \[
+    \E g(X) = \int_\Omega g\bigl(X(\omega)\bigr)\,dP(\omega) = \int_S g(x) \,d\mu(x).
+\] In particular, if $X$ is real-valued, then \[
+    \E X = \int_\Omega X(\omega)\,dP(\omega) = \int_S x\,d\mu(x).
+\] Furthermore, if $X$ is discrete, then \[
+    \E X = \sum_{x \in S} x \mu\{x\}; 
+\] and if $X$ is continuous with density $f$, then \[
+    \E X = \int x f(x)\,dx
+\]
+
+It should be clear that $X =_d Y$ (on possibly different probability spaces), then $\E X = \E Y$.
+
+\begin{namedthm}[Cauchy--Schwarz inequality] \label{thm:c-s-ineq-prob} For any random variables $X$ and $Y$, 
+    \[\E \abs{XY} \leq \bigl(\E X^2\bigr)^{1/2} \bigl(\E Y^2\bigr)^{1/2}\]
+\end{namedthm}
+
+\begin{namedthm}[Jensen's inequality] \label{thm:Jensen-prob}
+    Let $\E\abs X <\infty$. Suppose $I$ is an interval containing the range of $X$, and we have a convex function $\phi\colon I\to \R$ such that $\phi\circ X\in L^1$. Then \[
+        \phi(\E X) \leq \E \phi(X)
+    \]
+\end{namedthm}
+    
+\begin{namedthm}[Lyapunov's inequality]
+For $p \leq q$, we have 
+    \[L^1 \supseteq L^2 \supseteq \dotsb \supseteq L^\infty.\]
+\end{namedthm}
+
+\subsection{Independence, a new measure-theoretic notion}
+
+\begin{defn}
+    We say events $A_1,\dotsc,A_n \in \F$ are \df[independent!events]{independent} if for every subcollection $J \subseteq [n]$, \[
+    P\biggl(\bigcap_{j\in J} A_j\biggr) = \prod_{j\in J} P(A_j).
+\] % An infinite collection of events $A_\alpha$ ($\alpha \in I$) are \emph{independent} if any finite subcollection of the $A_\alpha$'s are independent.
+Collections of events $\A_1,\A_2,\dotsc,\A_n$ are \df[independent!collections of events]{independent} if for every subcollection $J \subseteq [n]$, \[
+    P\biggl(\bigcap_{j \in J} A_j\biggr) = \prod_{j\in J}P(A_j)
+\] for all possible $A_j \in \A_j$ ($j \in J$).
+Random variables $X_1,X_2,\dotsc,X_n$ are \df[independent!random variables]{independent} if $\sigma(X_1),\dotsc,\sigma(X_n)$ are independent collections of events.
+
+When the number of events/collection of events/random variables are infinite, then events/collection of events/random variables are said to be \emph{independent} if every finite subcollection of these events/collection of events/random variables satisfies their independence definitions given above.
+\end{defn}
+
+We will be concerned mostly with the finite collection in this section. Their extension to be infinite case should be easy.
+
+\begin{prop}
+    The following statements are equivalent.
+    \begin{enumerate}
+        \item $A_1,A_2,\dotsc,A_n$ are independent;
+        \item $A_1^\cpl,A_2,\dotsc,A_n$ are independent;
+        \item $\ind_{A_1},\ind_{A_2},\dotsc,\ind_{A_n}$ are independent.
+    \end{enumerate}
+\end{prop}
+
+Given $(\Omega,\F,P)$, and let $X$ and $Y$ be two random variables taking values on $(S_1,\mathcal S_1)$ and on $(S_2,\mathcal S_2)$ respectively, with distributions $\mu_X$ and $\mu_Y$. The \df{joint distribution} $\mu_{X,Y}$ of the pair $(X,Y)$ is given by \[
+    \mu_{X,Y}(A) = P\times P\bigl((X,Y) \in A\bigr)\quad\text{for all }A\in \mathcal{S}_1\otimes\mathcal{S}_2.
+\] The $P\times P$ here is a product probability measure on $(\Omega\times \Omega, \F\otimes \F)$.
+
+The definition of joint distributions can obviously be generalized to any finite and countably infinite number of random variables, by our previous discussions on product measure spaces.
+
+\begin{thm}[(Independence characterizations)] \label{thm:indep-char}
+    For two random variables $X$ and $Y$ taking values in $(S_1,\mathcal S_1)$ and $(S_2,\mathcal S_2)$ respectively, the following are equivalent characterization that $X$ and $Y$ are independent (which we sometimes denote by $X \perp Y$).
+    \begin{enumerate}
+        \item $P(X\in A_1)P(Y \in A_2) = P(X \in A_1, Y\in A_2)$ for all $B_1\in \mathcal S_1$ and $B_2\in \mathcal S_2$;
+        \item \label{enu:indep-prod-meas} $\mu_X \times \mu_Y = \mu_{X \times Y}$;
+        \item $P(X\in A_1)P(Y \in A_2) = P(X \in A_1, Y\in A_2)$ for all $A_1\in \mathcal K_1$ and $A_2\in \mathcal K_2$, where $\mathcal K_1$ and $\mathcal K_2$ are two $\pi$-systems such that $\mathcal S_1 = \sigma(\mathcal K_1)$ and $\mathcal S_2 = \sigma(\mathcal K_2)$;
+        \item \label{enu:indep-check-via-L2} for all $f(X), g(Y) \in L^2$, \[
+            \E[f(X)g(Y)] = \E f(X)\E g(Y).
+        \] Here the $L^2$ requirement is a sufficient condition for us to assert the integrability of $f(X)g(Y)$, by \nameref{thm:c-s-ineq-prob}.
+    \end{enumerate}
+\end{thm}
+
+\begin{proof}
+    Recall that the product measure is the unique extension of the product of marginal measures on measurable rectangles.
+\end{proof}
+
+\begin{prop}
+    A real-valued random variable $X$ independent of itself must take a constant value a.s.
+\end{prop}
+
+In special the case when $X \in L^2$ we have a simple proof: by part~\ref{enu:indep-check-via-L2} above we have $\E X^2 = (\E X)^2$, which implies $\Var(X) = 0$, i.e, $X = \E X$ a.s. The general case needs a bit more care.
+
+\begin{proof}
+    For any $A\in \mathcal B$, we have \[
+    	P(X\in B)P(X\in B) = P(X \in B),
+    \] which implies $P(X \in B) = 0$ or $1$.
+	
+    We now prove a more general claim that directly implies the proposition: 
+    \begin{quote}
+        a $\{0,1\}$-valued Borel probability measure $\mu$ on a separable metric space $S$ must be a point mass.\footnote{Hence the ``real-valued random variable $X$'' in the proposition statement may be replaced by ``random variable $X$ taking values in a separable metric space''.}
+    \end{quote}
+    We know every open cover has a countable subcover in $S$ (this is \cref{prop:2nd-count-separable-lindlof}). Fix $\epsilon >0$ and consider the $\epsilon$-balls $B(x;\epsilon)$ around each $x\in S$. Now there exists a countable subcollection $\{B(x_j;\epsilon)\}_{j=1}^m$ that covers $S$, and this implies there exists one unique $j\in [m]$ such that $\mu\bigl(B(x_j;\epsilon)\bigr) = 1$. We call this ball $B_\epsilon$.
+
+    The intersection of any two such balls $B_{\epsilon_1}\cap B_{\epsilon_2}$ must have measure $1$. This is because if it has measure $0$, then $B_{\epsilon_1} - B_{\epsilon_2}$ and $B_{\epsilon_2} - B_{\epsilon_1}$ both have measure $1$ despite being disjoint. Let $\epsilon_n = 1/n$, and it follows that \[
+        \mu\biggl(\bigcap_{n=1}^\infty B_{1/n}\biggr) = \lim_{k\to \infty} \mu\biggl(\bigcap_{n=1}^k B_{1/n}\biggr) = 1.
+    \] Since $B\coloneqq \cap_{n} B_{1/n}$ has diameter $0$, $B$ is a singleton set of measure $1$.
+\end{proof}
+
+As a consequence of Fubini--Tonelli, for Borel measurable $g\colon S_1\times S_2 \to \R$ such that $g \geq 0$ or $\E \abs{g(X,Y)} < \infty$, we have \begin{align*}
+        \E g(X,Y) & = \int_{\R^2} g(x,y)\,d(\mu_X \times \mu_Y) \\ & = \int_{\R}\int_{\R} g(x,y)\,d\mu_X \,d \mu_Y.
+    \end{align*}
+
+
+marginal density
+\begin{prop}[(Factorization)]
+    Let $X$ and $Y$ be two discrete/continuous random variables. Then $X$ and $Y$ are independent if and only if for all $x,y\in \R$,
+    \begin{enumerate}
+        \item \label{enu:factor-density} $f_{X,Y}(x,y) = f_X(x)f_Y(y)$, where the $f$'s are density functions;
+        \item \label{enu:factor-arbitrary} $f_{X,Y}(x,y) = g(x) h(y)$ for some functions $g$ and $h$.
+    \end{enumerate} To be precise the equalities above are up to measure zero.
+\end{prop}
+\begin{proof}
+    We show the case when $X$ and $Y$ are continuous random variables on $\R$. For all $A_1,A_2\in \B$, we have \begin{align*}
+        \mu_{X,Y}(A_1 \times A_2) & = \int_{A_1 \times A_2} f_{X,Y}(x,y)\,dx\,dy, \\
+        \mu_X(A_1) \times \mu_Y(A_2) & = \int_{A_1}f_X(x)\,dx \int_{A_2} f_Y(y)\,dy \\ & = \int_{A_1} \int_{A_2}f_X(x)f_Y(y)\,dx\,dy.
+    \end{align*}
+    Part~\ref{enu:factor-density} now follows easily. To see the ``if'' direction of part~\ref{enu:factor-arbitrary}, integrate both sides of $f_{X,Y}(x,y) = g(x) h(y)$ over $A_1 \times A_2$, we have \[
+        \mu_{X,Y}(A_1 \times A_2) = \int_{A_1} g(x)\,dx \int_{A_2} h(y)\,dy.
+    \] Consider $C = \int_{\R} h(y)\,dy$. We may divide $h$ by this constant $C$ and multiply $g$ by this $C$, and assume without loss of generality that \begin{align*}
+        \mu_X(A_1) = \mu_{X,Y}(A_1\times \R) = \int_{A_1} g(x)\,dx, \\
+        \mu_Y(A_2) = \mu_{X,Y}(\R \times A_2) = \int_{A_2} h(y)\,dy.
+    \end{align*} This completes the proof.
+\end{proof}
+
+\begin{defn}
+    The \df{variance} of an $L^2$ random variable $X$ is defined by \begin{align*}
+    \Var(X) & = \E(X - \E X)^2 \\
+    & = \E (X^2) - 2 \E X\cdot \E X + (\E X)^2 \\
+    & = \E(X^2) - (\E X)^2.
+    \end{align*}
+    Given two $L^2$ random variables $X$ and $Y$, their \df{covariance} is defined by\begin{align*}
+        \Cov(X,Y) & = \E\bigl((X - \E X)(Y - \E Y)\bigr) \\
+        & = \E (XY) - \E X \cdot \E Y;
+    \end{align*} they are said to be \df{uncorrelated} if $\Cov(X,Y) = 0$, i.e., 
+    \[\E X \cdot \E Y = \E(XY);\] and their \df{correlation} is defined by \[
+    	\Corr(X,Y) = \frac{\Cov(X,Y)}{\sqrt{\Var(X)\Var(y)}}.
+    \]
+    
+\end{defn}
+
+As mentioned perviously, the $L^2$ requirement is a sufficient, but not necessary condition for covariance to always exist. This is similar to the $L^1$ requirement sufficient for the expectation of a random variable to always exist.
+
+Let $A$ and $B$ be two events and consider two indicators $\ind_A$ and $\ind_B$. Notice \[
+    \Cov(\ind_A,\ind_B) = \E(\ind_{A\cap B}) - \E\ind_{A} \E\ind_{B} = P(A\cap B) - P(A) P(B).
+\]
+We say $A$ and $B$ are \df{positively correlated} if the covariance above is $\geq 0$, i.e., $P(A\cap B) \geq P(A) P(B)$, or equivalently $P(A \giv B) \geq P(A)$. We say $A$ and $B$ are \df{negatively correlated} if the $\geq$'s are replaced by $\leq$'s. Note that the covariance and correlation are symmetric.
+
+\subsection{Sum of independent random variables}
+Fourier transform
+
+The \df[tail sigma-field@tail $\sigma$-field]{tail $\sigma$-field} of a sequence of random variables $X_1,X_2,\dotsc$ to be \[
+    \mathcal{T} = \bigcap_{n=1}^\infty \sigma(X_n,X_{n+1},\dotsc).
+\]
+
+\begin{namedthm}[Kolmogorov's zero--one law]
+    Let $X_1,X_2,\dotsc$ be a sequence of independent random variables, then any event in its tail $\sigma$-field has probability $0$ or $1$.
+\end{namedthm}
+
+
+\section{Basic concentration and deviation inequalities}
+\begin{namedthm}[Generalized Markov's inequality]
+    Let $\phi\colon \R \to [0,\infty)$ be increasing. Then for any random variable $X$, and any $a\in \R$ with $\phi(a)\neq 0$, we have \[
+        P(X \geq a) \leq \frac{1}{\phi(a)}\E \phi(X).
+    \]
+\end{namedthm}
+
+\begin{namedthm}[Markov's inequality]
+    Let $0< p < \infty$. For any $a > 0$, we have \[
+        P(\abs X \geq a) \leq \frac{1}{a^p} \E(\abs X^p).
+    \]
+
+    In particular, for nonnegative $X$, we have \[
+        P(X \geq a) \leq \frac{\E X}{a}.
+    \]
+\end{namedthm}
+
+\begin{namedthm}[Chebyshev's inequality]
+    For $X$ with $\E X^2 < \infty$, we have for all $t > 0$ that \[
+        P(\abs{X - \E X} \geq t) \leq \frac{\Var(X)}{t^2}.
+    \]
+\end{namedthm}
+
+\begin{namedthm}[Paley--Zygmund inequality] \label{thm:PZ-ineq}
+    Let $X \geq 0$ with $\E X^2 < \infty$. For any $0\leq \theta\leq 1$, we have \[
+        P(X > \theta \E X) \geq (1-\theta)^2 \frac{(\E X)^2}{\E X^2}.
+    \]
+\end{namedthm}
+
+\section{Miscellaneous but crucial facts and tools}
+\begin{defn}
+    Fix the dimension $d$. The \df{standard Gaussian measure} on $\R^d$ is the measure $\gamma\colon \B(\R^d) \to [0,\infty]$ given by \[
+        \gamma(A) = \frac{1}{\bigl(\sqrt{2\pi}\bigr)^n} \int_A \exp\bigl(\nm{x}^2_2/2\bigr)\,dx.
+    \]
+\end{defn}
+
+It is quite clear that $m$ and $\gamma$ are equivalent measures, since $\exp(\blank)$ is nonnegative.
+
+Bogachev Theorem 1.4.3.
+
+The coordinates of a normal random vector are independent if and only if they are uncorrelated.
+
+We now restate \nameref{thm:BorelCantelli-meas-th}.
+
+\begin{namedthm}[Borel--Cantelli lemma, part I] \label{thm:BorelCantelli-1-prob}
+    For events $A_1,A_2,\dotsc$, if $\sum_n P(A_n) < \infty$, then \[
+        P(A_n \text{ i.o.}) = 0.
+    \]
+\end{namedthm}
+
+In probability this theorem is typically applied to show the a.s.\ convergence of random variables. We may rewrite \[
+    \{\omega: X_n(\omega) \to X(\omega)\} = \bigcap_{\epsilon >0}\{\omega \in \Omega: \abs{X_n(\omega) - X(\omega)} < \epsilon\text{ ev.}\}.
+\] Therefore $X_n \to X$ a.s. is equivalent to \[
+    \forall\,\epsilon >0, P\bigl(\abs{X_n(\omega) - X(\omega)} \geq \epsilon\text{ i.o.}\bigr) = 0.
+\] (This is true for infinite measure space as well.) Equivalently, since we are in a probability space, $X_n \to X$ a.s. is the same as saying \[
+    \forall\,\epsilon >0, P\bigl(\abs{X_n(\omega) - X(\omega)} < \epsilon\text{ ev.}\bigr) = 1.
+\]
+
+\begin{namedthm}[Borel--Cantelli lemma, part II]
+    For pairwise independent events $A_1,A_2,\dotsc$, if $\sum_n P(A_n) = \infty$, then \[
+        P(A_n \text{ i.o.}) = 1.
+    \]
+\end{namedthm}
+
+The proof is much easier if we assume that the events are independent.
+
+\begin{proof}
+    
+\end{proof}
+
+non-measurable set of the coin-tossing space

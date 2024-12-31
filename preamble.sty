@@ -1,0 +1,247 @@
+\ProvidesPackage{preamble}
+
+%use the following locally when mtpro2 and classico are installed
+%\renewcommand{\rmdefault}{ptm}
+%\usepackage[scaled=0.955]{classico} % biolinum
+%\usepackage[scaled=0.822]{beramono} % nimbusmononarrow
+%\usepackage[lite,zswash,subscriptcorrection]{mtpro2}
+%\usepackage[cal=stixtwoplain,frak=stixtwo]{mathalpha}
+% %Alter \fontdimen20 in the math symbol font
+%\DeclareFontShape{LMP2}{mtt}{m}{n}{%
+%   <-7> mt2syf
+%   <7-9> mt2sys
+%   <9-> mt2syt
+% }{% Default is 2.39. We change it to 2.38
+%   \fontdimen20\font=2.38\fontdimen6\font
+% }
+
+\usepackage[margin=1.5in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+\usepackage{tikz-cd}
+\usepackage{enumitem}
+\usepackage{setspace,microtype}
+\usepackage{soul}
+% \usepackage{mdframed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{marginnote}
+\usepackage{imakeidx}
+\usepackage{nomencl}
+\usepackage{xifthen}
+\usepackage[pdfusetitle,bookmarks,bookmarksnumbered,bookmarksopen,bookmarksopenlevel=1,colorlinks,
+citecolor=CornflowerBlue,urlcolor=CornflowerBlue,linkcolor=BurntOrange]{hyperref}
+\usepackage[capitalize]{cleveref}
+% \usepackage[all]{hypcap} if caption loaded not needed
+\usepackage{caption}
+
+\usepackage[pagestyles]{titlesec}
+\titleformat{\chapter}
+  {\large\bfseries\filcenter}{Chapter~\thechapter\quad}{1ex}
+  {}[]
+\titleformat*{\chapter}
+  {\large\bfseries\filcenter}
+\titleformat*{\section}{\Large}
+\titleformat*{\subsection}{\large}
+\titleformat*{\subsection}{\sffamily\large}
+
+\newpagestyle{main}{
+\sethead[\thepage][\textit\chaptertitle][] % even
+{}{\thesection\quad\sectiontitle}{\thepage}} % odd
+\pagestyle{main}
+
+% \usepackage{titletoc}
+% \contentsmargin{2.4em}
+% \titlecontents{chapter}
+% [2em] 
+% {\addvspace{.5\baselineskip}}
+% {\contentslabel{2em}}
+% {\hspace*{-2em}}
+% {\hfill\contentspage}
+% \titlecontents{section}
+% [4.8em]
+% {}
+% {\contentslabel{2.8em}}
+% {\hspace*{-2.8em}}
+% {\titlerule*[1pc]{.}\contentspage}
+
+\makeindex[title=List of Definitions,intoc]
+
+% no parentheses
+\newtheoremstyle{plain-star}{\topsep}{\topsep}{}{}{\sffamily}{.}{5pt plus 1pt minus 1pt}{\thmnumber{#2 }\thmname{#1}\thmnote{ #3}}
+
+\newtheoremstyle{definition-star}{\topsep}{\topsep}{}{}{\sffamily}{.}{5pt plus 1pt minus 1pt}{\thmnumber{#2 }\thmname{#1}\thmnote{ #3}}
+
+\newtheoremstyle{remark-star}{.5\topsep}{.5\topsep}{}{}{\itshape\sffamily}{.}{5pt plus 1pt minus 1pt}{\thmnumber{#2 }\thmname{#1}\thmnote{ #3}}
+
+\renewcommand\thesection{\thechapter.\Alph{section}}
+\numberwithin{equation}{chapter}
+\theoremstyle{plain-star}
+\newtheorem{thm}[equation]{Theorem}
+\newtheorem*{thm*}{Theorem}
+\newtheorem{prop}[equation]{Proposition}
+% \newtheorem*{prop*}[equation]{Proposition}
+\newtheorem{fact}[equation]{Fact}
+\newtheorem{lem}[equation]{Lemma}
+\newtheorem{cor}[equation]{Corollary}
+\theoremstyle{definition-star}
+\newtheorem{defn}[equation]{Definition}
+\newtheorem{exa}[equation]{Example}
+\newtheorem{xca}[equation]{Exercise}
+\theoremstyle{remark-star}
+\newtheorem{rem}[equation]{Remark}
+\newtheorem*{rem*}{Remark}
+
+\newenvironment{sketch}[1][Sketch]{\begin{proof}[#1]\renewcommand*{\qedsymbol}{$\triangle$}}{\end{proof}}
+
+\makeatletter
+\newcommand\thmsname{Theorem}
+\newcommand\nm@thmtype{theorem}
+\theoremstyle{plain-star}
+\newtheorem{namedtheorem}[equation]{\thmsname}
+\newenvironment{namedthm}[1][Undefined Theorem Name]{
+    \ifx{#1}{Undefined Theorem Name}
+    \renewcommand\nm@thmtype{theorem}
+    \else\renewcommand\thmsname{#1}
+    \renewcommand\nm@thmtype{namedtheorem}
+    \fi
+    \begin{\nm@thmtype}\def\@currentlabelname{#1}}
+    {\end{\nm@thmtype}}
+
+\newtheorem*{namedtheorem*}{\thmsname}
+\newenvironment{namedthm*}[1][Undefined Theorem Name]{
+    \ifx{#1}{Undefined Theorem Name} \renewcommand\nm@thmtype{theorem*}
+    \else\renewcommand\thmsname{#1}
+    \renewcommand\nm@thmtype{namedtheorem*}
+    \fi
+    \begin{\nm@thmtype}}
+    {\end{\nm@thmtype}}
+\makeatother
+
+% \renewcommand{\arraystretch}{1.2}
+
+\setlength{\parskip}{0em} % default parskip
+\setlist{listparindent=\parindent,parsep=0pt,left=\parindent} % indentation and separation between list paragraphs
+\setlist[enumerate,1]{label=(\alph*)}
+\setlist[enumerate,2]{label=(\roman*)}
+% \counterwithin*{footnote}{section} %footnote changes based on section
+% \mdfdefinestyle{simple}{%
+%     innerleftmargin=0pt,
+%     innerrightmargin=0pt,
+%     innertopmargin=2pt,
+%     innerbottommargin=2pt
+% }
+
+\makeatletter
+% \onehalfspacing
+\usepackage{xpatch}
+\xpatchcmd{\env@cases}{1.2}{1.1}{}{}
+\xpatchcmd{\proof}{\itshape}{\normalfont\proofnamefont}{}{}
+\newcommand{\proofnamefont}{\itshape\sffamily}
+
+\let\@subtitle\@empty % default value
+\protected\def\subtitle#1{\gdef\@subtitle{#1}}
+
+\renewcommand{\maketitle}{%
+    \begin{titlepage}
+    \renewcommand\thefootnote{\@fnsymbol\c@footnote}
+    \let\footnotesize\small
+    \let\footnoterule\relax
+    \let \footnote \thanks
+    \null\vfil
+    \vskip 60\p@
+    \begin{center}%
+        {\LARGE \@title \par}%
+        \vskip .5em%
+        {\large \@subtitle \par}%
+        \vskip 3em%
+        {\large
+        \lineskip .75em%
+        \begin{tabular}[t]{c}%
+            \@author
+        \end{tabular}\par}%
+        \vskip .75em%
+        {\large \@date \par}% % Set date in \large size.
+    \end{center}\par
+    \@thanks
+    \vfil\null
+    \end{titlepage}%
+    \setcounter{footnote}{0}%
+    \global\let\thanks\relax
+    \global\let\maketitle\relax
+    \global\let\@thanks\@empty
+    \global\let\@author\@empty
+    \global\let\@date\@empty
+    \global\let\@title\@empty
+    \global\let\title\relax
+    \global\let\author\relax
+    \global\let\date\relax
+    \global\let\and\relax
+}
+
+\makeatother
+
+% \DeclareMathAlphabet{\mathbbb}{U}{bbold}{m}{n}
+
+\newcommand{\R}{\mathbf{R}}
+\newcommand{\C}{\mathbf{C}}
+\newcommand{\Z}{\mathbf{Z}}
+\newcommand{\N}{\mathbf{N}}
+\newcommand{\Q}{\mathbf{Q}}
+\newcommand{\ind}{\mathbf{1}}
+\renewcommand{\Pr}{P}
+\newcommand{\E}{\mathop{}\!\mathrm{E}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\Corr}{\operatorname{Corr}}
+\newcommand{\bmin}{\land}
+\newcommand{\bmax}{\lor}
+\newcommand{\giv}{\,|\,}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\Mat}{\operatorname{Mat}}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\newcommand{\ol}[1]{\overline{#1}}
+% \renewcommand{\ol}[1]{\wwbar{#1}}
+\newcommand{\eR}{\ol{\R}}
+\newcommand{\cpl}{\mathrm{c}}
+\newcommand{\trp}{\mathrm{T}}
+\newcommand{\la}{\langle}
+\newcommand{\ra}{\rangle}
+\newcommand{\inp}[2]{\langle #1, #2 \rangle}
+\newcommand{\nm}[1]{\lVert #1 \rVert}
+\newcommand{\abs}[1]{\lvert #1 \rvert}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\blank}{\,\cdot\,}
+\renewcommand{\phi}{\varphi}
+% \renewcommand{\subseteq}{\subset}
+\newcommand{\tv}[1]{\nm{#1}_{\mathrm{TV}}}
+\newcommand{\KL}[2]{D_{\mathrm{KL}}(#1\Vert #2)}
+\newcommand{\Ent}{\operatorname{Ent}}
+\newcommand{\support}{\operatorname{support}}
+\newcommand{\symdiff}{\triangle}
+\newcommand{\wkconv}{\Rightarrow}
+\newcommand{\eqD}{=_d}
+% \renewcommand{\implies}{\Rightarrow}
+% \renewcommand{\impliedby}{\Leftarrow}
+\newcommand{\argmin}{\operatorname*{arg\,min}}
+\newcommand{\argmax}{\operatorname*{arg\,max}}
+\newcommand{\nul}{\operatorname{null}}
+\newcommand{\ran}{\operatorname{range}}
+\newcommand{\Exp}{\operatorname{Exponential}}
+\newcommand{\Poi}{\operatorname{Poisson}}
+\newcommand{\Ber}{\operatorname{Bernoulli}}
+
+% requires xifthen; for automatic/manual indexing
+\newcommand{\df}[2][]{\ifthenelse{\isempty{#1}}{\textit{#2}\index{#2}}{\textit{#2}\index{#1}}}
+
+\usepackage[backend=biber,style=alphabetic,doi=false,url=false,isbn=false]{biblatex}
+\AtEveryBibitem{\clearfield{series}\clearfield{volume}}
+\renewbibmacro{in:}{}
+
+% disable automatic page designation
+\DeclareFieldFormat{postnote}{#1}
