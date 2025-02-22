@@ -28,6 +28,10 @@ More generally, consider a collection of measurable spaces $(Y_\alpha,\mathcal{N
     \sigma(\{f_\alpha\}_{\alpha\in I}) = \sigma\bigl(\cup_{\alpha \in I} \{f^{-1}(A_\alpha):A_\alpha\in \mathcal{N}_\alpha\}\bigr).
 \] (Recall that union of $\sigma$-algebras is not necessarily a $\sigma$-algebra.)
 
+\begin{prop}
+    For any $\sigma(f)/\B(\R)$ measurable function $\phi$, there is a Borel-measurable function $g$ such that $\phi = g \circ f$.
+\end{prop}
+
 \begin{namedthm}[Simple function approximation]
     Given $f \in L^+(X,\A)$, there exists a sequence of nonnegative simple functions $\{s_n\}_{n=1}^\infty$ such that $s_n \uparrow f$ pointwise. Furthermore $s_n \to f$ uniformly on any set on which $f$ is bounded.
 \end{namedthm}
@@ -62,11 +66,7 @@ We see an example when the equality is not achieved. Let the measure space be $(
 
 \section{Signed Lebesgue integrals}
 \begin{namedthm}[Lebesgue dominated convergence theorem] \label{thm:DCT}
-    Let $\{f_n\}\subseteq L^1$. If 
-    \begin{enumerate}
-        \item $f_n \to f$ pointwise a.e., [limit]
-        \item and there exists some nonnegative $g \in L^1$ such that $\abs{f_n} \leq g$ a.e.\ for all $n$, [bound]
-    \end{enumerate}
+    If $f_n \to f$ pointwise a.e. [limit], and there exists some nonnegative $g \in L^1$ such that $\abs{f_n} \leq g$ a.e.\ for all $n$, [bound]
     then $f \in L^1$ with the $L^1$ convergence \[
         \lim_n \int \abs{f - f_n} = 0.
     \] (The type of convergence above is known as $L^1$ convergence; see \cref{sec:modes-conv}.) In particular, we have \[
@@ -75,18 +75,23 @@ We see an example when the equality is not achieved. Let the measure space be $(
     
 \end{namedthm}
 
-This next result is a special case of the above one.
-\begin{namedthm}[Bounded convergence theorem] \label{thm:bdd-conv-thm}
-    Say $\mu(X) < \infty$. Let $\{f_n\} \subseteq L^1$. If \begin{enumerate}
-        \item $f_n \to f$ pointwise a.e.,
-        \item and there exists some $M \in \R^+$ such that $\abs{f_n} \leq M$ a.e.\ for all $n$, 
-    \end{enumerate}
-    then $f \in L^1$ with \[
-        \lim_n \int \abs{f - f_n} = 0.
-    \] In particular, we have \[
-        \int f = \lim_n \int f_n.
-    \]
+\begin{namedthm}[Bounded convergence theorem] \label{thm:bdd-conv}
+    When the measure space is finite, it is clear that we can set $g$ in the theorem above to be a nonnegative real number $M$.
 \end{namedthm}
+
+% \begin{namedthm}[Bounded convergence theorem] \label{thm:bdd-conv-thm}
+%     Say $\mu(X) < \infty$. Let $\{f_n\} \subseteq L^1$. If \begin{enumerate}
+%         \item $f_n \to f$ pointwise a.e.,
+%         \item and there exists some $M \in \R^+$ such that $\abs{f_n} \leq M$ a.e.\ for all $n$, 
+%     \end{enumerate}
+%     then $f \in L^1$ with \[
+%         \lim_n \int \abs{f - f_n} = 0.
+%     \] In particular, we have \[
+%         \int f = \lim_n \int f_n.
+%     \]
+% \end{namedthm}
+
+The above theorems are sometimes used to establish the continuity of functions in the form of integrals.
 
 \begin{namedthm}[Markov's inequality] \label{thm:Markov-ms}
     Let $f\colon X \to \R$ be measurable and $\phi\colon \R \to [0,\infty)$ be increasing (and hence measurable). Then for any $a\in \R$ with $\phi(a)\neq 0$, we have \[
@@ -107,15 +112,18 @@ If we let $\phi(y) = y^p$ ($0<p<\infty$), and use $\abs f$ in place of $f\colon 
     \mu\{x:\abs{f}\geq a\} \leq \frac{1}{a^p}\int \abs{f}^p\,d\mu. \label{eq:Lp-Markov}
 \end{equation}
 
-\begin{namedthm}[Jensen's inequality] \label{thm:Jensen-ms}
-    Let $\mu$ be a probability measure, and $f\in L^1$. Suppose $I$ is an interval containing the range of $f$, and we have a convex function $\phi\colon I\to \R$ such that $\phi\circ f\in L^1$. Then \begin{equation}
+\begin{namedthm}[Jensen's Inequality] \label{thm:Jensen-ms}
+    Let $\mu$ be a probability measure, and $f\in L^1$. Suppose $I$ is an interval containing the range of $f$, and we have a convex function $\phi\colon I\to \R$. % such that $\phi\circ f\in L^1$.
+    Then \begin{equation}
         \phi\biggl(\int f\,d\mu\biggr) \leq \int \phi\circ f \,d\mu. \label{eq:jensen}
     \end{equation}
+
+    We do not ask $\phi \circ f\in L^1$. When $\phi \circ f \notin L^1$, the integral attains $+\infty$.
 \end{namedthm}
 
-In particular, if $\phi$ is bounded below, then we can drop the integrability assumption on $\phi \circ f$. If \[\int \abs{\phi \circ f}= \int_{\{\phi \circ f \geq 0\}} \phi\circ f + \int_{\{\phi \circ f < 0\}} -\phi\circ f= \infty\] and $\phi$ is bounded below, then \[\int \phi \circ f\,d\mu = \int_{\{\phi \circ f \geq 0\}} \phi\circ f - \int_{\{\phi \circ f < 0\}} -\phi\circ f = \infty.\] Hence the inequality \eqref{eq:jensen} trivially holds.
+Equality condition
 
-lower semicontinuous
+% In particular, if $\phi$ is bounded below, then we can drop the integrability assumption on $\phi \circ f$. If \[\int \abs{\phi \circ f}= \int_{\{\phi \circ f \geq 0\}} \phi\circ f + \int_{\{\phi \circ f < 0\}} -\phi\circ f= \infty\] and $\phi$ is bounded below, then \[\int \phi \circ f\,d\mu = \int_{\{\phi \circ f \geq 0\}} \phi\circ f - \int_{\{\phi \circ f < 0\}} -\phi\circ f = \infty.\] Hence the inequality \eqref{eq:jensen} trivially holds.
 
 \section{Connections to the Riemann theory}
 
@@ -167,7 +175,7 @@ An improper Riemann integral is Lebesgue integrable if it is absolutely converge
         \item $f_n \to f$ in measure implies $\{f_n\}$ is Cauchy in measure; and $\{f_n\}$ being Cauchy in measure implies $f_n \to f$ in measure for some $f$.
         \item \label{enu:measure-subseq-ae} $f_n \to f$ in measure implies there exists a subsequence $\{f_{n_k}\}$ that converges a.e.\ to $f$ as $k \to \infty$.
         \item Convergence in $L^p$ implies convergence in measure.
-        \item \label{enu:ae-implies-meas} If the measure space is finite, then convergence a.e.\ implies convergence in measure.
+        \item \label{enu:ae-implies-meas} If the measure space is finite, then convergence a.e.\ implies convergence in measure. (Hence in a finite measure space, if a function converges a.s./in measure and in $L^p$, then the two limits should agree.)
         \item $f_n \to f$ in measure if and only if for every subsequence $f_{n_k}$ there exists a further subsequence $f_{n_{k_j}}$ that converges in measure to $f$. % In particular when the measure space is finite, if every subsequence $f_{n_k}$ there exists a further subsequence $f_{n_{k_j}}$ that converges a.e.\ to $f$, then $f_n \to f$ in measure.
     \end{enumerate}
 \end{thm}
@@ -227,10 +235,14 @@ An improper Riemann integral is Lebesgue integrable if it is absolutely converge
 \begin{exa}
     Part~\ref{enu:ae-implies-meas} is not true in general for infinite measure spaces: let $\mu$ be Lebesgue measure on $\R$, the sequence of functions specified by $f_n = \ind_{[n,n+1)}$ converges to $0$ a.e., but not in measure.
 
-    Convergence in $L^p$ does not imply convergence a.e.: specify $f_n =\ind_{[j/2^k,(j+1)/2^k)}$, where $n = 2^k+j$ with $0\leq j < 2^k$. The sequence dyadically moves across $[0,1)$, in the sense that $f_1 = \ind_{[0,1)}$, $f_2 = \ind_{[0,1/2)}$, $f_3 = \ind_{[1/2,1)}$, $f_4 = \ind_{[0,1/4)}$, $f_5 = \ind_{[1/4,1/2)}$, and so on. The sequence converges to $0$ in $L^1$, but not a.e. This is a very important example to remember.
+    Convergence in $L^p$ (and hence in measure) does not imply convergence a.e.: specify $f_n =\ind_{[j/2^k,(j+1)/2^k)}$, where $n = 2^k+j$ with $0\leq j < 2^k$. The sequence dyadically moves across $[0,1)$, in the sense that $f_1 = \ind_{[0,1)}$, $f_2 = \ind_{[0,1/2)}$, $f_3 = \ind_{[1/2,1)}$, $f_4 = \ind_{[0,1/4)}$, $f_5 = \ind_{[1/4,1/2)}$, and so on. The sequence converges to $0$ in $L^1$, but not a.e. This is a very important example to remember.
 
     Pointwise, a.e., and uniform convergence does not give $L^p$ convergence: consider $f_n = \frac{1}{n} \ind_{[n,n+1)}$, $n\ind_{[0,1/n)}$, and $\frac{1}{n} \ind_{[0,n)}$ respectively, which converges pointwise, a.e., and uniformly to $0$ but not in $L^1$.
 \end{exa}
+
+\begin{xca}
+    Give a proof of \cref{thm:relation-modes-conv}\ref{enu:ae-implies-meas} using the \flcnameref{thm:bdd-conv}.
+\end{xca}
 
 \begin{fact}
     Convergence a.e.\ is preserved under continuous composition: given $f_n \to f$ a.e. and a continuous function $\Psi\colon \R \to \R$, then $\Psi(f_n)\to \Psi(f)$ a.e.
@@ -252,11 +264,11 @@ An improper Riemann integral is Lebesgue integrable if it is absolutely converge
 This proof shows the power of both part~\ref{enu:measure-subseq-ae} and \ref{enu:ae-implies-meas}. Remember that extracting an a.e.\ convergent can be helpful in many proofs involving convergence in measure.
 
 \begin{rem}
-    One can prove directly that $f_n + g_n \to f+g$ and $f_ng_n \to fg$ in measure above, without using proof by contradiction. One will also see that it is unnecessary to assume finite measure space when proving $f_n + g_n \to f + g$ in measure.
+    One can prove directly that two most important cases, $f_n + g_n \to f+g$ and $f_ng_n \to fg$ in measure above, without using proof by contradiction. One will also see that it is unnecessary to assume finite measure space when proving $f_n + g_n \to f + g$ in measure. We leave these as an exercise to the interested readers.
 \end{rem}
 
 \begin{xca}
-Use \cref{thm:relation-modes-conv}\ref{enu:measure-subseq-ae} to prove the \nameref{thm:MCT} and \nameref{thm:Fatou} with convergence in measure.
+Use \cref{thm:relation-modes-conv}\ref{enu:measure-subseq-ae} to prove the \flcnameref{thm:MCT} and \nameref{thm:Fatou} with convergence in measure.
 \end{xca}
 
 \section{Littlewood's second and third principles} \label{sec:Littlewood-2nd-3rd}
@@ -270,7 +282,7 @@ Use \cref{thm:relation-modes-conv}\ref{enu:measure-subseq-ae} to prove the \name
 % \begin{xca}[\cite{[}{]}{folland1999}]
 %     If $f_n \to f$ almost uniformly, then $f_n \to f$ a.e.\ and in measure.
 % \end{xca}
-We mention that it is a good exercise to prove \nameref{thm:bdd-conv-thm} using this result.
+We mention that it is a good exercise to prove the \flcnameref{thm:bdd-conv} using this result.
 \begin{namedthm}[Luzin's theorem]
     Let $f\colon [a,b] \to \R$ (or $\C$) be a Borel measurable function. Then for every $\epsilon >0$, there exists a closed set $F \subseteq [a,b]$ such that $f|_F$ is continuous while $m([a,b] - F) < \epsilon$.
 \end{namedthm}
@@ -316,12 +328,27 @@ The term ``absolutely continuous'' that appear in the definition above is relate
 These two definitions are quite obviously related, as stated by the next proposition.
 
 \begin{prop}
-    
+    Let $\mu$ be finite, then $\F$ is uniformly integrable if and only if it is bounded in $L^1$ and also has uniformly absolutely continuous integrals.
 \end{prop}
 
-\begin{xca}
-    Suppose there exists some $p > 1$ such that $\sup_{n\in \N} \int \abs{f_n}\,d\mu <\infty$, then the collection $\{f_n\}_n$ is uniformly integrable.
-\end{xca}
+\begin{fact}
+    Any finite collection of $L^1$ functions is uniformly integrable. Any collection of bounded functions is uniformly integrable.
+\end{fact}
+
+The following proposition gives an easy sufficient condition for uniform integrability. Note that this $p > 1$ will come back later 
+
+\begin{prop}
+    Suppose there exists some $p > 1$ such that the collection $\F$ of functions is $L^p$ bounded (i.e., $\sup_{f\in \F} \int \abs{f}^p \,d\mu <\infty$) then the collection $\F$ is uniformly integrable.
+\end{prop}
+\begin{proof}
+    This might as well be left as an exercise, but we write out the proof due to its importance.
+
+    Let $C > 0$, we first observe that \[
+        \int_{\{\abs{f} > C\}} \abs{f}^p \geq C^{p-1} \int_{\{\abs{f} > C\}} \abs{f}.
+    \] Hence \[
+        0 \leq \sup_{f} \int_{\{\abs{f} > C\}} \abs{f} \leq \frac{1}{C^{p-1}}\sup_f\int_{\{\abs{f} > C\}} \abs{f}^p.
+    \] Now with the assumption and $p > 1$, by the squeeze theorem we conclude that the collection $\F$ is uniformly integrable.
+\end{proof}
 
 \begin{namedthm}[Vitali convergence theorem]
     Suppose $\mu$ is finite. Let $\{f_n\} \subseteq L^1(X,\A,\mu)$, then the following are equivalent: 

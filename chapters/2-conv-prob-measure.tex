@@ -22,7 +22,7 @@ The factor $2$ above is usually dropped in probabilistic applications. We define
 \end{defn}
 Note that if $\mu_n$ are probability measures and \eqref{eq:ttl-var-conv} holds, then the TV-limit $\mu$ must be a probability measure. This is because \[
     0 = \lim_n \tv{\mu_n -\mu} = \lim_n \sup_{A\in \mathcal S} \abs{\mu_n(A) - \mu(A)},
-\] which in particular implies $\mu_n (S) - \mu(S) \to 0$.
+\] which in particular implies $\mu_n (S) - \mu(S) \to 0$. We remark that convergence in total variation may be understood as uniform setwise convergence.
 
 The total variation convergence given above can of course be defined for general finite/signed/complex measures, by using the total variation norm $\nm{\blank}$ in place of the half-total variation norm $\tv{\blank}$ in probability. (Of course there is no difference in definition if we change by a constant factor $2$.) We do not discuss this convergence in the general setting.
 
@@ -79,7 +79,7 @@ Hellinger distance
 
 probability metric
 
-The \df{integral probability metric} (IPM) uses a class of test function $\F$ to determine the distance between $\mu$ and $\nu$: \[
+The \df{integral probability metric} (IPM) uses a class of test functions $\F$ to determine the distance between $\mu$ and $\nu$: \[
     d_{\F}(\mu,\nu) = \sup_{f \in \F} \biggl\vert \int_S f\,d\mu - \int_S f\,d\nu \bigg\vert.
 \] To be precise $d_\F$ is in fact a pseudometric, and it is a metric if and only if there exists $f \in \F$ such that $\int_S f \,d\mu \neq \int_S f\,d\nu$.
 
@@ -92,11 +92,11 @@ The \df{Kolmogorov uniform metric} is defined by \[
 Let $(S,d)$ be a Polish space, and $1\leq p < \infty$, the \df{Wasserstein distance} of order $p$ is defined by \[
     W_p(\mu,\nu) = \biggl[\inf_{\pi \in \Pi(\mu,\nu)} \int_S d(x,y)^p \,d\pi(x,y)\biggr]^{1/p}.
 \] Alternatively, one may write \[
-    W_p(\mu,\nu) = \inf\bigl\{\E \bigl[d(X,Y)^p\bigr]^{1/p} : X =_d \mu, Y =_d \nu\bigr\}, 
+    W_p(\mu,\nu) = \inf\bigl\{\E \bigl[d(X,Y)^p\bigr]^{1/p} : X \sim \mu, Y \sim \nu\bigr\}, 
 \] and understand it as an $L^p$ distance between two probability measures.
 
 Restricting $\mu$ and $\nu$ to be measures on the \df{Wasserstein space} enforces $W_p$ to be finite, and henceforth a metric, as we will see. The \emph{Wasserstein space} of order $p$ is defined by \[
-    \mathcal P_p(S) = \biggl\{\mu \in \mathcal{P}(S): \int_S d(x_0,x)^p \,d\mu(x) < \infty \text{ for all }x_0\in S\biggr\}.
+    \mathcal W_p(S) = \biggl\{\mu \in \mathcal{P}(S): \int_S d(x_0,x)^p \,d\mu(x) < \infty \text{ for all }x_0\in S\biggr\}.
 \]
 
 \section{Weak convergence of probability measures}
@@ -114,7 +114,7 @@ It is common to see the notation $\mu f$ in place of $\int_S f\,d\mu$, because w
 
 In analysis one is often interested in test function classes $C_0$ and $C_c$; see \cref{sec:Riesz-thm}. Below is one reason why the choice of $C_b$ is desirable to probabilists. Suppose the sequence $\{\mu_n\} \subseteq \mathcal{P}(S)$ converges weakly to $\mu\in \M(S)$. If we take $f = 1$ on the entire $S$ in \eqref{eq:wkconv-def}, then we have $\mu(S) = \lim_n \mu_n(S) = 1$, thus proving that the weak limit $\mu$ is a Borel probability measure as well. Hence no ``mass'' is lost in this convergence, in contrast to ...
 
-The current section aims to present the tip of the iceberg of the theory of weak convergence. For the thorough treatment of weak convergence of Borel probability measures on metric spaces, see the classical \cite{Billingsley_1999} and \cite{Parthasarathy_1967}. Weak convergence is a subject of greater importance to probability compared to general measure theory and analysis. This has led to our choice (and many authors' choice) to present weak convergence solely in the context of probability. A brief overview of the general theory of weak convergence has been included in \cref{sec:weak-conv-general-meas}, based on \cite{Bogachev_2018}.
+The current section aims to present the tip of the iceberg of the theory of weak convergence. For the thorough treatment of weak convergence of Borel probability measures on metric spaces, see the classical \cite{Billingsley_1999} and \cite{Parthasarathy_1967}. Weak convergence is a subject of greater importance to probability compared to general measure theory and analysis. This has led to our choice (and many authors' choice) to present weak convergence solely in the context of probability. % A brief overview of the general theory of weak convergence has been included in \cref{sec:weak-conv-general-meas}, based on \cite{Bogachev_2018}.
 
 \begin{defn}
     A sequence $\{\mu_n\}$ of Borel probability measures \emph{converges weakly} to a Borel probability measure $\mu$ if for all $f\in C_b(S)$, we have \[
@@ -201,7 +201,9 @@ The construct can be made very explicit, as we will show below.
 
 Recall that the subsequential limit $F$ constructed above associates to a Borel measure $\mu_F$, by \cref{thm:increasing-rcont-Borel-measure-connection}\ref{enu:CDF-measure}. This $\mu_F$ is a subprobability measure on $(\R,\B)$, since for all continuity points $x$, \[\mu_F(-\infty,x] = F(x)\leq 1.\] Since the increasing function $F$ has at most countably many discontinuities, we can construct a sequence of continuity points approaching $\infty$, and conclude $\mu_F(\R)\leq 1$.
 
-This $\mu_F$ is not in general a probability measure, for example, consider the sequence of distribution functions $F_n$ of the uniform distributions over $[-n,n]$. The sequence $\{F_n\}$ \emph{itself} (and hence all of its subsequences) converges vaguely to the $0$ function. To ensure that the subsequential $F$ constructed in \cref{lem:Helly-pre} is indeed a distribution function, we require tightness in addition.
+(Our conclusion here can also be understood and generalized via very heavy machinery\footnote{and the stronger axiom \textsf{DC}; we did not use any choice axiom in our elementary proof}. For every separable normed space $(S,\nm{\blank})$, $(C_0(S),\nm{\blank}_u)$ is also a separable normed space. By the \flcnameref{label:seq-Alaoglu}, $C_0(S)^*$ is weak-star sequentially compact. By , the sequence $\mu_n \subseteq \mathcal P(S)$, which is norm bounded in $\M(S)$, must have a subsequential vague limit $\mu$ that is a subprobability measure.)
+
+The $\mu_F$ above is not in general a probability measure, for example, consider the sequence of distribution functions $F_n$ of the uniform distributions over $[-n,n]$. The sequence $\{F_n\}$ \emph{itself} (and hence all of its subsequences) converges vaguely to the $0$ function. To ensure that the subsequential $F$ constructed in \cref{lem:Helly-pre} is indeed a distribution function, we require tightness in addition.
 
 \begin{thm}[{\cite[Theorem~21.17]{Schilling_2017}}]
     Let $S$ be locally compact and separable\footnote{Of course we can state this result in general for lc(sc)H spaces, but we chose not to due to our focus on metric spaces.}, and $\{\mu_n\} \subseteq \mathcal P(S)$, then the following are equivalent. \begin{enumerate}
@@ -233,10 +235,18 @@ Prohorov metric for $S = \Z$
 \begin{thm}
     If $\mu_n \to \mu$ in total variation, then $\mu_n \wkconv \mu$.
 \end{thm}
+\begin{proof}
+    $\mu_n \to \mu$ in total variation means that for all $A \in \mathcal S$, $\mu_n(A) \to \mu(A)$, or equivalently, \[
+        \int \ind_A \,d \mu_n \to \int \ind_A\, d\mu.
+    \] Now use the standard argument to extend to all $C_b$ functions.
+\end{proof}
 
 \begin{thm}
     If $X_n \to X$ a.s., then $X_n \to X$ in probability, which further implies $X_n \wkconv X$.
 \end{thm}
+\begin{proof}
+    The first part was done in \cref{thm:relation-modes-conv}. 
+\end{proof}
 
 \begin{thm}
     If $X_n \wkconv c$ for some real constant $c$, then $X_n \to c$ in probability.
@@ -272,22 +282,41 @@ The following result is a direct corollary of
 
 \section{Laws of large numbers}
 \begin{namedthm}[$L^2$ weak law]
-    Let $X_1,X_2,\dotsc$ be uncorrelated with equal mean $\mu$ and $\sup_j\Var(X_j) < \infty$. Then \[
+    Let $X_1,X_2,\dotsc$ be uncorrelated $L^2$ random variables with equal mean $\mu$ and $\sup_j\Var(X_j) < \infty$. Then \[
         \frac{X_1 + \dotsb + X_n}{n} \to \mu 
     \] in $L^2$ (and hence in probability).
 \end{namedthm}
+\begin{proof}
+    We have \[
+        \E \biggl(\frac{X_1+\dotsc+X_n}{n} - \mu\biggr)^2 = \Var\biggl(\frac{X_1+\dotsc+X_n}{n}\biggr) \leq \frac{1}{n} \sup_j \Var(X_j).
+    \] Take $n \to \infty$ gives the result.
+\end{proof}
 
 \begin{namedthm}[$L^1$ weak law]
-    Let $X_1,X_2,\dotsc$ be i.i.d.\ and integrable, with mean $\mu$. Then \[
+    Let $X_1,X_2,\dotsc$ be i.i.d.\ and $L^1$ with mean $\mu$. Then \[
         \frac{X_1 + \dotsc + X_n}{n} \to \mu
     \] in probability.
 \end{namedthm}
 
-\begin{namedthm}[$L^1$ strong law]
-    Let $X_1,X_2,\dotsc$ be pairwise independent, identically distributed random variables with $\E \abs{X_1} < \infty$. er 
+\begin{namedthm}[$L^1$ strong law] \label{thm:SLLN}
+    Let $X_1,X_2,\dotsc$ be pairwise independent, identically distributed $L^1$ random variables with mean $\mu$. We have \[
+        \frac{X_1 + \dotsc + X_n}{n} \to \mu \quad \text{a.s.}
+    \]
+    Furthermore the above convergence also holds in $L^1$.
 \end{namedthm}
 
-Also holds in $L^1$
+\begin{proof}
+    The a.s.\ part will follow the Etemadi's classical truncation proof.
+
+    It remains to show that $\{\mean{X}_n\}_{n\in \N} = \bigl\{\frac{X_1 + \dotsc + X_n}{n}\bigr\}_{n\in \N}$ is uniformly integrable. We know each $X_j$, as an $L^1$ random variable, must be uniformly integrable. In particular, for any $\epsilon > 0$, there is some $\delta > 0$ such that for all $n\in \N$, \begin{align*}
+    P(A) < \delta & \implies \E \bigl(\abs{X_j};A\bigr) < \epsilon \quad\text{for all } j \in [n] \\ & \implies \E \biggl(\Bigl\vert\frac{X_1 + \dotsc +X_n}{n}\Bigr\vert;A\biggr) < \epsilon.
+\end{align*}
+Meanwhile \begin{align*}
+    \sup_n \E \biggl\vert\frac{X_1 + \dotsc +X_n}{n}\biggr\vert & \leq \sup_n \frac{\E \abs{X_1} + \dotsc + \E\abs{X_n}}{n} \\ 
+    & = \E \abs{X_1} < \infty.
+\end{align*}
+Combining the above information gives uniformly integrability of $\{\mean{X}_n\}$.
+\end{proof}
 
 \begin{namedthm}[$L^4$ strong law]
     
@@ -321,7 +350,7 @@ Kolmogorov--Smirnov statistics and test
 \section{Moment generating functions and characteristic functions}
 Integral transform converts a given problem to one which is easier to solve, and then 'inverting' to solve the original problem
 
-    For a real random variable $X$, its \df{moment generating function} (m.g.f.)\ is a function $M_X\colon \R \to \R$ defined by $M_X(t) = \E \exp(itX)$, provided that $\exp(itX)$ is integrable. Its \df{characteristic function} (ch.f.)\ is a function $\phi_X\colon \R \to \C$ defined by $\phi_X(t) = \E\exp(itX)$. Notice that \[
+    For a real random variable $X$, its \df{moment generating function} (m.g.f.)\ is a function $M_X\colon \R \to \R$ defined by $M_X(t) = \E \exp(itX)$, provided that $\exp(itX)$ is integrable. Its \df[characteristic function (probability theory)]{characteristic function} (ch.f.)\ is a function $\phi_X\colon \R \to \C$ defined by $\phi_X(t) = \E\exp(itX)$. Notice that \[
         \E\exp(itX) = \E\cos(tX) + i\E\sin(tX)
     \] always exists, because the real and imaginary parts are both bounded by $1$.
 
@@ -341,7 +370,7 @@ Integral transform converts a given problem to one which is easier to solve, and
         \E \exp(tX) = \exp(t^2/2) \label{eq:mgf-chf-normal}
     \end{equation} for all $t\in \C$.
     
-    We wish to use the \nameref{thm:uniqueness-cplx} given \eqref{eq:mgf-chf-normal} already holds for $t\in \R$. The left-hand side is holomorphic: \begin{align*}
+    We wish to use the \flcnameref{thm:uniqueness-cplx} given \eqref{eq:mgf-chf-normal} already holds for $t\in \R$. The left-hand side is holomorphic: \begin{align*}
         \partial_t \E\exp(tX) & = \E\partial_t \exp(tX) \\
         & = \E X\exp(tX);
     \end{align*} and the right-hand side is obviously holomorphic\footnote{Recall we defined complex exponentials as power series, and power series/polynomials are differentiable term-by-term.}.
@@ -364,14 +393,15 @@ When the high-order derivatives of $\phi$ is finite, they recover the high-order
     \end{enumerate}
 \end{namedthm}
 
-\begin{namedthm}[Inversion theorem]
+\begin{namedthm}[Inversion formula]
     Let $X \sim F$ with ch.f.\ $\phi$, and define $\ol F\colon \R \to [0,1]$ \[
         \ol{F}(x) = \frac{1}{2}[F(x) + F(x-)].
     \]
-    We have for any $a\leq b$, \[
+    We have for any $a < b$, \[
          \ol{F}(b) - \ol{F}(a)= \lim_{T \to \infty} \int_{-T}^T \frac{\exp(-iat) - \exp(-ibt)}{2\pi it} \phi(t)\,dt
     \]
 \end{namedthm}
+Note $\ol{F}(b) - \ol{F}(a) = \mu(a,b) + \frac{1}{2}(\mu\{a\}+\mu\{b\})$. In particular, if $a$ and $b$ are not atoms of $\mu_F$, then the expression is equal to $\mu(a,b]$.
 
 \begin{thm}[(c.d.f.\ and ch.f.\ correspondence)]
     $X=_d Y$ if and only if $\phi_X = \phi_Y$.
@@ -394,7 +424,7 @@ When the high-order derivatives of $\phi$ is finite, they recover the high-order
 \begin{thm} \leavevmode
     \begin{enumerate}
         \item If $\mu_n \wkconv \mu$, then the corresponding ch.f.'s have $\phi_n \to \phi$ pointwise everywhere;
-        \item If $\phi_n \to \phi$ pointwise, and $\phi$ is continuous at $0$, then the measures $\mu_n$ associated to $\phi_n$ are tight and converges weakly to some measure $\mu$ whose characteristic function is $\phi$.
+        \item if $\phi_n \to \phi$ pointwise, and $\phi$ is continuous at $0$, then the measures $\mu_n$ associated to $\phi_n$ are tight and converges weakly to some measure $\mu$ whose characteristic function is $\phi$.
     \end{enumerate}
 \end{thm}
 
@@ -405,95 +435,16 @@ When the high-order derivatives of $\phi$ is finite, they recover the high-order
 \end{namedthm}
 
 \begin{namedthm}[Lindeberg--Feller condition]
-    
+    For each $n \in \N$, let $\{X_{n,m}\}_{m=1}^n$ be a sequence of $L^2$ random variables with zero mean. If \begin{enumerate}
+        \item $\sum_{m=1}^n \E (X_{n,m})^2 = \sigma_n^2 > 0$, and 
+        \item for all $\epsilon > 0$, we have \[
+            \frac{1}{\sigma_n^2} \sum_{m=1}^n \E\bigl(\abs{X_{n,m}^2; X_{n,m}^2 > \epsilon \sigma_n}\bigr) \to 0,
+        \] then \[
+            \frac{X_1 + \dotsc + X_n}{\sigma_n} \wkconv N(0,1).
+        \]
+    \end{enumerate}
 \end{namedthm}
 
 \begin{namedthm}[Lyapunov condition]
     
 \end{namedthm}
-
-\chapter{Conditional expectations and discrete martingales}
-\section{Conditional expectations as Radon--Nikodym densities}
-\begin{defn}
-    Let $\E \abs{X} < \infty$, and $\G$ be a sub-$\sigma$-field of $\F$. Define the \df{conditional expectation} of $X$ given $\G$ to be the random variable $Y$ satisfying \begin{enumerate}
-        \item $Y$ is $\G$-measurable; 
-        \item \label{enu:equal-int-cond-expec} $\E(Y \ind_{G}) = \E(X \ind_G)$ for all $G \in \G$.
-    \end{enumerate}
-    This $Y$ is denoted by $\E(X \giv \G)$.
-\end{defn}
-
-We first show that the above definition makes sense from a purely measure-theoretic point of view, and is unique a.s.
-Notice that the function $\nu\colon \mathcal{G} \to \R$ given by \begin{equation} \label{eq:cond-expec-signed-meas}
-    \nu(G) = \E(X\ind_G) = \int_G X \,dP
-\end{equation} is a signed measure, and $\nu \ll P|_\G$. Therefore by the \nameref{thm:Radon-Nikodym} for a signed measure and a finite positive measure, there exists a random variable $Y$, unique in $L^1(\Omega,\G,P|_\G)$, such that \[
-    \nu(G) = \int_G Y \,dP = \E(Y\ind_G)
-\] for all $G\in \G$. \emph{Be aware that conditional expectations are unique up to measure zero.}
-
-% Note that there does not exist a version of conditional expectation $\E(X\giv \G)$ defined specifically for nonnegative $X$. This is because the $\nu$ we defined in \eqref{eq:cond-expec-signed-meas} may become possibly infinite. We have discussed previously that there does not exist a nice Radon--Nikodym theorem for a general infinite measure $\nu$.
-
-\begin{defn}
-    Define the \df{conditional probability} of $A \in \F$ given a sub-$\sigma$-field $\G$ of $\F$ to be $\E(\ind_A \giv \G)$, which we denote by $P(A\giv \G)$.
-\end{defn}
-
-% When $X = \ind_A$, the $\nu(G)$ in \eqref{eq:cond-expec-signed-meas} now becomes $P(A\cap G)$. In a first course in probability we define \[
-%     P(A \giv G) = \frac{P(A \cap G)}{P(G)}.
-% \] % The conditional probability $P(A \giv \G)$ is therefore the Radon--Nikodym derivative of the probability measure $\nu$ (that takes the information $\G$) with respect to the original probability measure $P$.
-
-Our new definitions of conditional expectation and conditional probability are very abstract, and particularly distinct from the undergraduate version, and the following example is almost included in all textbooks, which explains how our new definitions generalizes the old definitions.
-
-\begin{exa}
-    Let $\Omega_1,\Omega_2,\dotsc$ be a countable partition of the sample space $\Omega$, where each $\Omega_n$ has strictly positive measure. In an undergraduate class we would define \[
-        \E(X\giv \Omega_n) = \frac{\E(X;\Omega_n)}{P(\Omega_n)}
-    \] for any $n$. Now define $\G = \sigma(\{\Omega_n\}_{n=1}^\infty)$. It is easy to see that \begin{equation} \label{eq:agree-two-cond-expec}
-        \int_{\Omega_n} \frac{\E(X;\Omega_n)}{P(\Omega_n)} \,dP = \int_{\Omega_n} X\,dP.
-    \end{equation} We claim that $\E(X\giv \G)$ is given by \[
-        Y = \frac{\E(X;\Omega_n)}{P(\Omega_n)} \text{ on each }\Omega_n,
-    \] and hence coincides with our undergraduate definition.
-
-    First the candidate $Y$ is $\G$-measurable since it is a constant on each $\Omega_n$. Also since $\{\Omega_n\}$ is a partition of $\Omega$ and generates $\G$, equation~\eqref{eq:agree-two-cond-expec} immediately implies that \[
-        \int_G Y\,dP = \int_G X\,dP
-    \] for all $G\in \mathcal{G}$. This finishes the proof.
-
-    Now we look at condition probability. Set $X = \ind_A$, and we have \begin{align*}
-        P(A \giv \G) & = \E(\ind_A\giv\G) \\ & = \frac{\E(\ind_A\ind_{\Omega_n})}{P(\Omega_n)} \text{ on each }\Omega_n \\ & = \frac{P(A\cap \Omega_n)}{P(\Omega_n)} \text{ on each }\Omega_n,
-    \end{align*} which was our undergraduate definition of conditional probability $P(A\giv \Omega_n)$.
-\end{exa}
-
-% The Radon--Nikodym derivative should match on partitions
-
-\begin{prop}[(Hilbert space interpretation)]
-    Let $X \in L^2(\F)$, which is a Hilbert space. Then $\E(X \giv \G)$ is exactly the projection to the closed subspace $L^2(\G)$.
-\end{prop}
-\begin{proof}
-    The \nameref{thm:proj-Hilbert} says that it suffices to show that for all $Y \in L^2(\G)$, \[
-        \E(\E(X \giv \G) Y) = \E(XY).
-    \]
-\end{proof} 
-
-
-
-\begin{prop}
-    For two sub-$\sigma$-fields $\G_1$ and $\G_2$ of $\F$, then the following three are equivalent:
-    \begin{enumerate}
-        \item $\G_1$ and $\G_2$ are independent;
-        \item \label{enu:indep-sub-sigma-fields} $\E(X\giv \G_1) = \E X$ for every $X \in L^1(\G_2)$ or $L^+(\G_2)$;
-        \item $\E(\ind_{G_2} \giv \mathcal G_1) = P(G_2)$ for every $G_2 \in \G_2$.
-    \end{enumerate}
-\end{prop}
-
-In particular, let $X$ and $Y$ be two random variables. Consider $\G_1 = \sigma(X)$ and $\G_2 = \sigma(Y)$. Then $X$ and $Y$ are independent if and only if \[
-    \E\bigl(f(X) \giv Y\bigr) = \E f(X)
-\] for all $f \in L^1$.
-
-
-\section{Stopping times}
-A \df{filtration} on a given a probability space $(\Omega,\F,P)$ is an expanding sequence of sub-$\sigma$-fields $\F_0 \subseteq \F_1\subseteq \dotsb$ of $\F$. Given a sequence of random variables $X_0, X_1, \dotsc$. we define its \df{natural filtration} by setting $\F_n = \sigma(X_0,X_1,\dotsc)$ for all $n\in \N_0$. 
-
-\begin{xca}
-Let $S$ and $T$ be two stopping times. Prove the following claims.
-    \begin{enumerate}
-        \item $S\bmin T$ and $S \bmax T$ are both stopping times.
-        \item If $S \leq T$, then $\F_S \subseteq \F_T$.
-        \item $\F_{S\bmin T} = \F_S \cap \F_T$.
-    \end{enumerate}
-\end{xca}

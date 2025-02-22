@@ -29,8 +29,9 @@
 \usepackage{imakeidx}
 \usepackage{nomencl}
 \usepackage{xifthen}
-\usepackage[pdfusetitle,bookmarks,bookmarksnumbered,bookmarksopen,bookmarksopenlevel=1,colorlinks,
+\usepackage[pdfusetitle,bookmarks,bookmarksnumbered,bookmarksopen,bookmarksopenlevel=0,colorlinks,
 citecolor=CornflowerBlue,urlcolor=CornflowerBlue,linkcolor=BurntOrange]{hyperref}
+\usepackage{bookmark}
 \usepackage[capitalize]{cleveref}
 % \usepackage[all]{hypcap} if caption loaded not needed
 \usepackage{caption}
@@ -43,7 +44,7 @@ citecolor=CornflowerBlue,urlcolor=CornflowerBlue,linkcolor=BurntOrange]{hyperref
   {\large\bfseries\filcenter}
 \titleformat*{\section}{\Large}
 \titleformat*{\subsection}{\large}
-\titleformat*{\subsection}{\sffamily\large}
+% \titleformat*{\subsection}{\sffamily\large}
 
 \newpagestyle{main}{
 \sethead[\thepage][\textit\chaptertitle][] % even
@@ -118,6 +119,49 @@ citecolor=CornflowerBlue,urlcolor=CornflowerBlue,linkcolor=BurntOrange]{hyperref
     {\end{\nm@thmtype}}
 \makeatother
 
+\def\firstToLow#1{\expandafter\firstToLowA#1!!}
+\def\firstToLowA#1#2!!{\MakeLowercase{#1}#2}
+
+\makeatletter
+  \newcommand\My@Macro[1]{#1}%
+  \newcommand\My@Thirdoffive[5]{\My@Macro{#3}}%
+  % \renewcommand*\@namerefstar[1]{%
+  %   \HyRef@StarSetRef{#1}\My@Thirdoffive
+  % }%
+  \renewcommand*\T@nameref[1]{%
+    \NR@ref@showkeys{#1}%
+    \begingroup
+        \let\label\@gobble
+    \NR@setref{#1}\My@Thirdoffive{#1}%
+    \endgroup
+  }%
+
+  % somewhat broken
+  % \DeclareRobustCommand\flcnameref{%
+  %   \@ifstar\flcnameref@star\flcnameref@nostar
+  % }%
+  % \newcommand\flcnameref@star[1]{%
+  %   \begingroup
+  %   \let\My@Macro=\firstToLow
+  %   \nameref*{#1}%
+  %   \endgroup
+  % }%
+  % \newcommand\flcnameref@nostar[1]{%
+  %   \begingroup
+  %   \let\My@Macro=\firstToLow
+  %   \nameref{#1}%
+  %   \endgroup
+  % }%
+
+  \newcommand\flcnameref[1]{%
+    \begingroup
+    \let\My@Macro=\firstToLow
+    \nameref{#1}%
+    \endgroup
+  }%
+\makeatother
+
+
 % \renewcommand{\arraystretch}{1.2}
 
 \setlength{\parskip}{0em} % default parskip
@@ -138,6 +182,42 @@ citecolor=CornflowerBlue,urlcolor=CornflowerBlue,linkcolor=BurntOrange]{hyperref
 \xpatchcmd{\env@cases}{1.2}{1.1}{}{}
 \xpatchcmd{\proof}{\itshape}{\normalfont\proofnamefont}{}{}
 \newcommand{\proofnamefont}{\itshape\sffamily}
+
+% % NOT USEFUL IN THIS DOCUMENT
+% % Add Chapter prefix in bookmarks
+% \newcommand*{\AddChapterPrefixInBookmarks}{%
+%   \if@mainmatter
+%     \ifnum\bookmarkget{level}=0 %
+%       \preto\bookmark@text{\@chapapp\space}%
+%     \fi
+%   \fi
+% }
+
+% % Add Part prefix in bookmarks
+% \newcommand*{\AddPartPrefixInBookmarks}{%
+%   \if@mainmatter
+%     \ifnum\bookmarkget{level}=-1 %
+%       \preto\bookmark@text{\partname\space}%
+%     \fi
+%   \fi
+% }
+
+% \bookmarksetup{
+%   numbered,
+%   addtohook=\AddChapterPrefixInBookmarks,
+%   addtohook=\AddPartPrefixInBookmarks
+% }
+
+% Workaround for numbered sections in unnumbered
+% chapter "Introduction" to avoid chapter number
+% zero.
+% \renewcommand*{\thesection}{%
+%   \ifcase\value{chapter}%
+%   \else
+%     \thechapter.%
+%   \fi
+%   \Alph{section}%
+% }
 
 \let\@subtitle\@empty % default value
 \protected\def\subtitle#1{\gdef\@subtitle{#1}}
@@ -206,10 +286,14 @@ citecolor=CornflowerBlue,urlcolor=CornflowerBlue,linkcolor=BurntOrange]{hyperref
 \renewcommand{\Re}{\operatorname{Re}}
 \renewcommand{\Im}{\operatorname{Im}}
 \newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\clos}[1]{\overline{#1}}
+\newcommand{\mean}[1]{\overline{#1}}
 % \renewcommand{\ol}[1]{\wwbar{#1}}
+\newcommand{\locint}{L^1_\mathrm{loc}}
 \newcommand{\eR}{\ol{\R}}
 \newcommand{\cpl}{\mathrm{c}}
 \newcommand{\trp}{\mathrm{T}}
+\newcommand\sbullet[1][.5]{\mathbin{\vcenter{\hbox{\scalebox{#1}{$\bullet$}}}}}
 \newcommand{\la}{\langle}
 \newcommand{\ra}{\rangle}
 \newcommand{\inp}[2]{\langle #1, #2 \rangle}
@@ -245,3 +329,28 @@ citecolor=CornflowerBlue,urlcolor=CornflowerBlue,linkcolor=BurntOrange]{hyperref
 
 % disable automatic page designation
 \DeclareFieldFormat{postnote}{#1}
+
+
+
+\renewcommand{\nomname}{Index of Notation}
+\makenomenclature
+\nomenclature{$L^p$}{$L^p$ space}
+\nomenclature{$m$}{Lebesgue measure on $\R^d$}
+\nomenclature{$P$}{probability measure}
+\nomenclature{$\mu$}{a general measure, or a probability distribution}
+\nomenclature{$\E$}{expected value}
+\nomenclature{$C_c$}{space of continuous functions with compact supports}
+\nomenclature{$C_0$}{space of continuous functions that vanishes at infinity}
+\nomenclature{$C_b$}{space of bounded continuous functions}
+\nomenclature{$\bigotimes$}{product $\sigma$-algebra}
+\nomenclature{$\nm{\blank}$}{norm}
+\nomenclature{$\inp{\blank}{\blank}$}{inner product, or dual pairing}
+\nomenclature{$\nm{\blank}_{\mathrm{TV}}$}{total variation norm in probability}
+\nomenclature{$H$}{Hilbert space}
+\nomenclature{$\B$}{Borel $\sigma$-algebra}
+\nomenclature{$\mathcal{L}$}{Lebesgue $\sigma$-algebra}
+\nomenclature{$\A$}{a general $\sigma$-algebra}
+\nomenclature{$\F$}{a general $\sigma$-field, or a collection of functions}
+\nomenclature{$\mathcal{P}$}{space of (Borel) probability measures}
+\nomenclature{$\M$}{space of (Borel) probability measures}
+\nomenclature{$\wp$}{power set}

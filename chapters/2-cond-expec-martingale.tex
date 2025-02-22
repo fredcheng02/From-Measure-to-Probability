@@ -1,0 +1,368 @@
+\chapter{Conditional expectations and discrete martingales}
+\section{Conditional expectations}
+\begin{defn} \label{def:cond-expec}
+    Let $\E \abs{X} < \infty$, and $\G$ be a sub-$\sigma$-field of $\F$. Define the \df[conditional expectation!for $L^1$ random variables]{conditional expectation} of $X$ given $\G$ to be the random variable $Y$ satisfying \begin{enumerate}
+        \item $Y$ is $\G$-measurable; 
+        \item \label{enu:equal-int-cond-expec} $\E(Y \ind_{G}) = \E(X \ind_G)$ for all $G \in \G$.
+    \end{enumerate}
+    This $Y$ is denoted by $\E(X \giv \G)$.
+\end{defn}
+
+We first show that the above definition makes sense from a purely measure-theoretic point of view, and is unique a.s.
+Notice that the function $\nu\colon \mathcal{G} \to \R$ given by \begin{equation} \label{eq:cond-expec-signed-meas}
+    \nu(G) = \E(X\ind_G) = \int_G X \,dP
+\end{equation} is a signed measure, and $\nu \ll P|_\G$. Therefore by the \nameref{thm:Radon-Nikodym} for a signed measure and a finite positive measure, there exists a random variable $Y$, unique in $L^1(\Omega,\G,P|_\G)$, such that \[
+    \nu(G) = \int_G Y \,dP = \E(Y\ind_G)
+\] for all $G\in \G$. \emph{Be aware that conditional expectations are unique up to measure zero.}
+
+% Note that there does not exist a version of conditional expectation $\E(X\giv \G)$ defined specifically for nonnegative $X$. This is because the $\nu$ we defined in \eqref{eq:cond-expec-signed-meas} may become possibly infinite. We have discussed previously that there does not exist a nice Radon--Nikodym theorem for a general infinite measure $\nu$.
+
+\begin{defn}
+    Define the \df{conditional probability} of $A \in \F$ given a sub-$\sigma$-field $\G$ of $\F$ to be $\E(\ind_A \giv \G)$, which we denote by $P(A\giv \G)$.
+\end{defn}
+
+% When $X = \ind_A$, the $\nu(G)$ in \eqref{eq:cond-expec-signed-meas} now becomes $P(A\cap G)$. In a first course in probability we define \[
+%     P(A \giv G) = \frac{P(A \cap G)}{P(G)}.
+% \] % The conditional probability $P(A \giv \G)$ is therefore the Radon--Nikodym derivative of the probability measure $\nu$ (that takes the information $\G$) with respect to the original probability measure $P$.
+
+Our new definitions of conditional expectation and conditional probability are very abstract, and particularly distinct from the undergraduate version, and the following example is almost included in all textbooks, which explains how our new definitions generalizes the old definitions.
+
+\begin{exa}
+    Let $\Omega_1,\Omega_2,\dotsc$ be a countable partition of the sample space $\Omega$, where each $\Omega_n$ has strictly positive measure. In an undergraduate class we would define \[
+        \E(X\giv \Omega_n) = \frac{\E(X;\Omega_n)}{P(\Omega_n)}
+    \] for any $n$. Now define $\G = \sigma(\{\Omega_n\}_{n=1}^\infty)$. It is easy to see that \begin{equation} \label{eq:agree-two-cond-expec}
+        \int_{\Omega_n} \frac{\E(X;\Omega_n)}{P(\Omega_n)} \,dP = \int_{\Omega_n} X\,dP.
+    \end{equation} We claim that $\E(X\giv \G)$ is given by \[
+        Y = \frac{\E(X;\Omega_n)}{P(\Omega_n)} \text{ on each }\Omega_n,
+    \] and hence coincides with our undergraduate definition.
+
+    First the candidate $Y$ is $\G$-measurable since it is a constant on each $\Omega_n$. Also since $\{\Omega_n\}$ is a partition of $\Omega$ and generates $\G$, equation~\eqref{eq:agree-two-cond-expec} immediately implies that \[
+        \int_G Y\,dP = \int_G X\,dP
+    \] for all $G\in \mathcal{G}$. This finishes the proof.
+
+    Now we look at condition probability. Set $X = \ind_A$, and we have \begin{align*}
+        P(A \giv \G) & = \E(\ind_A\giv\G) \\ & = \frac{\E(\ind_A\ind_{\Omega_n})}{P(\Omega_n)} \text{ on each }\Omega_n \\ & = \frac{P(A\cap \Omega_n)}{P(\Omega_n)} \text{ on each }\Omega_n,
+    \end{align*} which was our undergraduate definition of conditional probability $P(A\giv \Omega_n)$.
+\end{exa}
+
+% The Radon--Nikodym derivative should match on partitions
+
+\begin{fact}[(characteristic property)] \label{fact:char-property-CE}
+    Let $\E \abs{X} < \infty$ and $\E\abs{X Z} < \infty$ (in particular, if $Z$ is bounded $\G$-measurable), then we have \[
+        \E(\E(X \giv \G) Z) = \E(X Z).
+    \]% (The boundedness is required for the expectation to exist automatically. One can make some modifications in certain cases.)
+\end{fact}
+\begin{proof}
+    Left as an exercise, using the standard limiting argument.
+\end{proof}
+
+\begin{prop} Let $X,Y \in L^1(\Omega,\F,P)$.
+    \begin{enumerate}
+        \item For $X$ that is $\G$-measurable, $\E(X \giv \G) = X$.
+        \item For $X$ and $\G$ that are independent, $\E(X \giv \G) = \E X$.
+        \item Linearity: $\E(aX + Y \giv \G) = a\E(X \giv \G) + \E(Y\giv \G)$.
+        \item Monotonicity: if $X \geq Y$ a.s., then $\E(X \giv \G) \geq \E(Y \giv \G)$.
+        \item Contractivity (in $L^1$): $\bigl\vert \E(X \giv \G)\bigr\vert \leq \E\bigl(\abs{X} \bigm\vert \G\bigr)$, and taking expectation on both sides gives $\E\bigl(\bigl\vert\E(X \giv \G)\bigr\vert\bigr) \leq \E \abs{X}.$
+    \end{enumerate}
+\end{prop}
+
+\begin{namedthm}[Conditional Jensen's inequality] \label{thm:cond-Jensen}
+    Let $\phi\colon \R \to \R$ be convex, and $X$ and $\phi(X)$ be both integrable, then \[
+        \phi\bigl(\E (X\giv \G)\bigr) \leq \E (\phi(X) \giv \G).
+    \]
+\end{namedthm}
+
+\begin{cor}[(Contraction property)] \label{cor:CE-contraction}
+    The conditional expectation $\E(\blank \giv \G)$ is a $1$-Lipschitz linear operator on $L^p$ ($1 \leq p < \infty$): for $X \in L^p(\Omega,\F,P)$, $\bigl\vert \E(X^p \giv \G)\bigr\vert \leq \E\bigl(\abs{X}^p \bigm\vert \G\bigr)$, and taking expectations on both sides gives
+        \[
+            \E\bigl(\bigl\vert\E(X \giv \G)\bigr\vert^p\bigr) \leq \E \abs{X}^p.
+        \]
+\end{cor}
+
+\begin{thm}[(alternative Hilbert space definition)]
+    Let $X \in L^2(\F)$, which is a Hilbert space. Then $\E(X \giv \G)$ is exactly the projection to the closed subspace $L^2(\G)$. Furthermore, this projection linear operator $\pi\colon L^2(\F) \to L^2(\G)$ can be uniquely extended to a bounded linear operator $\Pi\colon L^1(\F)\to L^1(\G)$, which is exactly the conditional expectation defined by Radon--Nikodym in \cref{def:cond-expec}.
+\end{thm}
+\begin{proof}
+    The \flcnameref{thm:proj-Hilbert} says that it suffices to show that for all $Y \in L^2(\G)$, \[
+        \E(\E(X \giv \G) Y) = \E(XY).
+    \]
+    This is true by \cref{fact:char-property-CE} and $\E(X \giv \G) \in L^2(\G)$, which follows from \cref{cor:CE-contraction}.
+    
+    To extend the linear operator $\pi$ to a larger domain $L^1(\F)$, recall that $L^2(\F)$ is dense when considered as a metric subspace of $L^1(\F)$, and $L^1(\G)$ is complete. Now consider $\pi$ as a function from $(L^2(\F),\nm{\blank}_1)$ to $(L^1(\G),\nm{\blank}_1)$. We claim this $\pi$ is now $1$-Lipschitz. To see this, it suffices to verify that \[
+        \E \bigl\vert\E(X\giv \G)\bigr\vert \leq \E \abs{X}
+    \] for all $X \in L^2(\F)$. Now let $A = {\E(X \giv \G) \geq 0}$, then \begin{align*}
+        \E \bigl\vert\E(X\giv \G)\bigr\vert & = \E\bigl(\E (X \giv \G)\ind_A\bigr) - \E\bigl(\E(X \giv \G)\ind_{A^\cpl}\bigr) \\
+        & = \E(X \ind_A) - \E(X\ind_{A^\cpl}) \leq \E\abs{X}.
+    \end{align*}
+
+    With all these information, by \cref{thm:ext-unif-cont-func} we have a continuous linear operator $\Pi\colon L^1(\F) \to L^1(\G)$, and by the uniqueness of the extension, $\Pi$ should exactly be the conditional expectation $\E(\blank \giv \G)$ defined previously.
+\end{proof}
+
+\begin{namedthm}[Tower property] \label{thm:tower}
+    For $\G_1 \subseteq \G_2$, we have \[
+        \E(\E(X\giv \G_1) \giv \G_2) = \E(X\giv \G_1) = \E(\E(X\giv \G_2) \giv \G_1).
+    \] This means that the iterated conditioning is ultimately conditioning on the smallest $\sigma$-field. Note in particular, we have \[
+        \E(\E(X \giv \G)) = \E X.
+    \]
+\end{namedthm}
+
+\begin{prop}
+    For two sub-$\sigma$-fields $\G_1$ and $\G_2$ of $\F$, then the following three are equivalent:
+    \begin{enumerate}
+        \item $\G_1$ and $\G_2$ are independent;
+        \item \label{enu:indep-sub-sigma-fields} $\E(X\giv \G_1) = \E X$ for every $X \in L^1(\G_2)$ or $L^+(\G_2)$;
+        \item $\E(\ind_{G_2} \giv \mathcal G_1) = P(G_2)$ for every $G_2 \in \G_2$.
+    \end{enumerate}
+\end{prop}
+
+In particular, let $X$ and $Y$ be two random variables. Consider $\G_1 = \sigma(X)$ and $\G_2 = \sigma(Y)$. Then $X$ and $Y$ are independent if and only if \[
+    \E\bigl(f(X) \giv Y\bigr) = \E f(X)
+\] for all $f \in L^1$.
+
+\begin{defn}
+    Let $X$ be nonnegative $\F$-measurable, then we define its \df[conditional expectation!for nonnegative random variables]{conditional expectation} given $\G$ to be \[
+        \E(X \giv \G) = \lim_{n \to \infty} \E(X \bmin n \giv \G).
+    \]
+\end{defn}
+
+\section{Conditional distributions}
+
+\section{Stopping times}
+A \df{discrete filtration} on a given a probability space $(\Omega,\F,P)$ is an expanding sequence of sub-$\sigma$-fields $\F_0 \subseteq \F_1\subseteq \dotsb$ of $\F$. Given a sequence of random variables $X_0, X_1, \dotsc$. we define its \df{natural filtration} by setting $\F_n = \sigma(X_0,X_1,\dotsc)$ for all $n\in \N_0$. 
+
+\begin{xca}
+Let $S$ and $T$ be two stopping times. Prove the following claims.
+    \begin{enumerate}
+        \item $S\bmin T$ and $S \bmax T$ are both stopping times.
+        \item If $S \leq T$, then $\F_S \subseteq \F_T$.
+        \item $\F_{S\bmin T} = \F_S \cap \F_T$.
+    \end{enumerate}
+\end{xca}
+
+\begin{namedthm}[Wald's equations] \leavevmode
+    \begin{enumerate}
+        \item Let $X_1,X_2,\dotsc$ be i.i.d.\ $L^1$ random variables. If $\tau$ is a stopping time with $\E \tau<\infty$, then $\E S_\tau = \E X_1 \E \tau$.
+        \item Let $X_1,X_2,\dotsc$ be i.i.d.\ mean zero $L^2$ random variables.  If $\tau$ is a stopping time with $\E \tau<\infty$, then $\E S_\tau^2 = \E(X_1)^2\E \tau$.
+    \end{enumerate}
+\end{namedthm}
+
+\section{Martingales in discrete time}
+Given a filtration $\{\F_n\}$, a \df{discrete martingale} is a sequence of $L^1$ random variables $X_n$, adapted to $\F_n$, such that \[
+    \E(X_{n+1}\giv \F_n) = X_n.
+\]
+
+\begin{exa} Here are some of the most important examples of martingales coming up in applications.
+    \begin{enumerate}
+        \item Linear martingales.
+        \item Quadratic martingales.
+        \item Exponential martingales.
+    \end{enumerate}
+\end{exa}
+
+\begin{xca}
+    Let $\{X_n\}$ be a martingale (resp.\ supermartingale, submartingale). For every $0 \leq n \leq m$, $\E(X_m \giv \F_n) = X_n$ (resp.\ $\leq$, $\geq$).
+\end{xca}
+
+\begin{prop}[(Martingale transformations under convex functions)]
+    Let $\{X_n\}$ be adapted. For a convex $\phi\colon \R \to \R$ such that $\E \abs{\phi(X_n)} < \infty$, we have \begin{enumerate}
+        \item if $\{X_n\}$ is a martingale, then $\{\phi(X_n)\}$ becomes a submartingale.
+        \item if $\{X_n\}$ is a submartingale (resp.\ supermartingale), and $\phi$ is in addition increasing (resp.\ decreasing), then $\{\phi(X_n)\}$ remains a submartingale (resp.\ supermartingale)
+    \end{enumerate}
+\end{prop}
+
+\begin{defn}
+    A sequence of random variables $\{H_n\}$ is a predictable sequence if the sequence is bounded and each $H_{n+1}$ is $\F_n$ measurable.
+\end{defn}
+
+The \df{discrete stochastic integral} from time $0$ to $n\in \N_0$ is defined by \[
+    (H \sbullet X)_{n} = H_1(X_1 - X_0) + H_2(X_2 - X_1) + \dotsc + H_n(X_n - X_{n-1}),
+\] for $n \geq 1$, and $(H \sbullet X)_{0} = 0$.
+
+It is useful to see that $(H\sbullet -X)_n = -(H \sbullet X)_n$.
+
+\begin{prop} \leavevmode
+\begin{enumerate} 
+    \item If $\{X_n\}$ is a martingale, then $\{(H \sbullet X)_n\}$ is a martingale.
+    \item If $\{X_n\}_n$ is a submartingale (resp.\ supermartingale), and $H_n \geq 0$ for all $n$, then $\{(H \sbullet X)_n\}$ is a submartingale (resp.\ supermartingale).
+\end{enumerate}
+\end{prop}
+
+\begin{namedthm}[Optional stopping theorem, basic version] \label{thm:OST-1}
+Let $\{X_n\}$ be a martingale (resp.\ supermartingale), and $T$ be a stopping time, both with respect to $\{\F_n\}$, then 
+    \begin{enumerate}
+        \item the stopped process $\{X_{n \bmin T}\}$ remains a martingale (resp.\ supermartingale);
+        \item moreover, if $T \leq M$ a.s. for some $M < \infty$ (bounded stopping time), then $\E X_T = \E X_0$ (resp.\ $\leq \E X_0$).
+    \end{enumerate}
+\end{namedthm}
+
+\begin{namedthm}[Doob's decomposition]
+    Any submartingale or supermartingale  $\{X_n\}$ can be uniquely decomposed by $X_n = M_n + A_n$, where $\{M_n\}$ is a martingale and $\{A_n\}$ is a predictable sequence starting from $A_0 = 0$.
+
+    Conversely, an adapted integrable processes is a submartingale (resp.\ supermartingale) if and only if it has a Doob decomposition with an increasing (resp.\ decreasing) predictable sequence.
+\end{namedthm}
+\begin{proof}
+    
+\end{proof}
+
+\begin{namedthm}[Martingale convergence theorem] \label{thm:martingale-conv-thm}
+    Say $\{X_n\}$ is a submartingale bounded in $L^1$, then the sequence $X_n$ converges a.s.\ to some $X_\infty \in L^1$.
+
+    The same conclusion holds for a submartingale.
+\end{namedthm}
+
+It is clear that the limit $X_\infty$ cannot be explicitly computed, and we have to employ some clever trick to prove the existence of the limit. 
+
+\begin{lem}
+    A sequence of real numbers $x = \{x_n\}$ converges if and only for any two rationals $a < b$, we have $U_\infty([a,b],x) < \infty$.
+\end{lem}
+
+\begin{namedthm}[Doob's upcrossing inequality]
+    Let $X = \{X_n\}$ be a submartingale. Then for every $a < b$ and every $n \in \N$
+    \[
+        (b - a)\E U_n([a,b],X) \leq \E(X_n - a)^+ - \E(X_0 - a)^+.
+    \]
+\end{namedthm}
+
+\begin{proof}[Proof of the \flcnameref{thm:martingale-conv-thm}]
+    
+\end{proof}
+
+\nameref{thm:OST-1} may fail when the stopping time $T$ is unbounded.
+
+The same example also show that the \flcnameref{thm:martingale-conv-thm} does not hold in the $L^1$ sense.
+
+\section{Uniformly integrable martingales}
+
+\begin{prop} \label{prop:cond-expec-unif-int}
+    The collection $\{\E(X \giv \G) : \G \text{ is a sub-$\sigma$-field of }\F\}$ is uniformly integrable.
+\end{prop}
+
+\begin{thm}[(characterizations of uniformly integrable martingales)]
+    For an $\F_n$-adpated martingale $X_n$, the following are equivalent. 
+    \begin{enumerate}
+        \item $\{X_n\}$ is uniformly integrable;
+        \item $X_n$ converges a.s.\ and in $L^1$;
+        \item $X_n$ converges in $L^1$;
+        \item there exists an integrable $X$ such that $X_n = \E(X \giv \F_n)$.
+    \end{enumerate}
+\end{thm}
+\begin{proof}
+    (d)$\implies$(a) follows from \cref{prop:cond-expec-unif-int}. (b)$\implies$(c) is trivial. (a)$\implies$(b) is true because $\{X_n\}$ is bounded, and hence we may apply the \flcnameref{thm:martingale-conv-thm}. Then apply the 
+
+    (c)$\implies$(d) is also not difficult. Let $X$ be the $L^1$ limit of $X_n$. Then for any $m > n$, we have $\E(X_m \giv \F_n) = X_n$. If we can show that $\E(X_m \giv \F_n) \to \E(X\giv \F_n)$ in $L^1$, then the proof is complete.
+
+    \[
+        \E\bigl\vert\E(X_m \giv \F_n) - \E(X\giv \F_n)\bigr\rvert \leq \E\bigl[ \E\bigl(\abs{X_m - X} \bigm\vert \F_n\bigr) \bigr]\leq\E\abs{X_m - X},
+    \] which goes to $0$ as $m \to \infty$, as desired.
+\end{proof}
+
+\begin{namedthm}[Levy's zero--one law]
+    Let $\{\F_n\}$ is a filtration with $\F_\infty = \sigma(\cup_n \F_n)$, which we write as $\F_n \uparrow \F_\infty$. Suppose $\E \abs{X}<\infty$, then \[
+        \E(X \giv \F_n) \to \E(X\giv \F_\infty) \quad \text{a.s. and in }L^1.
+    \]
+
+    In particular, for $A \in \F_\infty$, we have \[
+        \E(\ind_A \giv \F_n) \to \ind_A \quad \text{a.s. and in }L^1.
+    \]
+\end{namedthm}
+
+\begin{namedthm}[Lebesgue dominated convergence theorem for conditional expectations]
+    Suppose $X_n \to X$ a.s.\ and for all $n \in \N_0$, $\abs{X_n} \leq Y$ for some $Y \in L^1$. Given that the $\sigma$-fields $\F_n \uparrow \F_\infty$, then \[
+        \E(X_n \giv \F_n) \to \E(X \giv \F_\infty).
+    \]
+
+    
+\end{namedthm}
+
+\section{Backward martingales and their applications}
+\begin{defn}
+    A \df{backward filtration} is a $\Z_{\leq 0}$-indexed filtration, i.e., a sequence of sub-$\sigma$-fields of $\F$ \[
+        \dotsb\subseteq \F_2 \subseteq \F_1 \subseteq \F_0.
+    \] Let $\F_\infty = \bigcap_{n=-\infty}^0 \F_n$, which we know is again a sub-$\sigma$-field of $\F$.
+\end{defn}
+
+\begin{namedthm}[Backward martingale convergence theorem]
+    The sequence $X_n \to X_{-\infty}$ a.s.\ and in $L^1$.
+\end{namedthm}
+
+\begin{exa}[(another proof of the \nameref{thm:SLLN})]
+    
+\end{exa}
+
+\begin{exa}[(another proof of the \nameref{thm:HS-01-law})]
+    
+\end{exa}
+
+\section{Martingales converging in \texorpdfstring{$L^p$}{Lp}}
+
+\begin{namedthm}[Doob's maximal inequality]
+    Let $\{X_n\}$ be a submartingale, then for every $a > 0$, we have \[
+        a P\bigl(\max_{0\leq k \leq n} X_k \geq a\bigr) \leq \E\Bigl(X_n \ind\bigl\{\max_{0\leq k \leq n}X_n \geq a\bigr\}\Bigr) \leq \E X_n^+.
+    \]
+\end{namedthm}
+
+\begin{namedthm}[Doob's $L^p$ inequality]
+    Let $1 < p < \infty$ and $\{X_n\}$ be a nonnegative submartingale. For each $n\in \N_0$, we have \[
+        \E \bigl(\max_{0\leq k \leq n} X_k\bigr)^p \leq \biggl(\frac{p}{p-1}\biggr)^p \E(X_n)^p.
+    \]
+\end{namedthm}
+
+
+\begin{cor}
+    If $\{Z_n\}$ is a martingale, then $\{\abs{Z_n}\}$ is a nonnegative submartingale. Therefore we have \[
+        \E \bigl(\max_{0\leq k \leq n} \abs{Z_k}\bigr)^p \leq \biggl(\frac{p}{p-1}\biggr)^p \E\abs{Z_n}^p.
+    \]
+\end{cor}
+
+\begin{namedthm}[$L^p$ convergence theorem for martingales]
+    Let $1<p<\infty$, and $\{X_n\}$ be a uniformly $L^p$-bounded martingale. Then $X_n$ converges a.s.\ and in $L^p$ to some $X_\infty$ satisfying \[
+        \E \abs{X_\infty}^p = \sup_n \E\abs{X_n}^p.
+    \] Meanwhile \[
+        \E \bigl(\sup_n\abs{X_n}\bigr)^p \leq \biggl(\frac{p}{p-1}\biggr)^p \E\abs{X_\infty}^p.
+    \]
+\end{namedthm}
+
+\begin{thm}[(convergence of $L^2$ summable random series)]
+    Let $\{X_n\}$ be a sequence of independent mean zero $L^2$ random variables, then the following are equivalent: \begin{enumerate}
+        \item $\sum_{n=1}^\infty \E X_n^2 < \infty$;
+        \item $\sum_{n=1}^\infty X_n^2$ converges a.s.\ and in $L^2$;
+        \item $\sum_{n=1}^\infty X_n^2$ converges in $L^2$.
+    \end{enumerate}
+\end{thm}
+
+\section{Martingales with bounded increments}
+\begin{thm}[(convergence behavior)]
+    
+\end{thm}
+
+\begin{fact}
+    For a martingale $\{X_n\}$, we have for any Borel measurable function $f$ that \[
+        \E\bigl[(X_{n+1}-X_n)f(X_0,X_1,\dotsc,X_{n})\bigr] = 0
+    \] by the \flcnameref{thm:tower}. In particular, we have \[
+        \E\bigl[(X_{n+1}-X_n)(X_{m+1} - X_m)\bigr] = 0
+    \] for any $n > m$, i.e., martingale differences are uncorrelated.
+\end{fact}
+
+\begin{namedthm}[Azuma--Hoeffding inequality]
+    Let $\{X_n\}$ be a supermartingale, and $\{A_n\}$ and $\{B_n\}$ are predictable with respect to the filtration $\{\F_n\}$, such that \[A_n \leq X_n \leq B_n.\] If for all $A_n$ and $B_n$ we have some positive constant $c_n$ such that $B_n - A_n \leq c_n$, then we have \[
+        P(X_n - X_0 \geq \epsilon) \leq \exp\biggl(-\frac{2 \epsilon^2}{\sum_{j=1}^n c_j^2}\biggr).
+    \]
+
+    If the $\{X_n\}$ above is a submartingale instead, then we get \[
+        P(X_0 - X_n \geq \epsilon) \leq \exp\biggl(-\frac{2 \epsilon^2}{\sum_{j=1}^n c_j^2}\biggr).
+    \] Hence by a simple union bound, we get for a martingale $\{X_n\}$ with the described conditions, it holds that \[
+        P(\abs{X_n - X_0} \geq \epsilon) \leq 2\exp\biggl(-\frac{2 \epsilon^2}{\sum_{j=1}^n c_j^2}\biggr).
+    \]
+\end{namedthm}
+
+\begin{namedthm}[Hoeffding's lemma]
+    For a mean zero random variable $Y$ that is a.s.\ bounded within $[a,b]$, we have \[
+        \E\exp(\lambda Y) = \exp\biggl(\frac{\lambda(b - a)^2}{8}\biggr)
+    \]
+\end{namedthm}
+
+\begin{namedthm}[McDiarmid bounded difference inequality]
+    
+\end{namedthm}
+
+\section{Gamblers' ruin and random walks}

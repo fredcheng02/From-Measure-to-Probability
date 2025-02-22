@@ -129,7 +129,7 @@ A measure $\mu$ on $(X,\A)$ is a \df{probability measure}\footnote{Why use this 
 
 It is clear that any probability measure is a finite measure, which is in turn a $\sigma$-finite measure. The probability measure is the essential example of a finite measure, because mostly you can normalize the measure of the whole space to $1$.
 
-A $\sigma$-finite measure means it is a normal kind of measure. The Lebesgue measure that we will rigorously see soon, for example, is $\sigma$-finite. Some major results in measure theory, for example the Fubini--Tonelli theorem (see \cref{sec:prod-integrate}), are only true for $\sigma$-finite measure spaces. A measure that is not $\sigma$-finite is considered, in some sense, a little pathological.
+A $\sigma$-finite measure is a well-behaved kind of measure. The Lebesgue measure that we will rigorously see soon, for example, is $\sigma$-finite. Some major results in measure theory, for example the Fubini--Tonelli theorem (see \cref{sec:prod-integrate}), are only true for $\sigma$-finite measure spaces. A measure that is not $\sigma$-finite is considered, in some sense, a little pathological.
 
 The following facts will come up a couple of times.
 \begin{fact} \label{fact:restrict-meausre-original-space}
@@ -190,7 +190,7 @@ We now introduce two additional elementary results about measures, which are sim
     \]
 \end{cor}
 
-\begin{namedthm}[Borel--Cantelli lemma, part I] \label{thm:BorelCantelli-meas-th}
+\begin{namedthm}[Borel--Cantelli lemma I] \label{thm:BorelCantelli-meas-th}
     For $\{E_n\}_n \subseteq \A$, assume $\sum_{n} \mu(E_n) <\infty$, then \[
         \mu\bigl(\limsup_n E_n\bigr) = 0.
     \]
@@ -490,13 +490,13 @@ The proof is obvious. If a set is outer regular, then its complement is inner re
 
     Let $E$ be closed, and define $U_n = \{x : d(x,E) < \frac{1}{n}\}$.\footnote{See \cref{prop:dist-set-cont} if you are not familiar with the definition of $d(\blank,E)$.} These $U_n$'s are open, since $U_n^\cpl$ is the continuous preimage of a closed set $[1/n,\infty)$. Also $U_n \downarrow \{x : d(x,E) = 0 \}$, which is exactly $E$ since $E$ is closed. Therefore $\mu(U_n) \to \mu(E)$. This proves 1).
 
-    Now we show 2). Clearly if $E$ is regular, then $E^\cpl$ is regular. It remains to prove that the regularity condition is closed under countable union. Let $E_1,E_2,\dotsc$ be regular. Fix $\epsilon > 0$, then we can choose $F_n$ and $G_n$ such that $F_n \subseteq E_n \subseteq G_n$ and $\mu(G_n - F_n) < \epsilon/2^{n+1}$ for each $n$. Let $G = \cup_{n=1}^\infty G_n$, which is open, and \[\mu\biggl(G - \bigcup_{n=1}^\infty F\biggr) \leq \mu\biggl(\bigcup_{n=1}^\infty (G_n - F_n)\biggr) \leq \sum_{n=1}^\infty \mu(G_n -F_n) < \epsilon / 2.\] Also let $F = \cup_{n=1}^N F_n$, a closed set, where the picked $N$ forces $\mu(\cup_{n=1}^\infty F_n - F) < \epsilon/2$. (This is possible because $\mu$ is a finite measure.) Combining these two gives us $\mu(G - F) < \epsilon$, where $F \subseteq E \subseteq G$, as desired.
+    Now we show 2). Clearly if $E$ is regular, then $E^\cpl$ is regular. It remains to prove that the regularity condition is closed under countable union. Let $E_1,E_2,\dotsc$ be regular. Fix $\epsilon > 0$, then we can choose $F_n$ and $G_n$ such that $F_n \subseteq E_n \subseteq G_n$ and $\mu(G_n - F_n) < \epsilon/2^{n+1}$ for each $n$. Let $G = \bigcup_{n=1}^\infty G_n$, which is open, and \[\mu\biggl(G - \bigcup_{n=1}^\infty F\biggr) \leq \mu\biggl(\bigcup_{n=1}^\infty (G_n - F_n)\biggr) \leq \sum_{n=1}^\infty \mu(G_n -F_n) < \epsilon / 2.\] Also let $F = \bigcup_{n=1}^N F_n$, a closed set, where the picked $N$ forces $\mu(\bigcup_{n=1}^\infty F_n - F) < \epsilon/2$. (This is possible because $\mu$ is a finite measure.) Combining these two gives us $\mu(G - F) < \epsilon$, where $F \subseteq E \subseteq G$, as desired.
 \end{proof}
 
 If $X$ is $\sigma$-compact, then $X$ is compact inner regular.
 
 \begin{thm}
-    Lebesgue--Stieltjes measures are compact inner regular (hence closed inner regular) and outer regular.
+    Lebesgue--Stieltjes measures are compact (and closed) inner regular and outer regular.
 \end{thm}
 
 \begin{defn}
@@ -507,5 +507,14 @@ If $X$ is $\sigma$-compact, then $X$ is compact inner regular.
 
 
 \begin{namedthm}[Ulam's theorem]
-    In a Polish space, every Borel measure is tight.
+    In a Polish space $X$, every Borel measure is tight.
 \end{namedthm}
+\begin{proof}
+    Let $S = \{x_j\}_{j=1}^\infty$ be a countable dense subset of $X$. Since any point $X$ must be arbitrarily close to some point in $S$, the collection $\{\clos{B}(x_j;1/n)\}_{j=1}^\infty$ covers $X$ for any $n\in \N$. It follows that for any $\epsilon > 0$, there is some $M_n$ such that \[
+        \mu\biggl(X - \bigcup_{j=1}^{M_n}\clos{B}(x_j ; 1/n)\biggr) <  2^{-n} \epsilon.
+    \] To make the approximation set independent of $n$, consider \[
+        K = \bigcap_{n=1}^\infty \bigcup_{j=1}^{M_n}\clos{B}(x_j ; 1/n).
+    \] It follows that $\mu(X - K) \leq \lim_{n\to \infty } 2^{-n} \epsilon = \epsilon$.
+
+    Since $X$ is complete and $K$ is closed, $K$ is complete. In addition, $K$ has finite $\frac{1}{n}$-net for each $n$, and it follows by the \cref{thm:char-thm-compact} that $K$ is compact. This proves the claim.
+\end{proof}

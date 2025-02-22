@@ -51,7 +51,7 @@ Recall \cref{thm:increasing-rcont-Borel-measure-connection}\ref{enu:CDF-measure}
     For two real-valued random variables $X$ and $Y$, we have $F_X = F_Y$ if and only if $\mu_X = \mu_Y$, i.e., a one-to-one correspondence between distribution functions and distributions.
 \end{cor}
 
-This observation further suggests that given a random variable, we may specify its distribution solely in terms of a function $F\colon \R \to [0,1]$ that is increasing, right-continuous, with \[
+This observation is very fundamental because it tells us we can see the distribution of a real random variables from two distinct perspectives. The corollary further suggests that given a random variable, we may specify its distribution solely in terms of a function $F\colon \R \to [0,1]$ that is increasing, right-continuous, with \[
         \lim_{x \to -\infty} F(x) = 0\quad \text{and} \quad \lim_{x \to \infty} F(x) = 1.
 \] We call such a function $F$ a \df[cumulative distribution function@(cumulative) distribution function]{(cumulative) distribution function} on its own. And we write $X \sim F$ if $X \sim \mu_F$, the unique probability measure associated to the distribution function $F$.
 
@@ -92,7 +92,7 @@ On the other hand, recall \cref{fact:restrict-meausre-restrict-space}. Given a r
 
 The definition of density function for a continuous random vector is the same as above, with the Lebesgue measure replaced by the product Lebesgue measure. Also notice that the product of counting measures on marginal spaces is the counting measure on the product space, so we do not need to make a separate note for p.m.f.\ when $(S,\mathcal S)$ is a product of discrete spaces. In contrast to distribution functions which are only nice to work with in dimension $1$, density functions is defined for general random vectors, as long as $\mu \ll m$.
 
-We can define the class of distributions with densities solely in terms of their density functions. When the distribution of $X$ is discrete, it is clear that we can specify the distribution using a \df{probability mass function} (on its own), i.e., a function $p\colon X(\Omega) \to [0,1]$ such that \[\sum_{x\in X(\Omega)} p(x) = 1.\] When the distribution of $X$ is continuous, then a nonnegative Borel-measurable function $f$ satisfying \[
+We can define the class of distributions with densities solely in terms of their density functions. When the distribution of $X$ is discrete, it is clear that we can specify the distribution using a \df{probability mass function} (on its own), i.e., a function $p\colon X(\Omega) \to [0,1]$ such that \[\sum_{x\in X(\Omega)} p(x) = 1.\] When the distribution of $X$ is continuous, then a nonnegative Borel measurable function $f$ satisfying \[
     \int_\R f(x)\,dx = 1,
 \] called a \df[probability density function@(probability) density function]{(probability) density function} (on its own) specifies the distribution. In summary, probability mass and density functions let us generate discrete and continuous random variables.
 
@@ -133,14 +133,13 @@ It should be clear that $X =_d Y$ (on possibly different probability spaces), th
 \end{namedthm}
 
 \begin{namedthm}[Jensen's inequality] \label{thm:Jensen-prob}
-    Let $\E\abs X <\infty$. Suppose $I$ is an interval containing the range of $X$, and we have a convex function $\phi\colon I\to \R$ such that $\phi\circ X\in L^1$. Then \[
-        \phi(\E X) \leq \E \phi(X)
+    Let $\E\abs X <\infty$. Suppose $I$ is an interval containing the range of $X$, and we have a convex function $\phi\colon I\to \R$. Then \[
+        \phi(\E X) \leq \E \phi(X).
     \]
 \end{namedthm}
     
 \begin{namedthm}[Lyapunov's inequality]
-For $p \leq q$, we have 
-    \[L^1 \supseteq L^2 \supseteq \dotsb \supseteq L^\infty.\]
+For $1 \leq p \leq q <\infty $, we have $(\E\abs{X}^p)^{1/p} \leq (\E \abs{X}^q)^{1/q}$. It follows that \[L^1 \supseteq L^2 \supseteq \dotsb \supseteq L^\infty.\]
 \end{namedthm}
 
 \subsection{Independence, a new measure-theoretic notion}
@@ -194,7 +193,7 @@ The definition of joint distributions can obviously be generalized to any finite
     A real-valued random variable $X$ independent of itself must take a constant value a.s.
 \end{prop}
 
-In special the case when $X \in L^2$ we have a simple proof: by part~\ref{enu:indep-check-via-L2} above we have $\E X^2 = (\E X)^2$, which implies $\Var(X) = 0$, i.e, $X = \E X$ a.s. The general case needs a bit more care.
+In special the case when $X \in L^2$ we have a simple proof: by part~\ref{enu:indep-check-via-L2} above we have $\E X^2 = (\E X)^2$, which implies $\Var(X) = 0$, i.e, $X = \E X$ a.s. The general case requires a bit more care.
 
 \begin{proof}
     For any $A\in \mathcal B$, we have \[
@@ -268,10 +267,13 @@ The \df[tail sigma-field@tail $\sigma$-field]{tail $\sigma$-field} of a sequence
     \mathcal{T} = \bigcap_{n=1}^\infty \sigma(X_n,X_{n+1},\dotsc).
 \]
 
-\begin{namedthm}[Kolmogorov's zero--one law]
+\begin{namedthm}[Kolmogorov zero--one law] \label{thm:K-01-law}
     Let $X_1,X_2,\dotsc$ be a sequence of independent random variables, then any event in its tail $\sigma$-field has probability $0$ or $1$.
 \end{namedthm}
 
+\begin{namedthm}[Hewitt--Savage zero--one law] \label{thm:HS-01-law}
+    
+\end{namedthm}
 
 \section{Basic concentration and deviation inequalities}
 \begin{namedthm}[Generalized Markov's inequality]
@@ -280,7 +282,9 @@ The \df[tail sigma-field@tail $\sigma$-field]{tail $\sigma$-field} of a sequence
     \]
 \end{namedthm}
 
-\begin{namedthm}[Markov's inequality]
+In probability theory it is often useful to take this $\phi$ to be the exponential function, so that we can get exponentially decaying tail probability. There is a general technique called \emph{Chernoff's method}, where you set $\phi(x) = \exp(\lambda x)$, and in the end you aim to minimize \[\frac{1}{\exp(\lambda x)}\E \exp(\lambda X) \] over all $\lambda \in \R$. Many concentration inequalities are derived in this fashion.
+
+\begin{namedthm}[Markov's inequality] \label{thm:Markov-ineq-prob}
     Let $0< p < \infty$. For any $a > 0$, we have \[
         P(\abs X \geq a) \leq \frac{1}{a^p} \E(\abs X^p).
     \]
@@ -290,22 +294,36 @@ The \df[tail sigma-field@tail $\sigma$-field]{tail $\sigma$-field} of a sequence
     \]
 \end{namedthm}
 
-\begin{namedthm}[Chebyshev's inequality]
+\begin{namedthm}[Chebyshev's inequality] \label{thm:Chebyshev-ineq}
     For $X$ with $\E X^2 < \infty$, we have for all $t > 0$ that \[
         P(\abs{X - \E X} \geq t) \leq \frac{\Var(X)}{t^2}.
     \]
 \end{namedthm}
+
+\nameref{thm:Markov-ineq-prob} gives an upper bound on the tail probability, with the first moment $\E X$. A lower bound can also be obtained, with in addition the second moment $\E X^2$.
 
 \begin{namedthm}[Paley--Zygmund inequality] \label{thm:PZ-ineq}
     Let $X \geq 0$ with $\E X^2 < \infty$. For any $0\leq \theta\leq 1$, we have \[
         P(X > \theta \E X) \geq (1-\theta)^2 \frac{(\E X)^2}{\E X^2}.
     \]
 \end{namedthm}
+\begin{proof}
+    The case for $\theta = 1$ is trivial. We will fix $0 < \theta < 1$ first.
+
+    The key is to use \nameref{thm:c-s-ineq-prob}: \begin{align*}
+        \E X & = \E (X \ind\{X \leq \theta \E X\}) + \E(X \ind\{X > \theta \E X\}) \\
+        & = \theta \E X + \sqrt{\E X^2 P(X > \theta \E X)},
+    \end{align*} and then rearrange to get the desired expression.
+
+    Now let $\theta_n = 1/n$ and take $n \to \infty$ to get the case for $\theta = 0$.
+\end{proof}
+
+We remark \nameref{thm:Markov-ineq-prob} and \nameref{thm:PZ-ineq} are related respectively to the \emph{first} and the \emph{second moment method} in probabilistic combinatorics; see \cite[Chapter~2]{Roch_2024}.
 
 \section{Miscellaneous but crucial facts and tools}
 \begin{defn}
     Fix the dimension $d$. The \df{standard Gaussian measure} on $\R^d$ is the measure $\gamma\colon \B(\R^d) \to [0,\infty]$ given by \[
-        \gamma(A) = \frac{1}{\bigl(\sqrt{2\pi}\bigr)^n} \int_A \exp\bigl(\nm{x}^2_2/2\bigr)\,dx.
+        \gamma(A) = \frac{1}{\bigl(\sqrt{2\pi}\bigr)^d} \int_A \exp\bigl(\nm{x}^2_2/2\bigr)\,dx.
     \]
 \end{defn}
 
@@ -317,7 +335,7 @@ The coordinates of a normal random vector are independent if and only if they ar
 
 We now restate \nameref{thm:BorelCantelli-meas-th}.
 
-\begin{namedthm}[Borel--Cantelli lemma, part I] \label{thm:BorelCantelli-1-prob}
+\begin{namedthm}[Borel--Cantelli lemma I] \label{thm:BorelCantelli-1-prob}
     For events $A_1,A_2,\dotsc$, if $\sum_n P(A_n) < \infty$, then \[
         P(A_n \text{ i.o.}) = 0.
     \]
@@ -331,7 +349,7 @@ In probability this theorem is typically applied to show the a.s.\ convergence o
     \forall\,\epsilon >0, P\bigl(\abs{X_n(\omega) - X(\omega)} < \epsilon\text{ ev.}\bigr) = 1.
 \]
 
-\begin{namedthm}[Borel--Cantelli lemma, part II]
+\begin{namedthm}[Borel--Cantelli lemma II]
     For pairwise independent events $A_1,A_2,\dotsc$, if $\sum_n P(A_n) = \infty$, then \[
         P(A_n \text{ i.o.}) = 1.
     \]

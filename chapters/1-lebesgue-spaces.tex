@@ -1,11 +1,23 @@
-\chapter{Lebesgue spaces} \label{chap:Leb-spaces}
-    \section{When \texorpdfstring{$1 \leq p < \infty$}{1 <= p < infinity}} \label{sec:Lp-1-infty}
-\begin{namedthm}[Hölder's inequality] \label{thm:Holder-ineq}
+\chapter{Lebesgue spaces and elementary Fourier analysis} \label{chap:Leb-spaces}
+\section{When \texorpdfstring{$1 \leq p < \infty$}{1 <= p < infinity}} \label{sec:Lp-1-infty}
+Let $(X,\A,\mu)$ be the underlying measure space and $0< p < \infty$. We define the \df[p norm@$p$ norm]{$p$-norm} of a measurable function $f$ by \[
+    \nm{f}_{p} = \biggl(\int_X \abs{f}\,d\mu\biggr)^{1/p} \in [0,\infty].
+\] The \df[Lp space-cal@$\mathcal{L}^p$ space]{$\mathcal{L}^p$ space} is the space of measurable functions with finite $p$-norms.
 
+The space $\mathcal{L}^p$ is not quite a normed space under $\nm{\blank}_p$. We will soon see that only when $1 \leq p < \infty$, $\nm{\blank}_p$ will become a seminorm on $\mathcal{L}^p$. Hence if we consider the equivalence classes of functions in $\mathcal{L}^p$ that are a.e.\ the same, then $\nm{\blank}_p$ becomes a norm. The set of equivalence classes we described here is called the \df[Lp space@$L^p$ space]{$L^p$ space}. We make the appearance of equivalence classes in the definition of $L^p$ spaces implicit in our exposition, as long as it does not need to confusion; for example, we always write a function $f \in L^p$ instead of $f \in \mathcal{L}^p$.
+
+The $L^1$ space of integrable functions have been the sole focus in the previous chapters. In this chapter we will look at the functional analytic structure of the $L^p$ spaces, and touch on their connections to the theory of Fourier analysis.
+
+\begin{namedthm}[Hölder's inequality] \label{thm:Holder-ineq}
+    Let $\frac{1}{p} + \frac{1}{q} = 1$, then \[
+        \nm{fg}_1 \leq \nm{f}_p\nm{f}_q.
+    \]
+
+    ($p$ and $q$ satisfying $\frac{1}{p} + \frac{1}{q} = 1$ are called conjugate exponents.)
 \end{namedthm}
 
 \begin{namedthm}[Minkowski's inequality] \label{thm:Minkowski-ineq}
-    
+    For $1 \leq p < \infty$, we have $\nm{f+g}_p \leq \nm{f}_p + \nm{g}_p$.
 \end{namedthm}
 
 \begin{thm}
@@ -13,9 +25,10 @@
 \end{thm}
 
 \begin{prop}
-    On a finite measure space, the equivalence class simple functions are dense in $L^p$
+    The equivalence class simple functions are dense in $L^p$ hence $L^q \cap L^p$ is dense in $L^p$
     
-    of $C_b$ is dense in $L^p$
+    Let $\mu(X)<\infty$, of $C_b$ is dense in $L^p$
+    $C_c$ is dense in $L^p$
 \end{prop}
 
 \section{When \texorpdfstring{$p = \infty$}{p = infty}}
@@ -23,6 +36,25 @@
     $L^\infty$ is complete.
 \end{thm}
 
+For any Borel measure that assigns positive values to all open sets (e.g., the Lebesgue measure on $\R^d$), we have $\nm{f}_{\infty} = \nm{f}_u$ when $f$ is continuous, since $\{x:\abs{f(x)} > t\}$ is open. Notice that the equivalence class of $(C_b(X),\nm{\blank}_u)$ may be regarded as a closed subspace of $(L^\infty(X),\nm{\blank}_\infty)$, since $(C_b(X),\nm{\blank}_u)$ is complete. It is clear that we do not have the density of $C_b$ in $L^\infty$ in general.
+
 \section{The Hilbert space \texorpdfstring{$L^2$}{L2}}
 
 \section{Dual spaces}
+
+\section{Fourier series}
+
+\section{Convolutions}
+Let $f$ and $g$ be measurable, the \df{convolution} of $f$ and $g$ is the function \[
+    f * g(x) = \int f(x - y)g(y)\,d\mu(y)
+\] for all $x$ such that the integral exists.
+
+\begin{namedthm}[Young's inequality]
+    For $1 \leq p,q,r\leq \infty$ and $\frac{1}{p} + \frac{1}{q} = \frac{1}{r} + 1$, then if $f \in L^p$ and $g \in L^q$, then $f * g$ is defined a.e.\ (if $r = \infty$ then everywhere) and is in $L^r$, with \[
+        \nm{f * g}_{r} \leq \nm{f}_p\nm{g}_q.
+    \]
+\end{namedthm}
+
+\section{Fourier transform of functions and measures}
+
+\section{Sobolev spaces}

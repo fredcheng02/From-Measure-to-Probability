@@ -20,7 +20,7 @@
 
 % The proof is obvious, but using the triangular inequality of limit superior sometimes give cleaner arguments.
 
-\begin{prop}[(Sequential criterion for limits and continuity)]
+\begin{prop}[(sequential criterion for limits and continuity)]
     
 \end{prop}
 
@@ -50,6 +50,12 @@
     Compact subsets of a Hausdorff space are closed.
 \end{prop}
 
+\begin{prop}
+    For $A \subseteq B \subseteq X$, where $A$ and $B$ are given the subspace topology of $X$. Then $A$ is dense in $X$ if and only if $A$ is dense in $X$.
+\end{prop}
+
+Note that $A$ is dense in $B$ means that $\clos{A} \supseteq B$.
+
 \begin{namedthm}[Urysohn's lemma]
     Let $X$ be normal. If $A$ and $B$ are two disjoint closed sets in $X$, then there exists a continuous function $f\colon X \to [0,1]$ such that $f(A)=\{0\}$ and $f(B) = \{1\}$.
 \end{namedthm}
@@ -66,7 +72,7 @@ One can show that the function $f\colon X\to [0,1]$ given by \[
     \end{cases}
 \] is continuous.
 
-The use of \textsf{DC} can be avoided when $X$ is second countable and regular, by the proof of the following proposition.
+The use of \textsf{DC} can be avoided when $X$ is second countable and regular, by the constructive proof of the following proposition.
 
 \begin{prop}
     Every second countable regular space is normal.
@@ -85,9 +91,42 @@ In particular, every lcscH space is metrizable.
     \end{enumerate}
 \end{prop}
 
-\begin{prop}[{\cite[Theorem 1.2.13]{Bogachev_2020}}] \label{prop:Lind-property-sep-metric-space}
-    Every collection of open sets in a separable metric space contains an at most countable subcollection with the same union.
+A subspace of a Lindelöf space is not necessarily Lindelöf. Therefore it is sometimes useful to introduce the definition of a \df{hereditary Lindelöf} space, whose subspaces are all Lindelöf.
+
+\begin{fact} \label{fact:Lind-property-2nd-count-space}
+    A second countable space is hereditary Lindelöf, since any subspace of a second countable space is second countable.
+\end{fact}
+
+% \begin{prop} Bogachev 1.2.13
+%     Every collection of open sets in a separable metric space contains an at most countable subcollection with the same union.
+% \end{prop}
+
+\begin{thm}[(Characterization of compactness in metric spaces)]\label{thm:char-thm-compact}
+    A subset of a metric space is compact if and only if it is sequentially compact if and only if it is totally bounded and complete.
+\end{thm}
+
+\begin{prop} \label{prop:unique-dense-subset}
+    Let $f,g\colon X \to Y$ be two continuous functions, where $X$ is a topological space and $Y$ is Hausdorff. If $f$ and $g$ agree on a dense subset of $X$, then $f = g$ on $X$.
 \end{prop}
+
+\begin{thm} \label{thm:ext-unif-cont-func}
+    Let $X$ and $Y$ be metric spaces, with $Y$ being complete. Let $D$ be a dense subspace of $X$, and $f\colon D \to Y$ be a uniformly continuous function. Then there is a unique extension of $f$ to $F\colon X \to Y$, such that $F$ is still uniformly continuous.
+\end{thm}
+\begin{proof}
+    Any $x \in X$ can be written as the limit of a sequence $\{x_n\}\subseteq D$. For each such sequence $\{x_n\}$, by uniform continuity it holds that for all $\epsilon > 0$, for all $m,n\in \N$ there exists $\delta > 0$ such that \[
+        \abs{x_n - x_m} < \delta \implies \abs{f(x_n) - f(x_m)} < \epsilon.
+    \] Since $\{x_n\}$ is a convergent sequence it also holds that there is some $N_\delta \in \N$ such that for all $m > n\geq N_\delta$, it holds that $\abs{x_n - x_m} < \delta$. With these information combined, we get $\{f(x_n)\}$ is a Cauchy sequence in $Y$, which is complete. Therefore $\lim_n f(x_n)$ exists.
+
+    Now let us show that $\lim_n f(x_n) = \lim_n f(w_n)$ is the same for any $\{x_n\}$ and $\{w_n\}$ that approach $x$. We know $x_n - w_n \to 0$, and hence (using the same reasoning as above) $f(x_n) - f(w_n) \to 0$.
+
+    Now define $F(x) = \lim_n f(x_n)$ for any $\{x_n\}$. The function $F$ is (sequentially) continuous everywhere. It is clear $F|_D = f$, and such an extension must be unique by \cref{prop:unique-dense-subset}.
+
+    It remains to show that $F$ is uniformly continuous. Consider $a,b\in X$, which are respectively limits of some $\{a_n\}$ and $\{b_n\}$ in $D$. We want to show that for any $\epsilon > 0$, for all $a,b\in X$, there exists $\delta > 0$ such that \[
+        \abs{a - b} < \delta \implies \abs{F(a) - F(b)} < \epsilon.
+    \] We leave it to the reader to use the uniform continuity of $F|_D$, $F(a) = \lim_n F(a_n)$, and the triangular inequality to meet the above inequality.
+\end{proof}
+
+We emphasize $X$ and $D$ here have the same metric structure. Compare this result with the upcoming \nameref{thm:hahn-banach}.
 
 \begin{namedthm}[Uniqueness theorem] \label{thm:uniqueness-cplx}
     Let $G$ be a region (i.e., nonempty open connected subset of $\C$). If $f$ and $g$ are both holomorphic in $G$, and $f$ and $g$ agree on some $S \subseteq G$ that has a limit point in $G$, then $f$ and $g$ agrees everywhere on $G$.
@@ -123,13 +162,40 @@ The key part of the proof is the use of the mean value theorem on $f_n' - f_m'$.
 \section{Banach spaces}
 Let $X$ and $Y$ be two normed spaces in this section.
 
+\begin{exa}
+    $(C_b(X),\nm{\blank}_u)$
+    $(C_0(X),\nm{\blank}_u)$
+\end{exa}
+
 We use $\mathcal{L}(X,Y)$ for the space of linear maps between normed spaces $X$ and $Y$, and we denote $\mathcal L(X,\mathbf F)$ by $X^*$, called the dual space of $X$.
 \begin{prop}
-    For $T \in \mathcal{L}(X,Y)$, then $T$ is bounded if and only if it is continuous if and only if it is continuous at $0_X$.
+    For $T \in \mathcal{L}(X,Y)$, then $T$ is bounded if and only if it is continuous if and only if it is continuous at any point of $X$.
 \end{prop}
 
+\begin{fact}
+    A bounded linear operator is Lipschitz continuous.
+\end{fact}
+
+\begin{namedthm}[Riesz' lemma]
+    
+\end{namedthm}
+
+\begin{thm}
+    The closed unit ball is compact in a normed space if and only if the normed space is finite-dimensional.
+\end{thm}
+
+\begin{namedthm}[Hahn–Banach theorem] \label{thm:hahn-banach}
+    Let $X$ be a real vector space, and $p$ be a sublinear functional. 
+
+    Let $X$ be a complex vector space, and $p$ be a seminorm.
+\end{namedthm}
+
+\begin{namedthm}[Hahn–Banach theorem in \textsf{ZF}]
+    Let $X$ be a real topological vector space, and $p$ be a continuous sublinear functional. 
+\end{namedthm}
+
 \begin{prop}
-    If $Y$ is complete, then $\mathcal{L}(X,Y)$ is complete. In particular dual spaces are complete.
+    If $Y$ is complete, then $\mathcal{L}(X,Y)$ is complete. In particular the dual space of any normed space is complete.
 \end{prop}
 
 \begin{namedthm}[Uniform boundedness principle]
@@ -137,15 +203,21 @@ We use $\mathcal{L}(X,Y)$ for the space of linear maps between normed spaces $X$
 \end{namedthm}
 
 \begin{namedthm}[Open mapping theorem]
-    
+    For two Banach spaces $X$ and $Y$, if $T\in \mathcal L(X,Y)$ is surjective, then the map is open.
 \end{namedthm}
 
+\begin{cor}
+    For two Banach spaces $X$ and $Y$, if $T\in \mathcal L(X,Y)$ is bijective, then the inverse $T^{-1}$ is also a bounded linear map.
+\end{cor}
+
 \begin{namedthm}[Closed graph theorem]
-    
+    For two Banach spaces $X$ and $Y$, if $T\in \mathcal L(X,Y)$ is closed, then the operator is bounded.
 \end{namedthm}
 
 \begin{namedthm}[Baire category theorem]
-    
+    Every complete (pseudo)metric space is a Baire space, i.e., a space where a countable intersection of nowhere dense sets is nowhere dense. This implies that a complete metric space is not the countable union of nowhere dense sets.
+
+    The above result also holds for all locally compact regular spaces, which includes locally compact Hausdorff spaces.
 \end{namedthm}
 
 \section{Hilbert spaces}
@@ -163,10 +235,12 @@ A \df{Hilbert space} is an inner space with a complete metric induced from the i
     \] with equality if and only if one is a scalar multiple of the other.
 \end{namedthm}
 \begin{proof}
-    Expand the nonnegative expression $f(\lambda) \coloneqq \nm{u+\lambda v}^2$ for all $\lambda\in \R$, which contains the desired (real part of the) inner product and has discriminant $\leq 0$.
+    Expand the nonnegative expression $f(\lambda) \coloneqq \nm{u+\lambda v}^2$ for all $\lambda\in \R$, which contains the desired real part of the inner product and has discriminant $\leq 0$. After getting \[
+        \abs{\Re \inp{u}{v}} \leq \nm{u}\nm{v},
+    \] replace $u$ by $\frac{\abs{\inp{u}{v}}}{\inp{u}{v}}$\footnote{This change-of-direction trick is a prevalent trick to extend results proved over real vector spaces to over complex vector spaces}.
 \end{proof}
 
-With the additional topological assumption that Hilbert spaces have complete metric, most of the results for finite-dimensional inner product spaces carry over to infinite dimensional Hilbert spaces. To motivate the upcoming results, it is recommended to review their finite-dimensional analogs through \cite[Section~6]{Axler_2024}, and understand why these results should be true.
+With the additional topological assumption that Hilbert spaces have complete metric, most of the results for finite-dimensional inner product spaces carry over to infinite dimensional Hilbert spaces. To motivate the upcoming results, it is recommended to review their finite-dimensional analogs, and understand why these results should be true.
 
 \begin{namedthm}[Projection theorem] \label{thm:proj-Hilbert} Given a Hilbert space $H$ and a closed convex subset $Y$,
 \begin{enumerate} 
@@ -235,25 +309,25 @@ With the additional topological assumption that Hilbert spaces have complete met
     \] Moreover $\nm{f} = \nm{v}$.
 \end{namedthm}
 
-An \df{orthonormal system} $\{e_\alpha\}_{\alpha \in I}$ is a possibly infinite collection of vectors such that \[\inp{e_\alpha}{e_\beta} = \begin{cases}
+An \df{orthonormal system} $\{e_\alpha\}_{\alpha \in A}$ is a possibly infinite collection of vectors such that \[\inp{e_\alpha}{e_\beta} = \begin{cases}
     1 & \alpha = \beta, \\
     0 & \alpha \neq \beta.\end{cases}
 \]
 
-The order of $\alpha$ does not matter when $I$ is countable.
+The order of $\alpha$ does not matter when $A$ is countable.
 
 \begin{prop}
     Suppose we have a finite orthonormal system $\{e_j\}_{j=1}^n$ that spans $Y$. If $Y \subseteq H$. Then the projection of any $x\in H$ is explicitly $\pi_Y(x) = \sum_{j=1}^n \inp{x}{e_j}e_j$.
 \end{prop}
 
 \begin{prop}
-    $\sum_{\alpha \in I}\inp{x}{e_\alpha} e_\alpha$ 
+    $\sum_{\alpha \in A}\inp{x}{e_\alpha} e_\alpha$ 
 \end{prop}
 
 \begin{thm}
 Let $\{e_\alpha\}_{\alpha\in I}$ be an orthonormal system, then \begin{enumerate}
-    \item $\sum_{\alpha \in I} \inp{x}{e_\alpha}^2 \leq \nm{x}^2$, which is known as \df{Bessel's inequality};
-    \item the equality above holds if and only if the series $x = \sum_{\alpha \in I}\inp{x}{e_\alpha} e_\alpha$ in $H$.
+    \item $\sum_{\alpha \in A} \inp{x}{e_\alpha}^2 \leq \nm{x}^2$, which is known as \df{Bessel's inequality};
+    \item the equality above holds if and only if the series $x = \sum_{\alpha \in A}\inp{x}{e_\alpha} e_\alpha$ in $H$.
 \end{enumerate}
 \end{thm}
 
@@ -264,7 +338,7 @@ Parseval's identity
 Gram--Schmidt process
 
 \begin{thm}[(complete orthonormal system)]
-    $\{e_\alpha\}_{\alpha \in I}$ is an orthonormal basis of $H$ if and only if $\operatorname{span}\{e_\alpha\}$ is dense in $H$.
+    $\{e_\alpha\}_{\alpha \in A}$ is an orthonormal basis of $H$ if and only if $\operatorname{span}\{e_\alpha\}$ is dense in $H$.
 \end{thm}
 
 \begin{thm}
@@ -273,12 +347,56 @@ Gram--Schmidt process
 
 
 
-\section{Weak and weak-star topologies on normed spaces}
-\begin{namedthm}[Sequential Banach--Alaoglu theorem]
+\section{Weak topologies and topological vector spaces}
+
+dual pairing
+
+initial topology and net convergence
+$f\colon X \to Y$ is continuous if and only if for every $x_\alpha \to x$, we have $f(x_\alpha) \to f(x)$.
+
+A related results $x_\alpha \to x$ in the initial topology on $X$ generated by $\mathcal{F} = \{f_\beta \colon X \to Y_\beta\}_{\beta \in B}$ if and only if $f(x_\alpha) \to f(x)$ for all $f \in \mathcal{F}$. This is true for both nets and sequences.
+
+convergence in product spaces
+
+If the target spaces $Y_\beta$'s are all Hausdorff, then $X$ is Hausdorff if and only if the collection $\F$ separates points in $X$.
+
+The subbasis of $\F$ can be specified by $f_\beta^{-1}(V)$, where $V$ ranges over any open sets of $Y_\beta$, for any $\beta \in B$. One may take $Y$ to be any basic or subbasic open set as well, by the property of the preimage. If $\F$ consists of only one function $f$, then the preimage $f^{-1}$ takes (subbasic/basic) open sets in $Y$ precisely to (subbasic/basic) open sets in $X$.
+
+Bogachev 1.6.5 6 8
+
+$x_n \to x$ weakly (i.e., converges in the weak topology) if and only if for all $f \in X^*$, $f(x_n) \to f(x)$
+
+
+
+$f_n \to f$ weakly (i.e., converges in the weak-star topology) if and only if for all $x \in X$, $\hat{x}(f_n) = f_n(x) \to \hat{x}(f) = f(x)$
+
+The basis for $\sigma(X,X^*)$ is usually expressed in the following explicity way.
+
+For any $x_0\in X$, a neighborhood base for $x_0$ is given by \[
+        \bigcap_{j=1}^n f^{-1}_j\bigl(f_j(x_0) - \epsilon, f_j(x_0) + \epsilon\bigr),
+\] or equivalently,
+\[
+    \bigl\{x \in X: \abs{f_j(x - x_0)} < \epsilon \text{ for all } j \in [n]\bigr\},
+\]
+for any finite number of $f_j$'s and $\epsilon > 0$.
+
+You push $x_0$ to the target field $\mathbf F$, vary $f_j(x_0)$ in a small neighborhood in $\F$, and then push back to $X$ to get a neighborhood for $x_0$.
+
+The weak and weak-star topology can alternatively be seen as \emph{seminorm topologies}, which we discuss here. Say $X$ is a vector space, on which we have $\{p_\alpha\}_{\alpha \in A}$ as a family of seminorms. The \df[topology generated by a family of seminorms]{topology on $X$ generated by} $\{p_\alpha\}$ is the initial topology with respect to the family of functions \[\{x \mapsto p_\alpha(x - x_0) : x_0 \in X, \alpha \in A\}.\] Be very careful that this is \emph{not} the initial topology that makes all $p_\alpha(\blank)$ continuous. Rather, due to the vector space structure of $X$, the translation by $y$ in the functions $x \mapsto p_\alpha (x-y)$ is an important requirement, such that $(x,y) \mapsto x + y$ and $(\lambda,x) \mapsto \lambda x$ are continuous. A vector space with a topology that makes vector addition and scalar multiplication continuous is called a \df{topological vector space}.
+
+A topological vector space whose topology has a basis consisting of convex sets is called a locally convex topological vector space. The vector space topology induced from seminorms is locally convex.
+
+The \df{strong operator topology} on $\mathcal L(X,Y)$ is generated by the evaluation maps $\{T \mapsto Tx : x\in X\}$, where $Y$ is endowed with the norm topology. $T_n \to T$ in the strong operator topology if and only if $T_n x \to Tx$.
+
+The \df{weak operator topology} on $\mathcal L(X,Y)$ is generated by the maps $\{T \mapsto f(Tx) : x\in X, f\in Y^*\}$ to the dual space of $Y$. $T_n \to T$ in the weak operator topology if and only if for all $x \in X$ and $f \in Y^*$, $f(T_n x) \to f(T x)$, which is equivalent to saying that $T_n x \to T$ weakly.
+
+\begin{namedthm}[Sequential Banach--Alaoglu--Bourbaki theorem] \label{label:seq-Alaoglu}
     For a separable normed vector space $X$, every bounded sequence in $X^*$ has a weak-star convergent subsequence (i.e., $X^*$ is weak-star sequentially compact).
 \end{namedthm}
 
-\begin{namedthm}[Banach--Alaoglu theorem]
+or the generalized Helly selection theorem, for the reasons we discussed after \cref{lem:Helly-pre}
+
+\begin{namedthm}[Banach--Alaoglu--Bourbaki theorem]
     For a normed vector space $X$, every closed and bounded subset of $X^*$ is weak-star compact.
 \end{namedthm}
 
@@ -308,7 +426,17 @@ If the product is finite, then no choice is needed.
 
 Every weakly convergent sequence is norm bounded
 
-\section{Weak convergence of general measures} \label{sec:weak-conv-general-meas}
+\section{Adjoint and compact operators}
+
+unitary operators
+
+annihilators
+
+\begin{namedthm}[Closed range theorem]
+    
+\end{namedthm}
+
+% \section{Weak convergence of general measures} \label{sec:weak-conv-general-meas}
 
 \section{Topological groups and Haar measures}
 
@@ -327,14 +455,42 @@ Hence \[
     \log(n+1) \leq \sum_{x=1}^n\frac{1}{x}\leq \log(n) +1
 \]
 
+\begin{prop}
+    For two independent random variables $X\sim \Exp(\lambda)$ and $Y\sim \Exp(\mu)$, these hold. \begin{enumerate}
+        \item $\min\{X,Y\} \sim \Exp(\lambda + \mu)$;
+        \item $P(X \leq Y) = \frac{\lambda}{\lambda + \mu}$;
+        \item $\min\{X,Y\}$ and $\{X\leq Y\}$ are independent.
+    \end{enumerate}
+\end{prop}
 
-For two independent random variables $X$ and $Y$, the following two are equivalent: 
-\begin{enumerate}
-    \item $X\sim \Exp(\lambda)$ and $Y\sim \Exp(\mu)$, 
-    \item $\min\{X,Y\} \sim \Exp(\lambda + \mu)$, and $P(X \leq Y) = \frac{\lambda}{\lambda + \mu}$.
-\end{enumerate}
+\begin{proof}
+    $P(X > t, Y > t) = P(X > t) P(Y > t) = e^{-(\lambda + \mu)t}$
 
-(a)$\implies$(b) follows from independence and the memoryless property: 
+\begin{align*}
+    P(X - Y \leq t) & = \int_{-\infty}^\infty f_X(t+y) f_{-Y}(-y)\,dy \\
+    & = \lambda \mu e^{-\lambda t} \int_{-\infty}^\infty e^{(-\lambda - \mu)y}\ind\{y \geq 0, t + y\geq 0\}\,dy \\
+    & = \frac{\lambda \mu}{\lambda + \mu}e^{-\lambda t} e^{(-\lambda - \mu)y}\bigr]_{y=\min\{0,-t\}}^\infty
+\end{align*}
+Hence \[
+    P(X - Y \leq t) = \begin{cases}
+      \frac{\lambda \mu}{\lambda + \mu}e^{-\lambda t}  & \text{if } t \geq 0, \\
+      \frac{\lambda \mu}{\lambda + \mu}e^{\mu t}  & \text{if } t< 0.
+    \end{cases}
+\]
+    \[P(X > t,Y > t,X \leq Y) = P(X > t, Y > t) P(X \leq Y)\]
+
+LHS = $\int_{t}^\infty \mu e^{-\mu y} \int_{t}^y \lambda e^{-\lambda x}\,dx\,dy$
+
+% \begin{align*}
+%     P(Y \geq X > x) & = P(X \leq Y)P(\min\{X,Y\} > x) + P(X > Y)P(X >x) \\
+%     & = \frac{\lambda}{\lambda + \mu}\exp(-\lambda -\mu) + \frac{\mu}{\lambda + \mu}P(X > x \giv X > Y)
+%     \\ P(X > Y >y) & = 
+% \end{align*}
+
+\end{proof}
+
+The converse is also true Poisson thinning
+
 
 \begin{namedthm}[Birthday problem]
     
@@ -359,3 +515,5 @@ For two independent random variables $X$ and $Y$, the following two are equivale
 \begin{namedthm}[Bernoulli bond percolation]
     
 \end{namedthm}
+
+\printnomenclature
