@@ -19,9 +19,10 @@ It is clear that a measure $\mu$ on a measurable subspace of $(\R,\B)$ can be na
 Throughout the notes, random variables are \emph{almost always} taken to be real-valued\footnote{We have only discussed the integration of real/complex-valued functions. Some generalizations can definitely be made (to for example, Banach-valued functions/random variables), but it is beyond the scope of this survey.}. The exceptions should be noted by the readers on their own.
 \end{rem}
 
-The \df[cumulative distribution function@(cumulative) distribution function]{(cumulative) distribution function} of a real-valued random variable $X$ is defined to be a function $F\colon \R \to [0,1]$ given by \[
+The \df[cumulative distribution function@(cumulative) distribution function]{(cumulative) distribution function} (c.d.f.)\ of a real-valued random variable $X$ is defined to be a function $F\colon \R \to [0,1]$ given by \[
     F(x) = P(X \leq x) = \mu(-\infty,x].
 \]
+Again we mention that the choice of ``$\leq$'' instead of ``$<$'' in the definition of distribution function is a convention. In fact going back to Kolmogorov's original \textit{Foundations of the Theory of Probability}, the distribution function is defined by $P(X < x)$.
 
 We now slightly modify \cref{thm:increasing-rcont-Borel-measure-connection}\ref{enu:CDF-measure}\ref{enu:measure-CDF} to suit our purpose. Note now we instead start with the original part~\ref{enu:measure-CDF}.
 \begin{thm} \label{thm:measure-CDF-prob}
@@ -46,7 +47,7 @@ Recall \cref{thm:increasing-rcont-Borel-measure-connection}\ref{enu:CDF-measure}
     \]
 \end{thm}
 
-\Cref{thm:CDF-measure-prob} tells us that as long as we have the distribution function of a random variable $X$, which increases from $0$ to $1$ and is right-continuous, then the distribution function determines the distribution of the random variable. Formally we can state 
+\Cref{thm:CDF-measure-prob} tells us that as long as we have the distribution function of a random variable $X$, which increases from $0$ to $1$ and is right-continuous, then the distribution function determines the distribution of the random variable. Formally we are now ready to state 
 \begin{cor} \label{cor:dist-cdf-equiv}
     For two real-valued random variables $X$ and $Y$, we have $F_X = F_Y$ if and only if $\mu_X = \mu_Y$, i.e., a one-to-one correspondence between distribution functions and distributions.
 \end{cor}
@@ -55,46 +56,51 @@ This observation is very fundamental because it tells us we can see the distribu
         \lim_{x \to -\infty} F(x) = 0\quad \text{and} \quad \lim_{x \to \infty} F(x) = 1.
 \] We call such a function $F$ a \df[cumulative distribution function@(cumulative) distribution function]{(cumulative) distribution function} on its own. And we write $X \sim F$ if $X \sim \mu_F$, the unique probability measure associated to the distribution function $F$.
 
-\begin{thm}
-    Indeed any distribution function $F \colon \R \to [0,1]$ can be realized as the distribution function of some random variable $X$ on some probability space $(\Omega,\F,P)$. In particular we can take the probability space to be $([0,1],\B_{[0,1]},m)$.
+\begin{thm} \label{thm:cdf-unif-identification}
+    Indeed any distribution function $F \colon \R \to [0,1]$ can be realized as the distribution function of some real random variable $X$ on some probability space $(\Omega,\F,P)$. In particular we can take the probability space to be $([0,1],\B_{[0,1]},m)$, and realize $X \sim F$ from a $\Unif[0,1]$ random variable on this probability space.
 \end{thm}
 \begin{proof}[First construction]
     By \cref{thm:CDF-measure-prob}, we know every distribution function $F$ gives rise to a unique probability measure $\mu$ on $(\R,\B)$. Now let $(\Omega,\F,P) = (\R,\B,\mu)$ and let $X$ be the identity map on $\R$.
 \end{proof}
-As long as one knows \cref{thm:CDF-measure-prob}, this first proof is indeed a very trivial construction. The second proof, independent of \cref{thm:CDF-measure-prob}, is more interesting and certainly of significance to us.
+Given one knows \cref{thm:CDF-measure-prob}, this first proof is indeed a very trivial construction. The second proof, independent of \cref{thm:CDF-measure-prob}, is more interesting and certainly of significance to us.
 \begin{proof}[Second construction]
     Let $(\Omega,\F,P) = ([0,1],\B_{[0,1]},m)$, and we define \begin{equation}
-        X(\omega) = \inf\{y : F(y) \geq \omega\}. \label{eq:dist-func-inv-def}
+        X(\omega) = \inf\{y : F(y) \geq \omega\} \coloneqq F^{-1}(\omega). \label{eq:dist-func-inv-def}
     \end{equation}
     It is clear to see that $X(\omega) \leq y$ if and only if $\omega \leq F(y)$. Therefore for all $y\in \R$, \[
-        P(X \leq y) = P\bigl(\omega\leq F(y)\bigr) = F(y).\qedhere
+        P(X \leq y) = P\bigl(\omega\leq F(y)\bigr) = F(y).
     \]
-    
+    The construction still works out perfectly if one replaces $\omega$ by $U(\omega)$, where $U \sim \Unif[0,1]$. This is because the identity map is the special case of a $\Unif[0,1]$ random variable. We conclude that we can use any $\Unif[0,1]$ random variable $U$ to generate a $\mu$-distributed random variable on the probability space $([0,1],\B_{[0,1]},m)$, via the recipe $F_\mu^{-1}(U)$.
 \end{proof}
 
-There are three things we need to mind here. Firstly, one can show that $\inf\{y : F(y) \geq \omega\} = \sup\{y : F(y) < \omega\}$. The ``$\geq$'' direction is obvious. To see the ``$\leq$'' direction, consider any $x > \sup\{y : F(y) < \omega\}$. It is clear that $F(x) \geq \omega$, and thus by right-continuity we have $F(\sup\{y : F(y) < \omega\})\geq \omega$. Note that we have also just proved that the infimum in \eqref{eq:left-cont-inv} can be attained.    
+The realization of $X\sim F$ described above will play a pivotal role later in \cref{sec:indep-seq}.
 
-Secondly, the $X$ defined here in \eqref{eq:dist-func-inv-def} is sometimes called the \df{left-continuous inverse} of the distribution function $F$, denoted by $F^{-1}$. Distributions functions are not in general invertible, but this almost invertibility between $\R$ and $[0,1]$ motivates our definition. When $F$ is one-to-one, then our $X$ is just the usual inverse.
+There are several things we need to mind here. Firstly, one can show that $\inf\{y : F(y) \geq \omega\} = \sup\{y : F(y) < \omega\}$. The ``$\geq$'' direction is obvious. To see the ``$\leq$'' direction, consider any $x > \sup\{y : F(y) < \omega\}$. It is clear that $F(x) \geq \omega$, and thus by right-continuity we have $F(\sup\{y : F(y) < \omega\})\geq \omega$. Note that we have also just proved that the infimum in \eqref{eq:left-cont-inv} can be attained.    
 
-We now show $X(\omega)$ is indeed continuous from the left, i.e., for all $a \in (0,1]$, \begin{equation}
+Secondly, the $X$ defined here in \eqref{eq:dist-func-inv-def} is sometimes called the \df{generalized inverse/quantile function} of the distribution function $F$, denoted by $F^{-1}$. Distributions functions are not in general invertible, but this almost invertibility between $\R$ and $[0,1]$ motivates our definition.
+
+We now show $X(\omega)$ is continuous from the left, i.e., for all $a \in (0,1]$, \begin{equation}
     \lim_{\omega \to a^-} X(\omega) = X(a) \label{eq:left-cont-inv}.
 \end{equation} Since $F$ is increasing, the limit exists and the ``$\leq$'' direction follows. Now suppose we have the strict inequality ``$<$''. This implies $F\bigl(\lim_{\omega \to a^-} X(\omega)\bigr) < a$. Since $F\bigl(X(\omega)\bigr) \geq \omega$, we get a contradiction. Hence we have the equality in \eqref{eq:left-cont-inv}.
 
-Finally, we remark that $\ol{X}(\omega) = \sup\{y:F(y)\leq \omega\} = \inf\{y:F(y) > \omega\}$ has the same distribution as our $X$ defined in \eqref{eq:dist-func-inv-def}. In fact $X$ and $\ol{X}$ differ at countably many points; $X(\omega) \neq \ol{X}(\omega)$ if and only if $X([0,\omega]) - X\bigl([0,\omega)\bigr)$, i.e., there is a jump for $X$ at $\omega$. For distinct $\omega\in [0,1]$ these intervals have to be disjoint, and hence there are only countably many such intervals. The proof of this final step is included in \cref{prop:discont-countable}. We leave it as an exercise to reader to show that this $\ol{X}$ is right-continuous.
+Thirdly, we remark that $\ol{X}(\omega) = \sup\{y:F(y)\leq \omega\} = \inf\{y:F(y) > \omega\}$ has the same distribution as our $X$ defined in \eqref{eq:dist-func-inv-def}. In fact $X$ and $\ol{X}$ differ at countably many points; $X(\omega) \neq \ol{X}(\omega)$ if and only if $X([0,\omega]) - X\bigl([0,\omega)\bigr)$, i.e., there is a jump for $X$ at $\omega$. For distinct $\omega\in [0,1]$ these intervals have to be disjoint, and hence there are only countably many such intervals. The proof of this final step is included in \cref{prop:discont-countable}. We leave it as an exercise to reader to show that this $\ol{X}$ is right-continuous. (This will be used in the proof of \cref{lem:Helly-pre}, when constructing a right-continuous candidate for a distribution function.)
 
-We will generalize this result later.
+We will generalize this result later. Generalization of \cref{thm:cdf-unif-identification}
+\begin{thm}[{\cite[Exercise~8.3.4]{Cohn_2013}}]
+    
+\end{thm}
 
 Let $X\colon (\Omega,\F)\to (S,\mathcal S)$ have distribution $\mu$, and the codomain $(S,\mathcal S)$ has a natural underlying measure $\rho$ with $\mu \ll \rho$. The \df[probability density function@(probability) density function]{(probability) density function} (p.d.f.)\footnote{or \emph{frequency function}} of the random variable $X$ is Radon--Nikodym derivative $d\mu/d\rho$ of the probability distribution with respect to this underlying measure for the image space.
 
 Specifically, when $X$ is a discrete random variable, then the counting measure is a natural measure for $(S,\mathcal S)$, and obviously $\mu \ll \mathrm{count}$. Hence $d\mu/d(\mathrm{count})\colon x \mapsto \mu\{x\}$ is the density function, which is also called the \df{probability mass function} (p.m.f.)\footnote{to emphasize we are in the discrete setting}.
 
-On the other hand, recall \cref{fact:restrict-meausre-restrict-space}. Given a random variable $X$, if the codomain $S$ is a Borel subset of $\R$ and $\mathcal S = \B|_S$, and in addition $\mu \ll m|_S$, then $d\mu/d(m|_S)$ is the density function. We call such $X$ a \df{continuous random variable}\footnote{The term ``continuous'' here refers to absolute continuity, and does not indicate that the density function is continuous}. Note in this continuous case the density function is a.e.\ defined, but in the discrete case the density (p.m.f.)\ is exact. Later on when discussing continuous random variables, we usually only write out the case $(S,\mathcal{S}) = (\R,\B)$ for brevity, since the density function $d\mu / d(m|_S)$ defined on $S$ can naturally be extended to the entire $\R$.
+On the other hand, recall \cref{fact:restrict-meausre-restrict-space}. Given a random variable $X$, if the codomain $S$ is a Borel subset of $\R^d$ and $\mathcal S = \B^d|_S$, and in addition $\mu \ll m|_S$, then $d\mu/d(m|_S)$ is the density function. We call such $X$ a \df{continuous random variable}\footnote{The term ``continuous'' here refers to the absolute continuity of the distribution function, and does not require that the density function must be continuous.}. Note in this continuous case the density function is a.e.\ defined, but in the discrete case the density (p.m.f.)\ is exact. Later on when discussing continuous random variables, we usually only write out the case $(S,\mathcal{S}) = (\R,\B)$ for brevity, since the density function $d\mu / d(m|_S)$ defined on $S$ can be naturally extended to the entire $\R$.
 
-The definition of density function for a continuous random vector is the same as above, with the Lebesgue measure replaced by the product Lebesgue measure. Also notice that the product of counting measures on marginal spaces is the counting measure on the product space, so we do not need to make a separate note for p.m.f.\ when $(S,\mathcal S)$ is a product of discrete spaces. In contrast to distribution functions which are only nice to work with in dimension $1$, density functions is defined for general random vectors, as long as $\mu \ll m$.
+The definition of density function for a continuous random vector is the same as above, with the Lebesgue measure replaced by the product Lebesgue measure. Also notice that the product of counting measures on marginal spaces is the counting measure on the product space, so we do not need to make a separate note for p.m.f.\ when $(S,\mathcal S)$ is a product of discrete spaces. In contrast to distribution functions which are only nice to work with in dimension $1$, density functions is defined for general random vectors in $\R^d$, as long as $\mu \ll m$.
 
-We can define the class of distributions with densities solely in terms of their density functions. When the distribution of $X$ is discrete, it is clear that we can specify the distribution using a \df{probability mass function} (on its own), i.e., a function $p\colon X(\Omega) \to [0,1]$ such that \[\sum_{x\in X(\Omega)} p(x) = 1.\] When the distribution of $X$ is continuous, then a nonnegative Borel measurable function $f$ satisfying \[
+We can define the class of distributions with densities solely in terms of their density functions. When the desired distribution of $X$ is discrete, it is clear that we can specify this distribution using a \df{probability mass function} (on its own), i.e., a function $p\colon X(\Omega) \to [0,1]$ such that \[\sum_{x\in X(\Omega)} p(x) = 1.\] When the desired distribution of $X$ is continuous, then a nonnegative Borel measurable function $f$ satisfying \[
     \int_\R f(x)\,dx = 1,
-\] called a \df[probability density function@(probability) density function]{(probability) density function} (on its own) specifies the distribution. In summary, probability mass and density functions let us generate discrete and continuous random variables.
+\] called a \df[probability density function@(probability) density function]{(probability) density function} (on its own) will specify the distribution. In summary, probability mass and density functions let us generate discrete and continuous random variables.
 
 
 \section{Moments, independence, and joint distributions} \label{sec:moment-indep-joint}
@@ -139,8 +145,12 @@ It should be clear that $X =_d Y$ (on possibly different probability spaces), th
 \end{namedthm}
     
 \begin{namedthm}[Lyapunov's inequality]
-For $1 \leq p \leq q <\infty $, we have $(\E\abs{X}^p)^{1/p} \leq (\E \abs{X}^q)^{1/q}$. It follows that \[L^1 \supseteq L^2 \supseteq \dotsb \supseteq L^\infty.\]
+For $1 \leq p \leq q <\infty $, we have $(\E\abs{X}^p)^{1/p} \leq (\E \abs{X}^q)^{1/q}$.
+
+It follows directly that \[L^1 \supseteq L^2 \supseteq \dotsb \supseteq L^\infty.\]
 \end{namedthm}
+
+However, $L^\infty \neq \bigcap_{p=1}^\infty L^p$. The Gaussian measure is the counterexample.
 
 \subsection{Independence, a new measure-theoretic notion}
 
@@ -173,7 +183,7 @@ Given $(\Omega,\F,P)$, and let $X$ and $Y$ be two random variables taking values
 
 The definition of joint distributions can obviously be generalized to any finite and countably infinite number of random variables, by our previous discussions on product measure spaces.
 
-\begin{thm}[(Independence characterizations)] \label{thm:indep-char}
+\begin{thm}[(independence characterizations)] \label{thm:indep-char}
     For two random variables $X$ and $Y$ taking values in $(S_1,\mathcal S_1)$ and $(S_2,\mathcal S_2)$ respectively, the following are equivalent characterization that $X$ and $Y$ are independent (which we sometimes denote by $X \perp Y$).
     \begin{enumerate}
         \item $P(X\in A_1)P(Y \in A_2) = P(X \in A_1, Y\in A_2)$ for all $B_1\in \mathcal S_1$ and $B_2\in \mathcal S_2$;
@@ -193,7 +203,7 @@ The definition of joint distributions can obviously be generalized to any finite
     A real-valued random variable $X$ independent of itself must take a constant value a.s.
 \end{prop}
 
-In special the case when $X \in L^2$ we have a simple proof: by part~\ref{enu:indep-check-via-L2} above we have $\E X^2 = (\E X)^2$, which implies $\Var(X) = 0$, i.e, $X = \E X$ a.s. The general case requires a bit more care.
+If we know $X \in L^2$, then the result is immediate: by part~\ref{enu:indep-check-via-L2} above we have $\E X^2 = (\E X)^2$, which implies $\Var(X) = 0$, i.e, $X = \E X$ a.s. But there is no need to make the $L^2$ assumption.
 
 \begin{proof}
     For any $A\in \mathcal B$, we have \[
@@ -204,11 +214,13 @@ In special the case when $X \in L^2$ we have a simple proof: by part~\ref{enu:in
     \begin{quote}
         a $\{0,1\}$-valued Borel probability measure $\mu$ on a separable metric space $S$ must be a point mass.\footnote{Hence the ``real-valued random variable $X$'' in the proposition statement may be replaced by ``random variable $X$ taking values in a separable metric space''.}
     \end{quote}
-    We know every open cover has a countable subcover in $S$ (this is \cref{prop:2nd-count-separable-lindlof}). Fix $\epsilon >0$ and consider the $\epsilon$-balls $B(x;\epsilon)$ around each $x\in S$. Now there exists a countable subcollection $\{B(x_j;\epsilon)\}_{j=1}^m$ that covers $S$, and this implies there exists one unique $j\in [m]$ such that $\mu\bigl(B(x_j;\epsilon)\bigr) = 1$. We call this ball $B_\epsilon$.
+    We know every open cover has a countable subcover in $S$ (this is \cref{prop:2nd-count-separable-lindlof}). Fix $\epsilon >0$ and consider the $\epsilon$-balls $B(x;\epsilon)$ around each $x\in S$. Now we can choose a countable subcollection $\{B(x_j;\epsilon)\}_{j=1}^\infty$ that covers $S$, and this implies there exists one unique $j\in \N$ such that $\mu\bigl(B(x_j;\epsilon)\bigr) = 1$. We call this ball $B_\epsilon$.
 
     The intersection of any two such balls $B_{\epsilon_1}\cap B_{\epsilon_2}$ must have measure $1$. This is because if it has measure $0$, then $B_{\epsilon_1} - B_{\epsilon_2}$ and $B_{\epsilon_2} - B_{\epsilon_1}$ both have measure $1$ despite being disjoint. Let $\epsilon_n = 1/n$, and it follows that \[
         \mu\biggl(\bigcap_{n=1}^\infty B_{1/n}\biggr) = \lim_{k\to \infty} \mu\biggl(\bigcap_{n=1}^k B_{1/n}\biggr) = 1.
-    \] Since $B\coloneqq \cap_{n} B_{1/n}$ has diameter $0$, $B$ is a singleton set of measure $1$.
+    \] Since $B\coloneqq \bigcap_{n} B_{1/n}$ has diameter $0$, $B$ is a singleton set of measure $1$.
+
+    One has to be amazed that for any choice of countable subcover of open balls above, the end product is always \emph{the} unique singleton set. (When $S = \R^d$ we can let these balls be $2^{-n}$-cubes, whose countable disjoint union is the entire space.)
 \end{proof}
 
 As a consequence of Fubini--Tonelli, for Borel measurable $g\colon S_1\times S_2 \to \R$ such that $g \geq 0$ or $\E \abs{g(X,Y)} < \infty$, we have \begin{align*}
@@ -267,23 +279,30 @@ The \df[tail sigma-field@tail $\sigma$-field]{tail $\sigma$-field} of a sequence
     \mathcal{T} = \bigcap_{n=1}^\infty \sigma(X_n,X_{n+1},\dotsc).
 \]
 
+Let $\pi\colon \N \to \N$ be a map such that $\pi(n) = n$ for all $n$ larger than some finite $M$, which means that $\pi$ only permutes finitely many indices. We call such a map a finite permutation of $\N$.
+
+$\omega = (\omega_1,\omega_2,\dotsc)$, $\omega_j = X_j(\omega)$, the random variables $X_j$ works as projection maps, and we have identified random variables with the coordinates of the samples (in our constructed product space).
+
+An event is \df{permutable} if $\pi^{-1}A = \pi\{\omega:\pi \omega \in A\}$ for all finite permutations, which means exactly that an event remains invariant when we exchange the order of finitely many random variables.
+
 \begin{namedthm}[Kolmogorov zero--one law] \label{thm:K-01-law}
-    Let $X_1,X_2,\dotsc$ be a sequence of independent random variables, then any event in its tail $\sigma$-field has probability $0$ or $1$.
+    Let $X_1,X_2,\dotsc$ be a sequence of independent random variables, then any event in its tail $\sigma$-field $\mathcal T$ has probability $0$ or $1$.
 \end{namedthm}
 
 \begin{namedthm}[Hewitt--Savage zero--one law] \label{thm:HS-01-law}
-    
+    Let $X_1,X_2,\dotsc$ be a sequence of i.i.d.\ random variables, then any event in its exchangeable $\sigma$-field $\mathcal E$ has probability $0$ or $1$.
 \end{namedthm}
+
+% p264 Klenke
+
+exchangeable family of random variables
+
+\begin{prop}
+    
+\end{prop}
 
 \section{Basic concentration and deviation inequalities}
-\begin{namedthm}[Generalized Markov's inequality]
-    Let $\phi\colon \R \to [0,\infty)$ be increasing. Then for any random variable $X$, and any $a\in \R$ with $\phi(a)\neq 0$, we have \[
-        P(X \geq a) \leq \frac{1}{\phi(a)}\E \phi(X).
-    \]
-\end{namedthm}
-
-In probability theory it is often useful to take this $\phi$ to be the exponential function, so that we can get exponentially decaying tail probability. There is a general technique called \emph{Chernoff's method}, where you set $\phi(x) = \exp(\lambda x)$, and in the end you aim to minimize \[\frac{1}{\exp(\lambda x)}\E \exp(\lambda X) \] over all $\lambda \in \R$. Many concentration inequalities are derived in this fashion.
-
+We begin with the vanilla Markov's inequality that imposes minimal assumptions on the distribution of the random variable $X$ considered.
 \begin{namedthm}[Markov's inequality] \label{thm:Markov-ineq-prob}
     Let $0< p < \infty$. For any $a > 0$, we have \[
         P(\abs X \geq a) \leq \frac{1}{a^p} \E(\abs X^p).
@@ -293,6 +312,26 @@ In probability theory it is often useful to take this $\phi$ to be the exponenti
         P(X \geq a) \leq \frac{\E X}{a}.
     \]
 \end{namedthm}
+
+These are just special cases of the following specialized version.
+
+\begin{namedthm}[Generalized Markov's inequality]
+    Let $\phi\colon \R \to [0,\infty)$ be increasing. Then for any random variable $X$, and any $a\in \R$ with $\phi(a)\neq 0$, we have \[
+        P(X \geq a) \leq \frac{1}{\phi(a)}\E \phi(X).
+    \]
+\end{namedthm}
+
+In probability theory it is often useful to take this $\phi$ to be an exponential function. If we assume $\E \exp(X) < \infty$, we get tail probabilities that are exponentially decreasing in $a$. In fact, the derivation of many concentration inequalities depends in general on a technique called \emph{Chernoff method}, where you set $\phi(x) = \exp(\lambda x)$, and in the end you aim to minimize \[\frac{1}{\exp(\lambda a)}\E \exp(\lambda X) \] over all $\lambda \in \R^{>0}$ (so that $\phi$ is increasing).
+
+Unfortunately $\E \exp(\lambda X)$ can be infinite, in particular for $X$ with heavy-tailed distributions. For random variables with tails thinner than exponential or Gaussian random variables, the Chernoff method provides us valuable insights. Such random variables are known as \df[subexponential random variable]{subexponential} and \df[subguassian random variable]{sugaussian random variables}, and with information about its tail behavior, or equivalently, $\E \exp(\lambda X)$, we can derive much better concentration bounds than the vanilla \nameref{thm:Markov-ineq-prob} (and its consequences). See \cite{Vershynin_2018} and \cite{Handel2014HDP} for the study of these concentration results, and their applications.
+
+The exponential and Gaussian random variables represent the two canonical tail behavior of a random variable. To get this idea, we will let the reader verify that $\E \exp(\lambda X) = \frac{\rho}{\rho - \lambda}$ for $X \sim \Exp(\rho)$ and $\lambda < \rho$; and also $\E\exp(\lambda Y) = \exp(\lambda^2 / 2)$ for $Y \sim N(0,1)$.
+
+The transform $\E\exp(\lambda X)$ of the random variable $X$ is called the \df{moment generating function} of $X$, denoted by $M_X(\lambda)$. Apart from its significance in proving concentration bounds, it also recovers the distribution of $X$, which we will study later. We will also see that under suitable conditions for $\lambda$, if $M_X(\lambda) < \infty$, then $X \in L^p$ for all $p \in [1,\infty)$. This is expected by considering the Taylor expansion of the exponential function. 
+
+Going back to vanilla \nameref{thm:Markov-ineq-prob}, we have the moment bound \[
+    P(\abs X \geq a) \leq \inf_{p\in \N} \frac{1}{a^p} \E(\abs X^p),
+\] which is in fact always as least as good as the Chernoff bound. However, the optimization over $p\in \N$ (or $p \in \R$) is hard to materialize.
 
 \begin{namedthm}[Chebyshev's inequality] \label{thm:Chebyshev-ineq}
     For $X$ with $\E X^2 < \infty$, we have for all $t > 0$ that \[
@@ -320,18 +359,92 @@ In probability theory it is often useful to take this $\phi$ to be the exponenti
 
 We remark \nameref{thm:Markov-ineq-prob} and \nameref{thm:PZ-ineq} are related respectively to the \emph{first} and the \emph{second moment method} in probabilistic combinatorics; see \cite[Chapter~2]{Roch_2024}.
 
+
+
+\begin{namedthm}[Hoeffding's inequality] \label{thm:Hoeffding-ineq}
+    Suppose $X_{1},\ldots,X_{n}$ are independent,
+    where $X_{k}$ is almost surely contained in $[a_{k},b_{k}]$ with
+    means $\mu_{k}$ for all $k\in[n]$. Then for any $t\geq0$, we have
+    \[
+        P\biggl(\sum_{k=1}^{n}(X_{k}-\mu_{k})\geq t\biggr)\leq\exp\biggl(-\frac{2t^{2}}{\sum_{k=1}^{n}(b_{k}-a_{k})^{2}}\biggr).
+    \]
+\end{namedthm}
+
+Judging by the look of the above inequality, it is clear that we need the Chernoff method for a proof. An additional ingredient is the following well-known lemma, which is surprisingly hard to establish.
+
+\begin{namedthm}[Hoeffding's lemma] \label{lem:Hoeffding}
+    For a mean zero random variable $Y$ that is a.s.\ bounded within $[a,b]$, we have \begin{equation}\label{eq:hoeffding-lem}
+        M_Y(\lambda) = \E\exp(\lambda Y) = \exp\biggl(\frac{\lambda^2 (b - a)^2}{8}\biggr)
+    \end{equation}
+\end{namedthm}
+\begin{proof}
+Since $e^{\lambda x}$ is convex, we have for $x \in [a,b]$ \[
+e^{\lambda x} \leq \frac{b-x}{b-a}e^{\lambda a} + \frac{x-a}{b-a}e^{\lambda b}.
+\]
+Taking expectation on both sides, and we have \begin{equation}
+\E \exp(\lambda Y) \leq \frac{b}{b-a} e^{\lambda a} - \frac{a}{b-a} e^{\lambda b} = e^{L(\lambda(b-a))}, \label{eq:conv-bd-mgf}
+\end{equation}
+where for all $h \in \R$, $L(h) = - \gamma h + \log(1 - \gamma + \gamma e^h)$, with $\gamma = -\frac{a}{b - a} > 0$ (so that the log is well-defined).
+
+Notice that $L(0) = 0$, and $L'(0) = -\gamma + \frac{\gamma e^h}{1 - \gamma + \gamma e^h}\big\vert_{h = 0} = 0$. \begin{align*}
+L''(h) & = \biggl(\frac{\gamma e^h}{1 - \gamma + \gamma e^h}\biggr)' \\
+& = \frac{\gamma e^h}{1 - \gamma + \gamma e^h} - \frac{\gamma^2 e^{2h}}{(1 - \gamma + \gamma e^h)^2} \\
+& = t - t^2 \leq 1/4\quad \text{for any }t\in \R, 
+\end{align*}
+where we let $t = \frac{\gamma e^h}{1 - \gamma + \gamma e^h}$. Now we appeal to Taylor's theorem: for $h \neq 0$, there exists a $\xi$ between $h$ and 0 such that \[L(h) = 0 + 0\cdot h + \frac{L''(\xi)}{2} \cdot h^2 \leq \frac{1}{8} h^2.\] Now let $h = \lambda(b-a)$ and plug it back into \eqref{eq:conv-bd-mgf}, and we have shown \eqref{eq:hoeffding-lem}.    
+\end{proof}
+
+At the moment, proving \nameref{thm:Hoeffding-ineq} rigorously is left as an exercise to the reader. In fact, later when studying martingales, we will prove a renowned generalization known as \nameref{thm:Azuma-Hoeffding}, and the above inequality will become a trivial special case.\footnote{Hence one may extract a proof of the above inequality from there.}
+
+tight consider any binary random variables, with probabilities $1/2$
+
+
+
 \section{Miscellaneous but crucial facts and tools}
 \begin{defn}
     Fix the dimension $d$. The \df{standard Gaussian measure} on $\R^d$ is the measure $\gamma\colon \B(\R^d) \to [0,\infty]$ given by \[
-        \gamma(A) = \frac{1}{\bigl(\sqrt{2\pi}\bigr)^d} \int_A \exp\bigl(\nm{x}^2_2/2\bigr)\,dx.
+        \gamma(A) = \frac{1}{\bigl(\sqrt{2\pi}\bigr)^d} \int_A \exp\bigl(\nm{x}^2_2 \big/ 2\bigr)\,dx.
     \]
 \end{defn}
 
-It is quite clear that $m$ and $\gamma$ are equivalent measures, since $\exp(\blank)$ is nonnegative.
+It is quite clear that $m$ and $\gamma$ are equivalent measures, since $\exp(\blank)$ is nonnegative. In fact, this crucial fact allows us to prove some deterministic facts in analysis, e.g., the space of all $n$-by-$n$ matrix, when embedded into $\R^{n^2}$, is a.e.\ invertible.
+
+\begin{fact}
+    For $Z \sim N(0,1)$, we have \[
+        \E[Z f(Z)] = \E f'(Z),
+    \] when the expectations on the two sides are defined.
+\end{fact}
+
+\begin{prop}[{\cite[Proposition~2.1.2]{Vershynin_2018}}\ {\cite[Lemma~12.9]{Morters_Peres_2010}}]
+    For $Z \sim N(0,1)$, we have the following tail estimate: for any $t > 0$, it holds that \[
+        \frac{t}{t^2+1} \frac{1}{\sqrt{2\pi }} \exp(-t^2 / 2) \leq P(X \geq t) \leq \frac{1}{t} \frac{1}{\sqrt{2\pi }} \exp(-t^2 / 2).
+    \]
+\end{prop}
+
+Let $Z \sim N(0,1)$, then in general for all $k \in \N$, \[
+    \E Z^{2k - 1} = 0\quad \text{and}\quad \E Z^{2k} = \frac{(2k)!}{2^k k!}.
+\]
+
+\begin{prop}
+For a sequence of normal random variables $Z_n \sim N(\mu_n, \sigma_n^2)$. Suppose $Z_n \wkconv Z$, then $Z \sim N(\lim_n \mu_n, \lim_n \sigma_n^2)$.
+
+If $Z_n \to Z$ in probability (so they live in the same probability space), then $Z_n \to Z$ in $L^p$ for all $p$.
+\end{prop}
+
+\begin{proof}
+    
+\end{proof}
+
 
 Bogachev Theorem 1.4.3.
 
 The coordinates of a normal random vector are independent if and only if they are uncorrelated.
+
+Gaussian measures are orthogonally invariant. However, it is not translation invariant.
+
+\begin{namedthm}[Gaussian isoperimetric inequality]
+    
+\end{namedthm}
 
 We now restate \nameref{thm:BorelCantelli-meas-th}.
 
@@ -345,7 +458,7 @@ In probability this theorem is typically applied to show the a.s.\ convergence o
     \{\omega: X_n(\omega) \to X(\omega)\} = \bigcap_{\epsilon >0}\{\omega \in \Omega: \abs{X_n(\omega) - X(\omega)} < \epsilon\text{ ev.}\}.
 \] Therefore $X_n \to X$ a.s. is equivalent to \[
     \forall\,\epsilon >0, P\bigl(\abs{X_n(\omega) - X(\omega)} \geq \epsilon\text{ i.o.}\bigr) = 0.
-\] (This is true for infinite measure space as well.) Equivalently, since we are in a probability space, $X_n \to X$ a.s. is the same as saying \[
+\] (This is true for infinite measure space as well, and hence provides a characterization of a.e.\ convergence.) Equivalently, since we are in a probability space, $X_n \to X$ a.s. is the same as saying \[
     \forall\,\epsilon >0, P\bigl(\abs{X_n(\omega) - X(\omega)} < \epsilon\text{ ev.}\bigr) = 1.
 \]
 
@@ -362,3 +475,70 @@ The proof is much easier if we assume that the events are independent.
 \end{proof}
 
 non-measurable set of the coin-tossing space
+
+uniform measure on the sphere
+
+
+The following elementary inequality is widely useful in research, but not often discussed in the textbooks. The proof uses the very important technique of introducing an independent copy of a given random variable. It is truly magical that an exogenous random variable that does not appear in the problem statement itself can make such a difference to a problem. 
+\begin{namedthm}[Harris' inequality] \footnote{also known as Fortuin--Kasteleyn--Ginibre (FKG) inequality}
+    Given a random variable $X$ taking values on some totally ordered set $S$, and increasing functions $f$ and $g$ such that $f(X)$ and $g(X)$ are $L^2$ (or nonnegative), we have \[
+        \E f(X)\cdot \E g(X)\leq \E[f(X)g(X)].
+    \]
+
+    More generally, the above inequality still holds if $X = (X_1,\dotsc,X_n)$ takes value on a product space $S_1\times \dotsb \times S_n$ and has independent components, and $f$ and $g$ are increasing in each component.
+\end{namedthm}
+
+
+\begin{proof}
+Let $Y$ be an independent copy of $X$. Consider the expectation 
+\begin{align}
+    &\phantom{{}={}}\E\bigl\{ [f(X) - f(Y)]\cdot [g(X) - g(Y)]\bigr\}\nonumber \\ 
+    & = \E[f(X)g(X)] - \E [f(Y) g(X)] - \E [f(X) g(Y)] + \E[f(Y)g(Y)]\nonumber \\ 
+    & = 2 \E[f(X)g(X)] - 2 \E f(X) \cdot \E g(Y), \label{eq:expansion-FKG}
+\end{align}
+where we have used \( f(X) \perp g(Y) \) and \( f(Y) \perp g(X) \).
+
+For any outcome \( \omega \in \Omega \), if \( X(\omega) \geq Y(\omega) \), then by monotonicity of \( f \) and \( g \) we have 
+\[
+f(X) - f(Y) \geq 0 \quad \text{and} \quad g(X) - g(Y) \geq 0,
+\]
+which implies that 
+\[
+[f(X) - f(Y)]\cdot [g(X) - g(Y)] \geq 0.
+\]
+The above inequality also holds when \( X(\omega) < Y(\omega) \). Therefore
+\[
+\E\bigl\{ [f(X) - f(Y)] \cdot [g(X) - g(Y)] \bigr\} \geq 0.
+\]
+The desired inequality then follows by using \eqref{eq:expansion-FKG}.
+
+If suffices to only consider the case where $X = (X_1,X_2)$, since the rest can be done by induction. 
+
+Say $X_1$ takes value in $S_1$ with distribution $\mu_1$. Define $f_1(x_1) = \E f(x_1,X_2)$ and $g_1(x_1) = \E g(x_1,X_2)$. It is clear that $f_1$ and $g_1$ should be increasing. Note that by the \nameref{thm:Fubini-Tonelli}, we have \[
+    \E f(X)\cdot \E g(X) = \E f_1(X_1)\cdot \E g_1(X_1)
+\] and \[
+    \E[f(X)g(X)] = \int_{S_1} \E [f(x_1,X_2) g(x_1,X_2)]\,d\mu_1(x_1).
+\] By the 1-dimensional case, since $f$ is increasing in the second coordinate, we know \begin{align*}
+    \E [f(x_1,X_2) g(x_1,X_2)] & \geq \E f(x_1,X_2)\cdot\E g(x_1,X_2) \\ 
+    & = f_1(x_1)  g_1(x_1),
+\end{align*} and therefore \begin{align*}
+    \E[f(X)g(X)] & \geq \int_{S_1} f_1(x_1)  g_1(x_1)\,d\mu_1(x_1) \\
+    & = \E [f_1(X_1)g_1(X_1)]\\
+    & \geq \E f_1(X_1) \cdot \E g_1(X_1) \\
+    & = \E[f(X)g(X)].
+\end{align*}
+Here we used the 1-dimensional case again in the second-to-last line.
+\end{proof}
+
+symmetrization technique 
+% Given a real random variable $X$, we say $m$ is a median of $X$ if $P(X \geq m) \geq 1/2$ and $P(X \leq m) \geq 1/2$. A real random variable $Y$ is a symmetrization of $X$ if $Y \eqD X - X'$, where $X'$ is an independent copy of $X$.
+
+% \begin{lem}[{\cite[Lemma~5.19]{Kallenberg_2021}}]
+%     Given $X$ and its symmetrization $Y$, we have \[
+%         \tfrac{1}{2} P(\abs{X - m} > t) \leq P(\abs{})
+%     \]
+% \end{lem}
+
+replace $X$ by $X - X'$
+
+replace $X$ by $\varepsilon X$

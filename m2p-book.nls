@@ -1,0 +1,37 @@
+
+\begin{thenomenclature} 
+\nomgroup{A}
+  \item [{$\bmax$}]\begingroup maximum of two\nomeqref {0.0}\nompageref{1}
+  \item [{$\bmin$}]\begingroup minimum of two\nomeqref {0.0}\nompageref{1}
+  \item [{$\wp$}]\begingroup power set\nomeqref {0.0}\nompageref{1}
+  \item [{$B(x;r)$}]\begingroup the ball centered at $x$ with radius $r$\nomeqref {0.0}\nompageref{1}
+  \item [{$S(x;r)$}]\begingroup the sphere centered at $x$ with radius $r$\nomeqref {0.0}\nompageref{1}
+\nomgroup{F}
+  \item [{$\inp{\blank}{\blank}$}]\begingroup inner product, or dual pairing\nomeqref {0.0}\nompageref{1}
+  \item [{$\nm{\blank}$}]\begingroup norm\nomeqref {0.0}\nompageref{1}
+  \item [{$\nm{\blank}_u$}]\begingroup uniform/supremum norm\nomeqref {0.0}\nompageref{1}
+  \item [{$\nm{\blank}_{p}$}]\begingroup $\ell^p$/$L^p$ norm\nomeqref {0.0}\nompageref{1}
+  \item [{$C_0$}]\begingroup space of continuous functions that vanishes at infinity\nomeqref {0.0}\nompageref{1}
+  \item [{$C_b$}]\begingroup space of bounded continuous functions\nomeqref {0.0}\nompageref{1}
+  \item [{$C_c$}]\begingroup space of continuous functions with compact supports\nomeqref {0.0}\nompageref{1}
+  \item [{$L^p$}]\begingroup $L^p$ space\nomeqref {0.0}\nompageref{1}
+\nomgroup{M}
+  \item [{$\A$}]\begingroup a general $\sigma$-algebra\nomeqref {0.0}\nompageref{1}
+  \item [{$\B$}]\begingroup Borel $\sigma$-algebra\nomeqref {0.0}\nompageref{1}
+  \item [{$\bigotimes$}]\begingroup product $\sigma$-algebra\nomeqref {0.0}\nompageref{1}
+  \item [{$\M$}]\begingroup space of signed/complex Borel measures\nomeqref {0.0}\nompageref{1}
+  \item [{$\M_r$}]\begingroup space of signed/complex Radon measures\nomeqref {0.0}\nompageref{1}
+  \item [{$\mathcal{L}$}]\begingroup Lebesgue $\sigma$-algebra\nomeqref {0.0}\nompageref{1}
+  \item [{$\mu$}]\begingroup a general measure, or a probability distribution\nomeqref {0.0}\nompageref{1}
+  \item [{$m$}]\begingroup Lebesgue measure on $\R^d$\nomeqref {0.0}\nompageref{1}
+\nomgroup{P}
+  \item [{$\bE_\mu$}]\begingroup expectation on the canonical space for stochastic processes, with initial distribution $\mu$\nomeqref {0.0}\nompageref{1}
+  \item [{$\bP_\mu$}]\begingroup probability measure on the canonical space for stochastic processes, with initial distribution $\mu$\nomeqref {0.0}\nompageref{1}
+  \item [{$\E$}]\begingroup expected value\nomeqref {0.0}\nompageref{1}
+  \item [{$\F$}]\begingroup a general $\sigma$-field, or a collection of functions\nomeqref {0.0}\nompageref{1}
+  \item [{$\mathcal{P}$}]\begingroup space of (Borel) probability measures\nomeqref {0.0}\nompageref{1}
+  \item [{$\mathcal{P}_p$}]\begingroup Wasserstein $p$-space of probability measures\nomeqref {0.0}\nompageref{1}
+  \item [{$\tv(\blank,\blank)$}]\begingroup total variation distance between two probability measures\nomeqref {0.0}\nompageref{1}
+  \item [{$P$}]\begingroup probability measure\nomeqref {0.0}\nompageref{1}
+
+\end{thenomenclature}

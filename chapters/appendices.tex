@@ -7,8 +7,12 @@
 \makeatother
 
 \section{Helpful results from analysis and topology} \label{sec:helpful-analysis}
+\begin{fact} \label{fact:cont-metric}
+    The metric function $\rho\colon X\times X\to [0,\infty)$ on the space $X$ is continuous.
+\end{fact}
+
 \begin{prop} \label{prop:subseq-further-subseq-top-space}
-    In a given topological space $X$, a sequence $\{x_n\}$ converges to $x$ if and only if every subsequence of $x_n$ has a further subsequence that converges to $x$.
+    In a given (Hausdorff)\footnote{to ensure that the sequential limit must be unique; actually not necessary for this proposition} topological space $X$, a sequence $\{x_n\}$ converges to $x$ if and only if every subsequence of $x_n$ has a further subsequence that converges to $x$.
 \end{prop}
 \begin{proof}
     The only if direction is obvious. To prove the if direction, suppose $x_n \not\to x$ under the assumption. Let $n_0 = 1$. There is some (open) neighborhood $U$ of $x$ such that for every $k\in \N$, we can find a smallest $n_k \geq n_{k-1}$ such that $x_{n_k} \notin U$. However, this implies that the subsequence $\{x_{n_k}\}$ of $\{x_n\}$ does not have a subsequence that converges to $x$, which contradicts the assumption.
@@ -20,9 +24,15 @@
 
 % The proof is obvious, but using the triangular inequality of limit superior sometimes give cleaner arguments.
 
-\begin{prop}[(sequential criterion for limits and continuity)]
-    
-\end{prop}
+\begin{thm}[{\cite[Theorem~30.1]{Munkres_2000}}] \label{thm:seq-cont-1st-countable}
+    Let $X$ be a topological space, and $A$ be a subset. If some $\{x_n\} \subseteq A$ converges to $x\in X$, then $x \in \clos{A}$. The converse is true when $X$ is first countable.
+
+    Now let $f \colon X \to Y$. If function $f$ is continuous, then for all sequences $x_n \to x$, we have $f(x_n) \to f(x)$. The converse is true when $X$ is first countable.
+\end{thm}
+
+\begin{fact}
+    Every real sequence has a monotonic subsequence.
+\end{fact}
 
 \begin{prop} \label{prop:discont-countable}
     For an increasing function $f\colon \R\to \R$, the set of discontinuities is countable.
@@ -32,6 +42,13 @@
     Given a set $A$ in a metric space $(X,d)$, the function $d(\blank,A)\colon X \to [0,\infty)$ given by \[
         d(x,A) = \inf\{d(x,y) : y\in A\}
     \] is a continuous function. Also $d(x,A) = 0$ if and only if $x \in \ol{A}$.
+\end{prop}
+
+\begin{prop} \leavevmode
+\begin{enumerate}
+    \item Closed subspace of a complete metric space is complete.
+    \item Complete subspace of any metric space must be closed.
+\end{enumerate}
 \end{prop}
 
 \begin{namedthm}[Abel's theorem]
@@ -56,8 +73,8 @@
 
 Note that $A$ is dense in $B$ means that $\clos{A} \supseteq B$.
 
-\begin{namedthm}[Urysohn's lemma]
-    Let $X$ be normal. If $A$ and $B$ are two disjoint closed sets in $X$, then there exists a continuous function $f\colon X \to [0,1]$ such that $f(A)=\{0\}$ and $f(B) = \{1\}$.
+\begin{namedthm}[Urysohn's lemma] \label{thm:Urysohn}
+    Let $X$ be normal. If $A$ and $B$ are two disjoint closed sets in $X$, then there exists a continuous function $f\colon X \to [0,1]$ such that $f(B) = \{1\}$ and $f(A)=\{0\}$.
 \end{namedthm}
 
 If $X$ is a metric space (which is necessarily normal), then this is easy. We may just take \[f(x) = \frac{d(x,A)}{d(x,A) + d(x,B)}.\]
@@ -68,7 +85,7 @@ Here is a sketch of the standard proof of this important result in topology. Bas
 One can show that the function $f\colon X\to [0,1]$ given by \[
     f(x) = \begin{cases}
         \inf\{r : x\in U_r\} & \text{if the set is nonempty}, \\
-        1 & \text{otherwise}.
+        1 & \text{otherwise}
     \end{cases}
 \] is continuous.
 
@@ -84,6 +101,15 @@ The use of \textsf{DC} can be avoided when $X$ is second countable and regular, 
 
 In particular, every lcscH space is metrizable.
 
+\cite[Theorem~4/16, Corollary~4.17]{folland1999}
+\begin{namedthm}[Tietze extension theorem]
+    Let $X$ be normal and $A \subseteq X$ be closed. For $f \in C(A)$, we can extend it to $F \in C(X)$ with $F\vert_A = f$.
+\end{namedthm}
+
+application of \nameref{thm:Urysohn}
+
+in the case $X = \R$, a particular simple proof can be obtained as follows. The complement of $A$ is a countable union of open intervals, and by continuously connecting all the endpoints of these intervals we may extend $f$ to a continuous function on the real line.
+
 \begin{prop} \label{prop:2nd-count-separable-lindlof} \leavevmode
     \begin{enumerate}
         \item A second countable space is separable; the converse is also true when we are in a metric space.
@@ -97,17 +123,22 @@ A subspace of a Lindelöf space is not necessarily Lindelöf. Therefore it is so
     A second countable space is hereditary Lindelöf, since any subspace of a second countable space is second countable.
 \end{fact}
 
+\begin{fact}
+    Closure of separable space is separable.
+\end{fact}
+
 % \begin{prop} Bogachev 1.2.13
 %     Every collection of open sets in a separable metric space contains an at most countable subcollection with the same union.
 % \end{prop}
 
 \begin{thm}[(Characterization of compactness in metric spaces)]\label{thm:char-thm-compact}
-    A subset of a metric space is compact if and only if it is sequentially compact if and only if it is totally bounded and complete.
+    A subset of a metric space is compact if and only if it is sequentially compact if and only if it is totally bounded and complete.\footnote{In the usual proof of totally bounded and complete $\implies$ compact, \textsf{DC} is used. The alternative proof that only requires \textsf{CC} is given in {\cite[Proposition~3.26]{Herrlich_2006}}.}
 \end{thm}
 
 \begin{prop} \label{prop:unique-dense-subset}
     Let $f,g\colon X \to Y$ be two continuous functions, where $X$ is a topological space and $Y$ is Hausdorff. If $f$ and $g$ agree on a dense subset of $X$, then $f = g$ on $X$.
 \end{prop}
+
 
 \begin{thm} \label{thm:ext-unif-cont-func}
     Let $X$ and $Y$ be metric spaces, with $Y$ being complete. Let $D$ be a dense subspace of $X$, and $f\colon D \to Y$ be a uniformly continuous function. Then there is a unique extension of $f$ to $F\colon X \to Y$, such that $F$ is still uniformly continuous.
@@ -126,6 +157,8 @@ A subspace of a Lindelöf space is not necessarily Lindelöf. Therefore it is so
     \] We leave it to the reader to use the uniform continuity of $F|_D$, $F(a) = \lim_n F(a_n)$, and the triangular inequality to meet the above inequality.
 \end{proof}
 
+This result is frequently used as one way to extend linear functionals $f \in D^*$ on the dense subspace $D$ to the entire normed space $X$. Notice that linearity on the dense subspace carries easily over to the whole space, and if $\nm{f} \leq C$, then $\nm{F} \leq C$, by the continuity of $F$.
+
 We emphasize $X$ and $D$ here have the same metric structure. Compare this result with the upcoming \nameref{thm:hahn-banach}.
 
 \begin{namedthm}[Uniqueness theorem] \label{thm:uniqueness-cplx}
@@ -134,7 +167,7 @@ We emphasize $X$ and $D$ here have the same metric structure. Compare this resul
 
 \begin{namedthm}[Mean value inequality for $\R^d$-valued functions {\cite[Theorem 5.19]{Rudin_principles_1976}}]
     Let $f\colon [a,b] \to \R^d$ be continuous, and $f$ be differentiable in $(a,b)$, then there exists $x \in (a,b)$ such that \[
-        \abs{f(b) - f(a)} \leq (b-a) \sup_{a< x < b} \abs{b - a}.
+        \abs{f(b) - f(a)} \leq (b-a) \sup_{a< x < b} \abs{f'(x)}.
     \]
 \end{namedthm}
 \begin{proof}
@@ -159,50 +192,135 @@ We emphasize $X$ and $D$ here have the same metric structure. Compare this resul
 \end{namedthm}
 The key part of the proof is the use of the mean value theorem on $f_n' - f_m'$. 
 
-\section{Banach spaces}
-Let $X$ and $Y$ be two normed spaces in this section.
+\begin{namedthm}[Tychonoff's theorem]
+    Arbitrary product of compact topological spaces is compact.
+\end{namedthm}
 
-\begin{exa}
-    $(C_b(X),\nm{\blank}_u)$
-    $(C_0(X),\nm{\blank}_u)$
-\end{exa}
+\begin{thm}[(Tychonoff's theorem for countable product)]
+    Countable product of compact topological spaces is compact.
+\end{thm}
 
-We use $\mathcal{L}(X,Y)$ for the space of linear maps between normed spaces $X$ and $Y$, and we denote $\mathcal L(X,\mathbf F)$ by $X^*$, called the dual space of $X$.
-\begin{prop}
-    For $T \in \mathcal{L}(X,Y)$, then $T$ is bounded if and only if it is continuous if and only if it is continuous at any point of $X$.
-\end{prop}
+Tychonoff's theorem is equivalent to the axiom of choice.
+
+See discussion in  \cite[Section~4.8]{Herrlich_2006}.
+
+for countable product of compact metric space, only CC is needed
+
+If the product is finite, then no choice is needed.
+
+\begin{xca}
+    Give a direct proof of Tychonoff's theorem for the countable product of compact metric spaces, using metrization.
+\end{xca}
+
+\begin{thm}
+    The countable product of sequentially compact spaces is sequentially compact.
+\end{thm}
+
+\section{Normed spaces}
+Let $X$ and $Y$ be normed spaces in this section.
+
+% \begin{exa}
+%     $C_b(X)$
+%     $C_0(X)$
+% $\mu(X)$
+% \end{exa}
+
+We use $\mathcal{L}(X,Y)$ for the space of linear maps between normed spaces $X$ and $Y$, and we denote $\mathcal L(X,\mathbf F)$ by $X^*$, called the dual space of $X$. Given a real vector space $(V,\leq)$, where ``$\leq$'' is a partial order that obeys vector addition and scalar multiplication: \[
+    x \leq y \implies \begin{cases}
+        x + z \leq y + z & \text{for }z \in V,\\ 
+        \lambda x \leq \lambda y & \text{for }\lambda \in \R^{\geq 0}.
+    \end{cases}
+\] We say $f \in V^*$ is a \df{positive linear functional} if $x \geq 0$ implies $f(x) \geq 0$.
 
 \begin{fact}
-    A bounded linear operator is Lipschitz continuous.
+    Let $(X,\nm{\blank})$ be a normed vector space. Then vector addition $X \times X \to X$ and scalar multiplication $\mathbf F \times X \to X$ are both continuous. Also by the reverse triangular inequality, \[
+        \bigl\vert \nm{x} - \nm{y}\bigr\vert \leq \nm{x - y},
+    \] the norm function $\nm{\blank}$ is continuous with respect the topology generated by it.
 \end{fact}
 
-\begin{namedthm}[Riesz' lemma]
-    
-\end{namedthm}
+\begin{xca} \label{xca:clos-ball-metric-Banach}
+    For a general metric space, one has $\clos{B(x;r)} \subseteq \clos{B}(x;r)$. Provide a example that shows that equality may not hold. (Hint: discrete metric.) Show that in addition that when the space is a normed vector space, then $\clos{B(x;r)} = \clos{B}(x;r)$.
+\end{xca}
+
+\begin{prop}
+    For $T \in \mathcal{L}(X,Y)$, then $T$ is bounded if and only if Lipschitz continuous if and only if it is continuous if and only if it is continuous at any point of $X$.
+\end{prop}
+
+\cref{prop:dist-set-cont}
+When $X$ is a normed space and $A$ is a subspace, then $d(\blank,A)$ is furthermore linear. Hence it is a continuous linear functional on $X$ with kernel $A$.
+
+\begin{prop}
+    A normed space $X$ is Banach if and only if for every sequence $\{x_n\} \subseteq X$ satisfying \[
+        \sum_{n}\nm{x_n} < \infty,
+    \] the series $\sum_n x_n $ converges to some element of $X$ in norm. (Every absolutely convergent series converges in the norm topology of $X$.)
+\end{prop}
+
+This alternative criterion for completeness can be useful at times.
+
+\begin{prop}\leavevmode
+    \begin{enumerate}
+        \item For a normed space $X$ and its closed proper subspace $V$, we can define a norm on the quotient space $X/V$ by \[
+        \nm{[x]}_{X / V} = \inf\{\nm{x - v} : v \in V\},
+        \] where $[x]$ is the coset $x + V$. If $X$ is Banach, then $V$ is Banach as well.
+        \item The topology induced by the quotient norm $\nm{\blank}_{X/V}$ is the same as the quotient topology on $X / V$.
+        \item (Riesz' lemma) For any $\epsilon >0$, there is some $x \in X$ with $\nm{x} = 1$ satisfying \[
+        \nm{[x]}_{X / V} \geq 1 - \epsilon.
+        \]
+    \end{enumerate}
+\end{prop}
+
+\begin{prop}
+    The closed unit ball is compact if and only if the Banach space is infinite-dimensional.
+
+    Therefore a Banach space is locally compact if and only if it is infinite-dimensional. Hence an infinite-dimensional separable Banach space is a Polish space that is not locally compact.
+\end{prop}
 
 \begin{thm}
     The closed unit ball is compact in a normed space if and only if the normed space is finite-dimensional.
 \end{thm}
 
-\begin{namedthm}[Hahn–Banach theorem] \label{thm:hahn-banach}
-    Let $X$ be a real vector space, and $p$ be a sublinear functional. 
+\begin{fact}
+    Let $Y$ be a dense subspace of a normed space $X$, then $Y^*$ and $X^*$ can be isometrically identified in a natural way since a continuous function\footnote{consider $f\in X^*$ and $\frac{\abs{f(x)}}{\nm{x}}$ in our context} is uniquely determined by its value on a dense subset.
+\end{fact}
 
-    Let $X$ be a complex vector space, and $p$ be a seminorm.
-\end{namedthm}
-
-\begin{namedthm}[Hahn–Banach theorem in \textsf{ZF}]
-    Let $X$ be a real topological vector space, and $p$ be a continuous sublinear functional. 
-\end{namedthm}
-
+% \subsection{Linear functionals and the Hahn--Banach theorems}
 \begin{prop}
     If $Y$ is complete, then $\mathcal{L}(X,Y)$ is complete. In particular the dual space of any normed space is complete.
 \end{prop}
 
-\begin{namedthm}[Uniform boundedness principle]
-    
+\begin{namedthm}[Hahn–Banach theorem] \label{thm:hahn-banach}
+    Let $X$ be a real vector space, and $p$ be a sublinear functional on $X$. Say $E$ is a vector subspace of $X$, on which we have a linear functional $f\in E^*$. If $f(x)\leq p(x)$ for all $x\in E$ ($f$ is dominated by $p$ on the subspace), then we can extend $f$ to a linear functional $F$ defined on the entire space $X$, such that $F(x)\leq p(x)$ now holds for all $x \in X$.
+
+    Let $X$ be a complex vector space, and $p$ be a seminorm\footnote{Note that seminorms are always nonnegative, in contrast to sublinear functionals. The absolute value signs that pop up later are expected.} on $X$. Say $E$ is a vector subspace of $X$, on which we have a linear functional $f\in E^*$. If $\abs{f(x)}\leq p(x)$ for all $x\in E$, then we can extend $f$ to a linear functional $F$ defined on the entire space $X$, such that $\abs{F(x)}\leq p(x)$ now holds for all $x \in X$.
 \end{namedthm}
 
-\begin{namedthm}[Open mapping theorem]
+    Let $X$ be a real separable topological vector space, and $p$ be a continuous sublinear functional, then the \nameref*{thm:hahn-banach} can be proved in \textsf{ZF} without any choice. The term \emph{topological vector space} will be clarified in \cref{sec:weak-top-tvs}, but one can probably guess what it means.
+
+    In many applications, our $p$ is automatically continuous (e.g., bounded linear functionals when $X$ is a normed space). Also note that if $p_0$ is a linear functional, then $p = \abs{p_0}$ is a seminorm, and since $p_0$ is continuous, $p$ must also be continuous. Hence with the separability topological assumption on $X$, most consequences of Hahn--Banach are retained.
+
+    The most significant consequence of the \nameref{thm:hahn-banach} is the existence of nontrivial linear functionals that satisfy certain properties.
+\begin{cor} Let $X$ be a normed space.
+    \begin{enumerate}
+        \item Let $V$ be a closed proper subspace of $X$. Take any $x \in X - V$, then there exists $f \in X^*$ such that $f(x) = \inf_{v \in V}\nm{x - v} \neq 0$, $f|_V \equiv 0$, and $\nm f = 1$.
+        \item For $x \neq 0_X$, there exists $f \in X^*$ such that and $f(x) = \nm{x}$ and $\nm{f} = 1$.
+        \item For any $f \in X^*$, there exists $x,y \in X$ such that $f(x) \neq f(y)$.
+    \end{enumerate}
+\end{cor}
+
+The hat map $\hat{}:X \to X^{**}$ such that $\hat x(f) = f(x)$ is an isometric injection. When the hat map is also surjective, the normed space $X$ is called \df{reflexive}, which means exactly that we can always identify $X$ with $X^{**}$ as the same. Notice in particular that a reflexive space must be Banach because $X^{**}$, as a dual space, is complete under its norm.
+
+For $A \subseteq X$, the \df{Minkowski functional/gauge} of $A$ is defined by \[
+    p_A(x) = \inf\{r \in \R : r > 0 \text{ and } x \in rA\}
+\] for all $x \in A$, where we take $\inf \emptyset = + \infty$ as usual.
+
+We claim that $p_A$ is continuous if and only if $0 \in \operatorname{Int} A$. If in addition $A$ is convex, then $p_A$ is a sublinear functional.
+
+
+\begin{namedthm}[Uniform boundedness principle] \footnote{or the Banach--Steinhaus theorem} \label{thm:unif-bdd-principle}
+    Let $X$ be Banach and $Y$ only be normed. For $\{T_\alpha\}_{\alpha \in A} \subseteq \mathcal L(X,Y)$, suppose $\sup_\alpha \nm{T_\alpha x} < \infty$ for all $x \in X$, then $\sup_\alpha\nm{T_\alpha} < \infty$.
+\end{namedthm}
+
+\begin{namedthm}[Open mapping theorem] \label{thm:OMT}
     For two Banach spaces $X$ and $Y$, if $T\in \mathcal L(X,Y)$ is surjective, then the map is open.
 \end{namedthm}
 
@@ -210,21 +328,32 @@ We use $\mathcal{L}(X,Y)$ for the space of linear maps between normed spaces $X$
     For two Banach spaces $X$ and $Y$, if $T\in \mathcal L(X,Y)$ is bijective, then the inverse $T^{-1}$ is also a bounded linear map.
 \end{cor}
 
-\begin{namedthm}[Closed graph theorem]
+\begin{namedthm}[Closed graph theorem] \label{thm:CGT}
     For two Banach spaces $X$ and $Y$, if $T\in \mathcal L(X,Y)$ is closed, then the operator is bounded.
 \end{namedthm}
 
-\begin{namedthm}[Baire category theorem]
+\begin{namedthm}[Baire category theorem] \label{thm:Baire}
     Every complete (pseudo)metric space is a Baire space, i.e., a space where a countable intersection of nowhere dense sets is nowhere dense. This implies that a complete metric space is not the countable union of nowhere dense sets.
 
     The above result also holds for all locally compact regular spaces, which includes locally compact Hausdorff spaces.
 \end{namedthm}
 
+It is a well-known fact that \nameref{thm:Baire} for complete metric space is equivalent to \textsf{DC}.
+However, a Polish space is Baire can be proven in \textsf{ZF}; see \cite[Theorem~4.102]{Herrlich_2006}.
+Also, it is shown in \cite{Fellhauer_2017} that only \textsf{CC} is needed to establish the \flcnameref{thm:unif-bdd-principle}.
+
+\begin{prop}
+    A closed and countable nonempty subset of a complete metric space $X$ must have an isolated point.
+\end{prop}
+\begin{proof} 
+    If $X$ have no isolated point, then every singleton $\{x\} \subseteq X$ is nowhere dense, which implies that $X$ is a countable union of nowhere dense set.
+\end{proof}
+
 \section{Hilbert spaces}
 A \df{Hilbert space} is an inner space with a complete metric induced from the inner product. We assume the underlying field is $\C$ for this section.
 
 \begin{prop}
-    An inner product space (resp.\ Hilbert space) is a normed space (resp.\ Banach space) with the \df{parallelogram law}: \[
+    An inner product space (resp.\ Hilbert space) is a normed space (resp.\ Banach space) with the \df{parallelogram law/polarization identity}: \[
         \nm{x - y}^2 + \nm{x + y}^2 = 2 \nm{x}^2 + 2\nm{y}^2 \quad \text{for all }x\text{ and }y.
     \]
 \end{prop}
@@ -303,10 +432,10 @@ With the additional topological assumption that Hilbert spaces have complete met
     \end{enumerate}
 \end{prop}
 
-\begin{namedthm}[Riesz representation theorem]
+\begin{namedthm}[Riesz representation theorem (Hilbert space)] \label{thm:Riesz-Hilbert}
     For each linear functional $f \in H^*$, there exist a unique $v \in H$ such that \[
         f(x) = \inp{x}{v}\quad\text{for all }x\in H.
-    \] Moreover $\nm{f} = \nm{v}$.
+    \] Moreover $\nm{f} = \nm{v}$, and hence we have a isometric isomorphism between $H^*$ and $H$.
 \end{namedthm}
 
 An \df{orthonormal system} $\{e_\alpha\}_{\alpha \in A}$ is a possibly infinite collection of vectors such that \[\inp{e_\alpha}{e_\beta} = \begin{cases}
@@ -325,7 +454,7 @@ The order of $\alpha$ does not matter when $A$ is countable.
 \end{prop}
 
 \begin{thm}
-Let $\{e_\alpha\}_{\alpha\in I}$ be an orthonormal system, then \begin{enumerate}
+Let $\{e_\alpha\}_{\alpha\in A}$ be an orthonormal system, then \begin{enumerate}
     \item $\sum_{\alpha \in A} \inp{x}{e_\alpha}^2 \leq \nm{x}^2$, which is known as \df{Bessel's inequality};
     \item the equality above holds if and only if the series $x = \sum_{\alpha \in A}\inp{x}{e_\alpha} e_\alpha$ in $H$.
 \end{enumerate}
@@ -347,11 +476,13 @@ Gram--Schmidt process
 
 
 
-\section{Weak topologies and topological vector spaces}
+\section{Weak topologies and topological vector spaces} \label{sec:weak-top-tvs}
 
-dual pairing
+Some motivation is needed before we start the main material of this section.
 
-initial topology and net convergence
+% initial topology and net convergence
+
+
 $f\colon X \to Y$ is continuous if and only if for every $x_\alpha \to x$, we have $f(x_\alpha) \to f(x)$.
 
 A related results $x_\alpha \to x$ in the initial topology on $X$ generated by $\mathcal{F} = \{f_\beta \colon X \to Y_\beta\}_{\beta \in B}$ if and only if $f(x_\alpha) \to f(x)$ for all $f \in \mathcal{F}$. This is true for both nets and sequences.
@@ -360,19 +491,26 @@ convergence in product spaces
 
 If the target spaces $Y_\beta$'s are all Hausdorff, then $X$ is Hausdorff if and only if the collection $\F$ separates points in $X$.
 
+Whenever you see ``separates points'' below, it ensures the imposed topology on to be Hausdorff. Sequential limits are unique
+
 The subbasis of $\F$ can be specified by $f_\beta^{-1}(V)$, where $V$ ranges over any open sets of $Y_\beta$, for any $\beta \in B$. One may take $Y$ to be any basic or subbasic open set as well, by the property of the preimage. If $\F$ consists of only one function $f$, then the preimage $f^{-1}$ takes (subbasic/basic) open sets in $Y$ precisely to (subbasic/basic) open sets in $X$.
+
+Suppose we have two vector spaces $X$ and $Y$. We say $X$ and $Y$ are in duality if there is a bilinear pairing $\inp{\blank}{\blank}\colon X \times Y \to \mathbf F$. Assume also that $Y$ separates points in $X$, which means that for each $x \neq 0_X$, there exists some $y \in Y$ such that $\inp{x}{y}\neq 0$, since we are in the setting of vector spaces. We assign a topology $\sigma(X,Y)$ to $X$, known as the \df{weak topology}, the weakest topology that makes the collection of mappings \[
+    \{x \mapsto \inp{x}{y} : y \in Y\}
+\] continuous. If $X$ also separates points in $Y$, then the pairing $(X,Y,\inp{\blank}{\blank})$ is called a dual pairing.
+
 
 Bogachev 1.6.5 6 8
 
+We need a new type of convergence on vector spaces
+
 $x_n \to x$ weakly (i.e., converges in the weak topology) if and only if for all $f \in X^*$, $f(x_n) \to f(x)$
-
-
 
 $f_n \to f$ weakly (i.e., converges in the weak-star topology) if and only if for all $x \in X$, $\hat{x}(f_n) = f_n(x) \to \hat{x}(f) = f(x)$
 
-The basis for $\sigma(X,X^*)$ is usually expressed in the following explicity way.
+The basis for $\sigma(X,X^*)$ is usually expressed in the following explicit way.
 
-For any $x_0\in X$, a neighborhood base for $x_0$ is given by \[
+For any $x_0\in X$, a neighborhood basis for $x_0$ is given by \[
         \bigcap_{j=1}^n f^{-1}_j\bigl(f_j(x_0) - \epsilon, f_j(x_0) + \epsilon\bigr),
 \] or equivalently,
 \[
@@ -382,51 +520,142 @@ for any finite number of $f_j$'s and $\epsilon > 0$.
 
 You push $x_0$ to the target field $\mathbf F$, vary $f_j(x_0)$ in a small neighborhood in $\F$, and then push back to $X$ to get a neighborhood for $x_0$.
 
-The weak and weak-star topology can alternatively be seen as \emph{seminorm topologies}, which we discuss here. Say $X$ is a vector space, on which we have $\{p_\alpha\}_{\alpha \in A}$ as a family of seminorms. The \df[topology generated by a family of seminorms]{topology on $X$ generated by} $\{p_\alpha\}$ is the initial topology with respect to the family of functions \[\{x \mapsto p_\alpha(x - x_0) : x_0 \in X, \alpha \in A\}.\] Be very careful that this is \emph{not} the initial topology that makes all $p_\alpha(\blank)$ continuous. Rather, due to the vector space structure of $X$, the translation by $y$ in the functions $x \mapsto p_\alpha (x-y)$ is an important requirement, such that $(x,y) \mapsto x + y$ and $(\lambda,x) \mapsto \lambda x$ are continuous. A vector space with a topology that makes vector addition and scalar multiplication continuous is called a \df{topological vector space}.
+The weak and weak-star topology can alternatively be seen as \emph{seminorm topologies}, which we discuss here. Say $X$ is a vector space, on which we have $\{p_\alpha\}_{\alpha \in A}$ as a family of seminorms that separates points in $X$. The \df[topology generated by a family of seminorms]{topology on $X$ generated by} $\{p_\alpha\}$ is the initial topology with respect to the family of functions \[\{x \mapsto p_\alpha(x - x_0) : x_0 \in X, \alpha \in A\}.\] The seminorms we used to define the weak topology on $X$ are $\{\abs{f_\alpha} : f_\alpha \in X^*\}$.
 
-A topological vector space whose topology has a basis consisting of convex sets is called a locally convex topological vector space. The vector space topology induced from seminorms is locally convex.
+Be very careful that this is \emph{not} the initial topology that makes all $p_\alpha(\blank)$ continuous. Rather, due to the vector space structure of $X$, the translation by $y$ in the functions $x \mapsto p_\alpha (x-y)$ is an important requirement, such that $(x,y) \mapsto x + y$ and $(\lambda,x) \mapsto \lambda x$ are continuous. A vector space with a Hausdorff topology that makes vector addition and scalar multiplication continuous is called a \df{topological vector space}, which we have mentioned earlier.
 
-The \df{strong operator topology} on $\mathcal L(X,Y)$ is generated by the evaluation maps $\{T \mapsto Tx : x\in X\}$, where $Y$ is endowed with the norm topology. $T_n \to T$ in the strong operator topology if and only if $T_n x \to Tx$.
+A topological vector space $X$ is \df[locally convex topological vector space]{locally convex} if every neighborhood of $0$ contains a convex neighborhood of $0$. The topology on a vector space induced from seminorms is locally convex because the neighborhood basis at $0$ is made of locally convex sets \[
+    \bigl\{x \in X: p_j(x) < \epsilon \text{ for all } j \in [n]\bigr\}
+\] for any finite number of $p_j$'s and $\epsilon > 0$. In fact more surprisingly, all locally convex topology can be generated by a family of seminorms, using the Minkowski functional. For details of the two equivalent characterizations of locally convex spaces, see \cite[Section~8.1]{Bogachev_2020}.\footnote{Some authors ask the convex neighborhoods to be \df{balanced}, i.e., $\alpha U \subseteq U$ for any $\abs{\alpha} \leq 1$ in the definition. One may safely drop this assumption, which is also discussed in the reference.} Hence we have generalized a very wide class of topological vector spaces from weak and weak-star topologies on normed spaces.
 
-The \df{weak operator topology} on $\mathcal L(X,Y)$ is generated by the maps $\{T \mapsto f(Tx) : x\in X, f\in Y^*\}$ to the dual space of $Y$. $T_n \to T$ in the weak operator topology if and only if for all $x \in X$ and $f \in Y^*$, $f(T_n x) \to f(T x)$, which is equivalent to saying that $T_n x \to T$ weakly.
+If the number $\abs{A}$ of seminorms $p_\alpha$ used to generated the locally convex topology on $X$ is countable, then the topology on $X$ is metrizable with \[
+    d(x,y) \coloneqq \sum_{j=1}^\infty 2^{-j}\frac{p_j(x-y)}{1+p_j(x-y)}.
+\] The converse of this statement is also true. The proof of this equivalence again can be found in \cite[Proposition~8.6.1]{Bogachev_2020}. Note that if $(X,d)$ is complete, the locally convex space is called a \df{Fréchet space}. The \emph{Schwartz space} of rapidly decreasing functions $\mathcal S(\R^n)$ useful in Fourier analysis is the primary example.
 
-\begin{namedthm}[Sequential Banach--Alaoglu--Bourbaki theorem] \label{label:seq-Alaoglu}
-    For a separable normed vector space $X$, every bounded sequence in $X^*$ has a weak-star convergent subsequence (i.e., $X^*$ is weak-star sequentially compact).
+
+Given two normed spaces $X$ and $Y$, we are already familiar that we can assign a norm topology to the vector space $\mathcal{L}(X,Y)$. With all our previous discussions, it is possible to assign two other topologies to $\mathcal L(X,Y)$.
+
+First, we have the \df{strong operator topology} generated by the seminorms \[T \mapsto \nm{Tx} \text{ over }x \in X.\]  Hence $T_n \to T$ in the strong operator topology if and only if $T_n x \to Tx$ in $Y$-norm for all $x\in X$. Clearly the limit $T$ is unique since $Tx$ is uniquely determined for all $x$.
+
+Second,we have the \df{weak operator topology} on $\mathcal L(X,Y)$ generated by the seminorms \[
+    T \mapsto f(Tx)\text{ over }x \in X,f\in Y^*.
+\] Therefore $T_n \to T$ in the weak operator topology if and only if for all $x \in X$ and $f \in Y^*$, $f(T_n x) \to f(T x)$, which is equivalent to saying that $T_n x \to Tx$ weakly in $Y$ for all $x \in X$. Since the weak limit in $Y$ is unique, $T$ is unique.
+
+The norm topology on $\mathcal L(X,Y)$ is stronger than strong operator topology, which is again stronger than the weak operator topology.
+
+\begin{prop}
+    Weak and weak-star topologies are Hausdorff (for different reasons). In fact, one can further show that weak-star topologies are completely regular.
+\end{prop}
+\begin{proof}
+    The weak topology is Hausdorff because continuous linear functionals separates points.
+\end{proof}
+
+There is only one topology that one can assign to a finite-dimensional vector space such that vector addition and scalar multiplications become continuous.
+
+\begin{prop}[{\cite[Theorem~1.21]{Rudin_functional_1991}}]
+    A real/complex topological vector space $X$ of finite dimension $n$ is homeomorphic to $\R^n$/$\C^n$ with the Euclidean topology.
+\end{prop}
+\begin{proof}
+    Consider the real case. We have a linear isomorphism $T$ from $\R^n$ to $X$ by identifying the standard basis elements $e_1,\dotsc,e_n$ of $\R^n$ with a basis $x_1,\dotsc,x_n$ of $X$. For $a = (a_1,\dotsc,a_n) \in \R^n$, we have \[
+        T(a) = a_1x_1+\dotsc+a_nx_n.
+    \] The coordinate projections $a \mapsto a_j$ are of course continuous, and since addition and scalar multiplications are both continuous, $T$ is continuous.
+
+    Showing that $T^{-1}$ is continuous requires more work.
+\end{proof}.
+
+\begin{prop}[{\cite[Theorem~1.22]{Rudin_functional_1991}}]
+    A topological vector space is locally compact if and only if it is finite-dimensional.
+\end{prop}
+
+\begin{prop}
+    For a normed vector space, weak topology is always weaker than the norm topology. Furthermore, the weak topology is strictly weaker than the norm topology if and only if the space is infinite-dimensional.
+\end{prop}
+\begin{proof}
+    First, weak convergence is weaker than norm convergence, since \[\nm{f(x_n) - f(x)} \leq \nm{f}\nm{x_n - x}\] for all $f \in X^*$. Therefore the weakest topology that makes all linear functionals continuous is weaker than the norm topology.
+    
+    It suffices to show that all weakly open sets are norm-unbounded, which can be further reduced to showing that any neighborhood basis \[
+        U = \bigcap_{j=1}^n \{x: \abs{f_j(x)} < \epsilon\}
+    \] around $0_X$ is unbounded in norm. Consider the linear map $F\colon X \to \mathbf F^n$ given by \[
+        F(x) = \bigl(f_1(x),\dotsc,f_n(x)\bigr).
+    \] Note that $F^{-1}(\{0\})$ is a subspace of the considered neighborhood basis $U$. Hence if $U$ is norm bounded then $F^{-1}(\{0\})$ must only contain $0$. However, the injective linear map $F$ cannot map an infinite-dimensional space $X$ to a finite-dimensional one.
+\end{proof}
+
+\begin{prop}
+    Suppose $x_n \to x$ weakly, then $\sup_n \nm{x_n} <\infty$, and $\nm{x} \leq \liminf_n \nm{x_n}$.
+\end{prop}
+
+\begin{prop}[{\cite[Proposition~5.17]{folland1999}}] \label{prop:strong-op-top-dense-subset}
+    For $\{T_n\} \subseteq \mathcal L(X,Y)$ with $\sup_n \nm{T_n} < \infty$. If for some $T \in \mathcal L(X,Y)$, we have $\nm{T_n x - Tx} \to 0$ on for all $x \in D$ dense in $X$, then $T_n \to T$ in the strong operator topology.
+\end{prop}
+
+\begin{namedthm}[Sequential Banach--Alaoglu theorem] \label{thm:seq-Alaoglu}
+    For a separable normed vector space $X$, the closed unit ball in $X^*$ is weak-star sequentially compact. This means precisely that for any normed bounded sequence in $X^*$, it has a subsequence that is weak-star convergent to some $F \in X^*$ with the same norm bound.
 \end{namedthm}
 
-or the generalized Helly selection theorem, for the reasons we discussed after \cref{lem:Helly-pre}
+close connection to Helly selection theorem
 
-\begin{namedthm}[Banach--Alaoglu--Bourbaki theorem]
-    For a normed vector space $X$, every closed and bounded subset of $X^*$ is weak-star compact.
+\begin{proof}
+    Let $\{f_n\} \subseteq X^*$ be norm bounded by some positive constant $C$, and take a countable dense subset $\{x_j\}$ of $X$. We follow the diagonalization procedure. Since $\sup_n \abs{f_n(x_1)} \leq C \nm{x_1}$, $\{f_n(x_1)\}$ lives in a bounded interval, there is a subsequence $\{f_{\nu(n)} (x_1)\}$ that converges.\footnote{This can be done explicitly by letting \[
+        \nu(n) = \min\{m > \nu(n-1) : \abs{f_m(x_1) - s_1} < 1/n\},
+    \] where $s_1 \coloneqq \liminf_n f_n(x_1)$.} Let $\{f_n^1\} = \{f_{\nu(n)}\}$, and we can now extract a further subsequence $\{f_n^2\}$ from $\{f_n^1\}$ such that $f_n^2$ converges on $\{x_1,x_2\}$. Proceeding inductively, we get the following table of subsequences listed in rows: 
+    \begin{table}[ht]
+    \renewcommand{\arraystretch}{1.2}
+        \centering
+        \caption{subsequences listed in rows}
+        \begin{tabular}{ccccc}
+            $f_1^1$ & $f_2^1$ & $f_3^1$ & $f_4^1$ & $\cdots$ \\
+            $f_1^2$ & $f_2^2$ & $f_3^2$ & $f_4^2$ & $\cdots$ \\
+            $f_1^3$ & $f_2^3$ & $f_3^3$ & $f_4^3$ & $\cdots$ \\
+            $f_1^4$ & $f_2^4$ & $f_3^4$ & $f_4^4$ & $\cdots$ \\
+            $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\ddots$
+        \end{tabular}
+        \renewcommand{\arraystretch}{1}
+    \end{table}
+    
+     Take the diagonal sequence $f_1^1, f_2^2,\dotsc$. If we ignore the first $j-1$ terms of the diagonal sequence, this new $\{f_n^n\}$ is a subsequence of $\{f_n^j\}_{n=1}^\infty$. Therefore $f_{n}^n$ converges on the dense subset $\{x_j\}$ of $X$. We need to show that the convergence in fact holds on the entire space $X$.
+     
+     (One may want to proceed using \cref{thm:ext-unif-cont-func}, but unfortunately this does not work because the dense subset might not contain $0$.)
+     % Clearly, as the limit of $f_n^n\vert_D$, $f$ is linear and has $\nm{f} \leq C$. By the aforementioned theorem, we obtain the desired $F \in X^*$ with $\nm{F} \leq C$.
+     Take any $x \in X$, for any $\epsilon>0$ there exists some $x_j$ such that $\nm{x - x_j} < \epsilon$, which implies that \[
+        \abs{f_n^n(x) - f_n^n(x_j)} < C\epsilon \quad \text{for all }n.
+     \] Now \[
+        f_n^n(x_j) - C\epsilon \leq f_n^n(x) \leq f_n^n(x_j) + C\epsilon
+     \] Let $f$ satisfy $f(x_j) = \lim_n f_n^n(x_j)$ for all $j$, then taking limits we have \[
+        f(x_j) - C\epsilon \leq \liminf_n f_n^n(x) \leq \limsup_n f_n^n (x) \leq f(x_j) + C\epsilon.
+     \] It follows that \[
+        \limsup_n f_n^n(x) - \liminf_n f_n^n(x) \leq 2C\epsilon,
+     \] and since $\epsilon$ is arbitrary, $f(x) = \lim_n f_n^n(x)$ for all $x \in X$. 
+     We then know $f$ should be linear, and also that \[
+        \abs{f(x)} = \lim_n \abs{f_n^n(x)} \leq C.
+     \] for $x \in X$ with unit norm, which shows that $f\in X^*$ with $\nm f \leq C$, as desired.
+\end{proof}
+
+\begin{namedthm}[Banach--Alaoglu theorem] \label{thm:Banach-Alaoglu}
+    For a normed vector space $X$, every closed and bounded-in-norm subset of $X^*$ is weak-star compact.
 \end{namedthm}
 
 metrizability
 
-\begin{namedthm}[Tychonoff's theorem]
-    Arbitrary product of compact topological spaces is compact.
-\end{namedthm}
-
-\begin{thm}[(Tychonoff's theorem for countable product)]
-    Countable product of compact topological spaces is compact.
-\end{thm}
-
-Tychonoff's theorem is equivalent to the axiom of choice.
-
-See discussion in  \cite[Section~4.8]{Herrlich_2006}.
-
-If the product is finite, then no choice is needed.
-
 \begin{xca}
-    Give a direct proof of Tychonoff's theorem for the countable product of compact metric spaces, using metrization.
+    The converse of \nameref{thm:Banach-Alaoglu} is also correct when $X$ is a Banach space. (Hint: use the \flcnameref{thm:unif-bdd-principle})
 \end{xca}
 
+A set $S$ in a vector space is called \df[balanced set]{balanced} if $\lambda S \subseteq S$ for all $\abs{\lambda} \leq 1$.
+
+\section{Some relevant operator theory}
+
+The current section only covers the mere basics of operator theory useful to the study of stochastic processes. In particular, we will discuss adjoint and unbounded operators on Banach and Hilbert spaces, but completely omit compact operators and spectral theory.
+
 \begin{thm}
-    The countable product of sequentially compact spaces is sequentially compact.
+    For $T \in \mathcal L(H)$, there is a unique $T^* \in \mathcal L(H)$ such that $\inp{Tx}{y} = \inp{x}{Ty}$ for all $x,y\in H$. This $T^*$ is known as the \df{adjoint} of $T$, which has the following properties:
+    \begin{enumerate}
+        \item $\nm{T^*} = \nm{T}$, $\nm{T^*T} = \nm{T}^2$, $T^{**} = T$, 
+    \end{enumerate}
 \end{thm}
 
-Every weakly convergent sequence is norm bounded
-
-\section{Adjoint and compact operators}
+\[
+    (\ran T)^{\perp} = \nul T^* \quad \text{and} \quad (\nul T)^{\perp} = \clos{\ran T^*}.
+\]
 
 unitary operators
 
@@ -436,11 +665,291 @@ annihilators
     
 \end{namedthm}
 
-% \section{Weak convergence of general measures} \label{sec:weak-conv-general-meas}
+\section{Semigroups}
+
+\section{Convex geometry, optimization, and analysis}
+    Let $X$ be a nonempty vector or topological space, and let $f\colon X \to \eR$ throughout this section.
+
+    The \df{epigraph} of $f$, denoted by $\epi f$, is the set \[\{(x,y) \in X \times \R: y \geq f(x)\},\] the set of all points lying on or above the graph of the function.
+
+    \begin{fact}
+        Let $X$ be convex. The function $f$ is convex if and only if its epigraph is convex.
+    \end{fact}
+    
+    A function $f\colon X \to (-\infty,+\infty]$ is \emph{lower-semicontinuous} at $a\in X$ if for all $y < f(a)$, we have an open neighborhood $U_a$ such that $y < f(x)$ for all $x \in U_a$. Equivalently this means \[ \liminf_{x \to a} f(x) \geq f(a).\]
+    
+    Instead, the function $f\colon X \to [-\infty,+\infty)$ is \emph{upper-semicontinuous} at $a\in X$ if for all $y > f(a)$, we have an open neighborhood $U_a$ such that $y > f(x)$ for all $x \in U_a$. Equivalently this means \[ \limsup_{x \to a} f(x) \leq f(a).\]
+
+    We say the function $f$ is \df{lower-semicontinuous} (LSC) or \df{upper-semicontinuous} (USC) if the function it is pointwise LSC/USC. Because of symmetry we will focus on LSC functions from now on. 
+    
+    A function is LSC if and only if \begin{enumerate}
+        \item $f^{-1}(-\infty,c]$ is closed for all $c \in \R$;
+        \item $f^{-1}(c,+\infty]$ is open for all $c \in \R$;
+        \item $\epi f$ is a closed in $X \times \R$.
+    \end{enumerate}
+
+    geometric consequence of the \nameref{thm:hahn-banach} theorem. Let $X$ be a real topological vector space, a hyperplane is a set \[
+        \{x \in X: f(x) = t\}
+    \] for some linear functional $f$ and $t \in \R$. It is a codimension-$1$ affine subspace, and one can show that \begin{fact}
+        A hyperplane is closed if and only if the $f$ is a continuous linear functional.
+    \end{fact}
+
+    A hyperplane $\{x \in X: f(x) = t\}$ separates two sets $A,B \subseteq X$ if \[
+        f(x) \leq t \text{ for all }x\in A\quad \text{and} \quad f(x) \geq t \text{ for all }x\in B.
+    \] The hyperplane strictly separates $A$ and $B$ if \[
+        f(x) \leq t - \epsilon \text{ for all }x\in A\quad \text{and} \quad f(x) \geq t + \epsilon \text{ for all }x\in B.
+    \]
+
+    \begin{namedthm}[Hyperplane separation theorem]
+        Let $X$ be a finite-dimensional real vector space, and $A$ and $B$ be disjoint convex subsets. Then there is a hyperplane that separates $A$ and $B$.
+    \end{namedthm}
+
+    Notice that such a hyperplane must be closed because the algebraic dual and continuous dual space coincides in the finite-dimensional case.
+    
+    \begin{namedthm}[Hyperplane separation theorem]
+        Let $X$ be an infinite-dimensional real topological vector space. For two disjoint convex sets $A$ and $B$ in $X$, if \begin{enumerate}
+            \item $A$ is open, then there is a closed hyperplane that separates $A$ and $B$.
+            \item $A$ is closed and $B$ is compact, then there is a closed hyperplane that strictly separates $A$ and $B$.
+        \end{enumerate}
+    \end{namedthm}
+
+    See \cite[Chapter~1]{Brezis_2011} for details.
+
+    \begin{namedthm}[Fenchel--Moreau theorem]
+        
+    \end{namedthm}
+
+    \begin{namedthm}[Fenchel--Rockafellar theorem]
+        
+    \end{namedthm}
+
+    We already know convex sets. A subset $A$ of $X$ is an \df[affine set]{affine} if for all $\lambda \in \R$ and $x,y \in A$, \[
+       (1 - \lambda) x + \lambda y \in A.
+    \] Different from a convex set, an affine set must contain each line through any two points within, not just the line segment. The vector subspaces of $\R^d$ are precisely the affine subspaces of $\R^d$ containing $0$.
+    
+    Given a vector space $X$ and a subset $A$, a point $p\in A$ is called an \df{extreme point} of $A$ if it is on any line connecting two distinct points. This means precisely there does not exist $x  \neq y$ in $A$ such that  \[
+        p \neq (1-\lambda )x + \lambda y\quad \text{for any }0< \lambda <1.
+    \]
+
+    Let $A$ be a subset of a vector space $X$, and $Z$ be another vector space.
+    A map $f \colon A \to f(A) \subseteq Z$ is \df[affine map]{affine} if for any $x,y \in A$ and $\lambda \in \R$ such that $(1-\lambda) x + \lambda y \in A$, \[
+        f\bigl((1-\lambda) x + \lambda y\bigr) = (1-\lambda)f(x) + \lambda f(y).
+    \] In particular, affine maps take convex sets to convex sets.
+    
+    is that preserves convexity. 
+
+    Given a set of points $S$ in a vector space $X$, the \df{convex hull} $\conv S$ is the smallest set in $X$ that contains $S$. Equivalently it can be explicitly written as all finite sums $\sum_{j=1}^n \lambda_j x_j$, where $x_j \in S$, $0\leq \lambda_j \leq 1$, and $\sum_{j=1}^n \lambda_j = 1$. If $X$ is a topological vector space, then the \df{closed convex hull} (resp.\ \df{open convex hull}) is the closure (resp.\ interior) of the $\conv S$.
+
+    We can define \df{affine hull} similarly, without restricting $\lambda_j$ to be nonnegative.
+
+\begin{namedthm}[Krein--Milman theorem]
+    A compact convex subset of a locally convex topological vector space is equal to the closed convex hall of its extreme point.
+\end{namedthm}
+
+A set $C \subseteq X$ is a cone if $x \in C$ implies $\lambda x \in C$ for all $\lambda > 0$.
+
+\begin{namedthm}[Radon's theorem]
+    Any set of $d+2$ points in $\R^d$ can be partitioned into two subsets whose convex hulls intersect.
+\end{namedthm}
+
+\begin{namedthm}[Carathéodory's theorem]
+    Given some set $S \subseteq \R^d$, for any point in $\conv S$, it is the convex combination of at most $d+1$ points of $S$.
+\end{namedthm}
+
+\begin{namedthm}[Helly's theorem]
+    Let $A_1,A_2,\dotsc,A_n$ be convex subsets of $\R^d$, where $n \geq d + 1$. If every $d+1$ number of $A_\gamma$'s have nonempty intersection, then the intersection of the whole collection $\bigcap_\gamma A_\gamma \neq \emptyset$.
+
+    The result remains in force if we let $\{A_\gamma\}_{\gamma\in \Gamma}$ be an (infinite) indexed family of compact convex subsets of $\R^d$. This case follows by the finite intersection characterization of compactness. (Fix one $A'$ in the collection, and replace each $A_\gamma$ by $A_\gamma \cap A'$.)
+\end{namedthm}
+
+\begin{lem}
+    For $F\colon X \times Y\to [-\infty, \infty]$, we have \[
+        \sup_{x \in X}\inf_{y\in Y} F(x,y)\leq \inf_{x\in X}\sup_{y\in Y} F(x,y).
+    \]
+\end{lem}
+
+\section{Hausdorff measures}
+Let $(X,\rho)$ be a metric space, and $E \subseteq X$. For every $\alpha \geq 0$ and $\epsilon > 0$, we define \[
+    H_\epsilon^\alpha (E) = \inf\biggl\{\sum_{j=1}^\infty (\diam A_j)^\alpha : \sup_j (\diam A_j) \leq \epsilon \text{ and }  \{A_j\} \text{ covers }E\biggr\}.
+\]
+When $\alpha = 0$, $H_\epsilon^0(E)$ is just the \df{covering number} of $E$, i.e., the smallest cardinality for an $\epsilon$-net of $E$. We also consider the case where $\epsilon = \infty$, which means that there is no restriction on the $\diam A_j$'s.
+
+Notice that $H_\epsilon^\alpha$ is increasing as $\epsilon$ decreases to $0$. We define the \df[Hausdorff measure]{$\alpha$-Hausdorff measure} of $E$ to be \[
+    H^\alpha(E) = \sup_{\epsilon > 0} H_\epsilon^\alpha(E) = \lim_{\epsilon \to 0^+} H_\epsilon^\alpha (E).
+\]
+Notice that we get a Carathéodory outer measure. 
+
+We define the Hausdorff dimension of $E$ by \[
+    \dim_{\mathrm H} E = \inf\{\alpha : H^\alpha (E) = 0\} = \inf\{\alpha : H^\alpha_\infty (E) = 0\}.
+\]
+
+The ternary Cantor set on $[0,1]$ has Hausdorff dimension $\frac{\log 2}{\log 3}$.
+
+When $f$ is Lipschitz, $\diam_H f(E) \leq \diam E$, since the diameter of a set is stretched by at most a constant under a Lipschitz map. More generally, one can show as an exercise that for $f$ that is $\alpha$-Hölder continuous with constant $C$, we have \[
+    H^\beta \bigl(f(E)\bigr) \leq C^\beta H^{\alpha \beta}(E),
+\] which gives \[
+    \diam f(E) \leq \frac{1}{\alpha} \diam E.
+\]
+(This is the reason why we chose $\alpha$ for the exponent in the definition of Hausdorff measures.)
+
+
+Minkowski dimension
+
 
 \section{Topological groups and Haar measures}
 
-\section{A gentle introduction to optimal transport}
+compact groups are unimodular
+
+left and right Haar measures agree precisely when the group is unimodular
+
+\section{Proof of the two extension theorems} \label{sec:ext-thm-proof}
+
+\begin{namedthm}[Dynkin's $\pi$-$\lambda$ theorem]
+     Within a nonempty set $X$, if $\mathcal{P}$ is a $\pi$-system that is contained in a $\lambda$-system $\mathcal{L}$, then $\sigma(\mathcal{P})\subseteq\mathcal{L}$.
+\end{namedthm}
+\begin{proof}
+Let $\Gamma = \lambda(\mathcal P)$, the $\lambda$-system that contains $\mathcal{P}$ (see \cref{def:generate-structure}). 
+% \textcolor{brown}{We first show that there exists a minimal $\lambda$-system
+% $\Gamma$ that contains $\mathcal{P}$.} Let 
+% \[
+% \Gamma=\bigcap\{\mathcal L\supseteq\mathcal{P}:\mathcal L\text{ is a \ensuremath{\lambda}-system}\}.
+% \]
+% Then clearly
+% \begin{enumerate}[label=(\roman*)]
+% \item $X\in\Gamma$; 
+% \item for $A,B\in\Gamma$ with $A\subseteq B$, we have $B-A\in\mathcal L$ for all $\mathcal L\supseteq\mathcal{P}$ and $\mathcal L$ is a $\lambda$-system. Therefore $B-A\in\Gamma$, the intersection of all such $\mathcal L$'s as specified;
+% \item for $A_{1}\subseteq A_{2}\subseteq\cdots$ in $\Gamma$, we have $\bigcup_{j=1}^{\infty}A_{j}\in\mathcal L$ for all $\mathcal L$. Therefore $\bigcup_{j}A_{j}\in\Gamma$.
+% \end{enumerate}
+% Thus $\Gamma$ is a $\lambda$-system that contains $\mathcal{P}$.
+
+We then need to show $\Gamma$ is a $\sigma$-algebra. Once this has been shown, we can claim that $\sigma(\mathcal{P})\subseteq\Gamma\subseteq\mathcal L$, which finishes the proof. To prove $\Gamma$ is a $\sigma$-algebra, we need the key fact that $\Gamma$ is in fact a
+$\pi$-system, i.e., for $E\in\Gamma$ and $F\in\Gamma$, we wish
+to prove $E\cap F\in\Gamma$.
+
+Here is the major trick. Define
+\begin{equation}
+    \mathcal K_{E}=\{F\subseteq X:E\cap F\in\Gamma\} \label{eq:def-collect-pi-lambda}
+\end{equation}
+for any $E\in\Gamma$. We show that $\mathcal K_{E}$ is a $\lambda$-system for any fixed $E\in\Gamma$.
+
+First, $X\in\mathcal K_{E}$ since for $E\in\Gamma$, $E\cap X=E\in\Gamma$.
+Next for $A\subseteq B$ in $\mathcal K_{E}$, $E\cap A\subseteq E\cap B$
+are both in $\Gamma$. Therefore 
+\begin{align*}
+E\cap(B-A) & =E\cap(B\cap A^{\mathrm{c}})\\
+& =(E\cap B)\cap(E\cap A)^{\mathrm{c}}\\
+& =E\cap B-E\cap A\in\Gamma,
+\end{align*}
+which proves that $F-E\in\mathcal K_{E}$. Finally for the ascending sequence of sets $A_{1}\subseteq A_{2}\subseteq\cdots$ in $\mathcal K_{E}$, we have 
+\[
+    E\cap\biggl(\bigcup_{j=1}^\infty A_{j}\biggr)=\bigcup_{j=1}^\infty (E\cap A_{j}).
+\]
+Since $E\cap A_{j}\in\Gamma$ for all $j\in\mathbf{N}$ and \[E\cap A_{j}\uparrow\bigcup_{j=1}^\infty (E\cap A_{j})\quad \text{as $j\to\infty$},\] we have $\bigcup_{j=1}^\infty A_{j}\in\mathcal K_{E}$.
+Hence we have proved that $\mathcal K_{E}$ is a $\lambda$-system for any $E\in\Gamma$.
+
+Now we restrict our attention to $E\in\mathcal{P}$. Since $\mathcal{P}$ is closed under finite intersections, we have $\mathcal{P}\subseteq\mathcal K_{E}$, and therefore $\lambda(\mathcal P) = \Gamma\subseteq\mathcal K_{E}$. In summary, we have  
+\[
+E\in\mathcal{P}\text{ and }F\in\Gamma\Rightarrow E\cap F\in\Gamma.
+\]
+
+Here is where the magic takes place. By symmetry we may switch $E$ and $F$, and see that now given any $E\in\Gamma$, we have $F\in\mathcal{P}\Rightarrow E\cap F\in\Gamma$, i.e., $\mathcal{P}\subseteq\mathcal K_{E}$. Therefore for general $E\in\Gamma$, it holds that $\Gamma\subseteq\mathcal K_{E}$. More explicitly, this means 
+\[
+E\in\Gamma\text{ and }F\in\Gamma\Rightarrow E\cap F\in\Gamma,
+\]
+i.e., $\Gamma$ is closed under finite intersections.
+
+It remains to show that $\Gamma$ is a $\sigma$-algebra. We check the three axioms for a $\sigma$-algebra:
+\begin{enumerate}[label=(\roman*)]
+\item $X\in\Gamma$; (by $\lambda$-system axiom 1)
+\item for $A\in\Gamma$ with $A\subseteq X$, we have $X -A\in\Gamma$;
+(by $\lambda$-system axiom 2)
+\item for $A_{1},A_{2}\in\Gamma$, $A_{1}\cup A_{2}=X-\bigl((X-A_{1})\cap(X-A_{2})\bigr)$.
+By (ii) above and $\Gamma$ being a $\pi$-system it is clear to see $A_{1}\cup A_{2}\in\Gamma$. Therefore for $A_{1},A_{2},\dotsc$ from $\Gamma$, we $\bigcup_{j=1}^{n}A_{j}\in\Gamma$. Now by axiom 3 of a $\lambda$-system, 
+\[
+\bigcup_{j=1}^{n}A_{j}\uparrow\bigcup_{j=1}^{\infty}A_{j}\quad\text{as }n\to\infty.
+\]
+Thus $\bigcup_{j=1}^{\infty}A_{j}\in\Gamma$.
+\end{enumerate}
+The proof is now complete.
+\end{proof}
+
+The key idea in these proofs is always to explore ``the structure generated from $\mathcal E$ is the smallest containing $\mathcal E$.'' This is the reason we define collection $\mathcal K_E$ in \eqref{eq:def-collect-pi-lambda}, as our end goal is to show that for any $E \in \Gamma$, it holds that $E \cap F \in \Gamma$ for any $F \in \Gamma$, which is the $\lambda$-system generated by $\mathcal P$.
+
+The reason why we can switch the role of $E$ and $F$ in the proof is the symmetry of ``$\cap$'' operation. It simplifies the proof, but there is nothing truly magical in the end.
+
+The exact same idea (including this symmetry switch) can be applied to prove the monotone class theorem, which we will do now.
+
+\begin{namedthm}[Monotone class theorem]
+     Given an algebra $\A_0$ of sets, then the monotone class $\mathcal{M}$ generated by $\A_0$ coincides with the $\sigma$-algebra $\sigma(\A_0)$ generated by $\A_0$.
+\end{namedthm}
+    
+\begin{proof}
+To prove $\mathcal{M}\supseteq\A_0$, it suffices to show that $\mathcal{M}$ is a $\sigma$-algebra.
+
+First of all we note that every monotone class closed under finite unions must be closed under countable unions. Suppose $\mathcal{M}$ is closed under finite unions. Then if $A_{j}\in\mathcal{M}$ for all $j$, we have $B_{n}\coloneqq\bigcup_{j=1}^{n}A_{j}\in\mathcal{M}$. Meanwhile $B_{n}\uparrow\bigcup_{j=1}^{\infty}A_{j}$ as $n\to\infty$, and therefore $\bigcup_{j=1}^{\infty}A_{j}\in\mathcal{M}$.
+
+Since $\M$ contains $\emptyset$ and $X$, we only need to show $\M$
+is closed under complements and closed under finite unions.
+
+{We first show $\M$ is closed under complements.} If we can show that the collection \[\mathcal K \coloneqq \{A\subseteq X:A^{\mathrm{c}}\in\M\}\] is a monotone class, then since $\mathcal K\supseteq\A_0$, it follows that $\mathcal{K}\supseteq\M$, which proves our claim that $\M$ is closed under complements. To see why $\mathcal K$ is a monotone class, for an ascending sequence of sets $A_{1}\subseteq A_{2}\subseteq\cdots$ in $\mathcal K$, \[\biggl(\bigcup_{j=1}^{\infty}A_{j}\biggr)^{\mathrm{c}}=\bigcap_{j=1}^{\infty}A_{j}^{\mathrm{c}}\in\M.\] The same argument applies to any descending sequence of sets in $\mathcal K$.
+
+% \emph{It is a standard technique to do the following}: if we can show that the collection $\mathcal K=\{A\subseteq X:A^{\mathrm{c}}\in\M\}$ is a monotone class, then since $\mathcal K\supseteq\A_0$, it follows that $\mathcal{K}\supseteq\M$, which proves the desired property that $\M$ is closed under complements. (The key is to define a supercollection $\mathcal K$ of $\A_0$ with the desired property on $\M$ and then prove $\mathcal K$ is a monotone class. We can do the same thing when proving a $\sigma$-algebra/other structures generated from a collection $\mathcal{C}$ of subsets has a certain property).
+
+{It remains to prove that $\M$ is closed under finite
+unions.} For any $E\in\M$, let us define 
+\[
+\mathcal K_{E}=\{F\subseteq X:E\cup F\in\M\}.
+\]
+
+First we prove $\mathcal K_{E}$ is a monotone class. Consider an
+ascending sequence of sets $F_{1}\subseteq F_{2}\subseteq\cdots$
+in $\mathcal K_{E}$. This gives an ascending sequence of sets 
+\[
+    E\cup F_{1}\subseteq E\cup F_{2}\subseteq\cdots
+\]
+in $\M$, which implies \[\bigcup_{j=1}^{\infty}(E\cup F_{j})=E\cup\biggl(\bigcup_{j=1}^{\infty}F_{j}\biggr)\in\M.\] Therefore $\bigcup_{j=1}^{\infty}F_{j}\in\mathcal K_E$. A decreasing sequence of sets from $\mathcal K_{E}$ can be handled in the same way.
+
+Just like in the proof of the $\pi$-$\lambda$ theorem, we first fix $E\in\A_0$. Since for $F\in\A_0$, $E\cup F\in\A_0\subseteq\M$, we have
+$\mathcal K_{E}\supseteq\A_0$. Therefore $\mathcal K_{E}\supseteq\M$, given that $\mathcal K_{E}$ is a monotone class.
+This shows that 
+\[
+    E\in\A_0\text{ and }F\in\M\Rightarrow E\cup F\in\M.
+\]
+
+Now switch $E$ and $F$ to see that for any given $E\in\M$, if $F\in\A_0$, then $E\cup F\in\M$, i.e., $\mathcal K_{E}\supseteq\A_0$. Again we get $\mathcal K_{E}\supseteq\M$. This shows that for any $E\in\M$ and $F\in\M$, we have $E\cup F\in\M$, as desired.
+\end{proof}
+
+Given the resemblance of these two theorems, one might wonder if there is a shortcut to directly prove one from the other. Sadly the answer is no, in both direction.
+
+A proof of Dynkin's theorem from the monotone class theorem is outlined in \cite[Exercise~3.12]{Billingsley_1995}. The idea is as follows: given $\mathcal P \subseteq \mathcal L$, we consider the algebra $\A_0$ generated by $\mathcal P$. By the monotone class theorem, we can conclude that $\sigma(\mathcal P)$ is exactly the monotone class generated by $\A_0$. Since $\mathcal L$ by definition, if we can show $\A_0 \subseteq \mathcal L$, then it follows that $\sigma(\mathcal P) \subseteq \mathcal L$. Recall we have an explicit description of the sets in $\A_0$, which will help us here. However, the proof is by no means simple.
+
+It is unlikely to prove the monotone class theorem directly from Dynkin's theorem. Since $\A_0$ is a $\pi$-system, if we can show that the monotone class $\M$ generated by $\A_0$ is a $\lambda$-system, then we are done. The main difficulty is that we cannot show easily verify that $\M$ is closed under proper difference. We might want to define \[
+    \mathcal{Q}_A = \{B \subseteq X : B \supseteq A \text{ and } B - A \in \mathcal M\}
+\] for $A \in \mathcal M$, but this does not really work out because of the constraint $B \supseteq A$.
+
+\section{Existence theorems for probability measures on product spaces}\label{sec:product-prob-meas}
+
+It is noteworthy that all results here use the axiom of dependent choice in the proof.
+\begin{namedthm}[Existence of product probability measures on infinite spaces] \label{thm:prod-prob-meas-countable-spaces}
+    The probability premeasure $\mu_0$ defined above is $\sigma$-additive, and hence by \nameref{thm:Caratheodory-ext}, there is a unique extension of $\mu_0$ to a probability measure on $\bigotimes_{n} \F_n$.
+\end{namedthm}
+\begin{proof}
+    The tradition approach requires Tonelli's theorem on finite products, see for example \cite[Section 6.3]{Ambrosio_2011}. We follow \cite{Saeki_1996}, which proceeds from first principles and is much simpler.
+\end{proof}
+
+It is clear that this can also be proved as a consequence of the following \nameref{thm:ITET}. One has to extend from countable indices to arbitrary indices, but we have done this in the proof of \nameref{thm:KET}.
+
+\cite[Theorem~8.24]{Kallenberg_2021}
+
+\begin{namedthm}[Ionesco-Tulcea existence theorem] \label{thm:ITET}
+    For any sequence of measurable spaces $\{(S_n,\mathcal S_n)\}$ and kernels $\mu_n \colon S_1\times \dotsb \times S_{n-1} \to S_n$ for $n \geq 2$. Then there exists a sequence of random variables $\{X_n\}_{n=1}^\infty$ each living in $\{S_n\}_{n=1}^\infty$, such that the f.d.d.\ is given by \[
+        (X_1,\dotsc,X_n) \sim \mu_1 \times \dotsb \times \mu_n.
+    \]
+\end{namedthm}
+
+\begin{namedthm}[Nelson extension theorem {\cite[Theorem~10.18]{folland1999}}]
+    
+\end{namedthm}
 
 \section{Facts and tools in probability}
 $e^x \geq x + 1$ log sum inequality
@@ -455,65 +964,8 @@ Hence \[
     \log(n+1) \leq \sum_{x=1}^n\frac{1}{x}\leq \log(n) +1
 \]
 
-\begin{prop}
-    For two independent random variables $X\sim \Exp(\lambda)$ and $Y\sim \Exp(\mu)$, these hold. \begin{enumerate}
-        \item $\min\{X,Y\} \sim \Exp(\lambda + \mu)$;
-        \item $P(X \leq Y) = \frac{\lambda}{\lambda + \mu}$;
-        \item $\min\{X,Y\}$ and $\{X\leq Y\}$ are independent.
-    \end{enumerate}
-\end{prop}
-
-\begin{proof}
-    $P(X > t, Y > t) = P(X > t) P(Y > t) = e^{-(\lambda + \mu)t}$
-
-\begin{align*}
-    P(X - Y \leq t) & = \int_{-\infty}^\infty f_X(t+y) f_{-Y}(-y)\,dy \\
-    & = \lambda \mu e^{-\lambda t} \int_{-\infty}^\infty e^{(-\lambda - \mu)y}\ind\{y \geq 0, t + y\geq 0\}\,dy \\
-    & = \frac{\lambda \mu}{\lambda + \mu}e^{-\lambda t} e^{(-\lambda - \mu)y}\bigr]_{y=\min\{0,-t\}}^\infty
-\end{align*}
-Hence \[
-    P(X - Y \leq t) = \begin{cases}
-      \frac{\lambda \mu}{\lambda + \mu}e^{-\lambda t}  & \text{if } t \geq 0, \\
-      \frac{\lambda \mu}{\lambda + \mu}e^{\mu t}  & \text{if } t< 0.
-    \end{cases}
-\]
-    \[P(X > t,Y > t,X \leq Y) = P(X > t, Y > t) P(X \leq Y)\]
-
-LHS = $\int_{t}^\infty \mu e^{-\mu y} \int_{t}^y \lambda e^{-\lambda x}\,dx\,dy$
-
-% \begin{align*}
-%     P(Y \geq X > x) & = P(X \leq Y)P(\min\{X,Y\} > x) + P(X > Y)P(X >x) \\
-%     & = \frac{\lambda}{\lambda + \mu}\exp(-\lambda -\mu) + \frac{\mu}{\lambda + \mu}P(X > x \giv X > Y)
-%     \\ P(X > Y >y) & = 
-% \end{align*}
-
-\end{proof}
-
-The converse is also true Poisson thinning
-
-
-\begin{namedthm}[Birthday problem]
-    
-\end{namedthm}
-
-\begin{namedthm}[Pólya's urn]
-    
-\end{namedthm}
-
-\begin{namedthm}[Gambler's ruin]
-    
-\end{namedthm}
 
 \begin{namedthm}[Coupon collector's problem]
     
 \end{namedthm}
 
-\begin{namedthm}[Simple random walks on $\Z^d$]
-    
-\end{namedthm}
-
-\begin{namedthm}[Bernoulli bond percolation]
-    
-\end{namedthm}
-
-\printnomenclature

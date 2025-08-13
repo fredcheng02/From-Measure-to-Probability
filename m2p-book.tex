@@ -32,6 +32,55 @@
 \include{chapters/1-structure-measures}
 \include{chapters/1-lebesgue-spaces}
 % \include{chapters/1-fourier}
+\chapter{Elements of Polish spaces}
+
+To use the word of , two spaces really stands out when studying measure and integration on topological spaces, one being locally compact space and the other being Polish spaces. In fact, an LCH space $X$ is second countable if and only if it is Polish. The reverse direction is immediate by \cref{prop:2nd-count-separable-lindlof}. For the forward direction, the usual proof is to consider the one-point compactification $\widetilde{X}$ of $X$. Our new $\widetilde{X}$ is second countable and compact Hausdorff, and hence it is metrizable. Any such metric must be complete by compactness, and therefore $\widetilde{X}$ is Polish. Now our $X$, as an open subset of $\widetilde{X}$, must be Polish.
+
+For example, we immediately get a version of RMK theorem for second countable LCH space, and hence an integration theory on manifolds (which are second countable LCH) can be obtained.
+
+\begin{defn}
+    A \df{Polish space} is a separable topological space that admits a complete metrization.
+    
+    A \df{standard Borel space} is a measurable space isomorphic to a Borel subset of a Polish space.
+\end{defn}
+
+countable product of Polish spaces is Polish
+
+subspace of Polish space is Polish if and only if it is a $G_\delta$ set
+
+\begin{prop}
+    Any Polish space is homeomorphic to a $G_\delta$ set of $[0,1]^\N$.
+\end{prop}
+
+
+\begin{namedthm}[Ulam's theorem] \label{thm:Ulam}
+    In a Polish space $X$, every Borel measure is tight.
+\end{namedthm}
+\begin{proof}
+    Let $S = \{x_j\}_{j=1}^\infty$ be a countable dense subset of $X$. Since any point $X$ must be arbitrarily close to some point in $S$, the collection $\{\clos{B}(x_j;1/n)\}_{j=1}^\infty$ covers $X$ for any $n\in \N$. It follows that for any $\epsilon > 0$, there is some $M_n$ such that \[
+        \mu\biggl(X - \bigcup_{j=1}^{M_n}\clos{B}(x_j ; 1/n)\biggr) <  2^{-n} \epsilon.
+    \] To make the approximation set independent of $n$, consider \[
+        K = \bigcap_{n=1}^\infty \bigcup_{j=1}^{M_n}\clos{B}(x_j ; 1/n).
+    \] It follows that $\mu(X - K) \leq \lim_{n\to \infty } 2^{-n} \epsilon = \epsilon$.
+
+    Since $X$ is complete and $K$ is closed, $K$ is complete. In addition, $K$ has finite $\frac{1}{n}$-net for each $n$, and it follows by the \cref{thm:char-thm-compact} that $K$ is compact. This proves the claim.
+\end{proof}
+
+\begin{thm}
+    Two standard Borel spaces are Borel isomorphic if and only if they have the same cardinality, which must be finite, countably infinite, or that of the continuum.
+\end{thm}
+
+universal measurability
+
+$\Q$ is not Polish, \nameref{thm:Baire}
+
+For two separable metrizable spaces $X$ and $Y$, if $f\colon X \to Y$ is Borel measurable, then its graph is a Borel subset of $X \times Y$.
+
+limit of measurable function is measurable
+
+\begin{cor}
+    A standard Borel space $A$ is isomorphic to a Borel subset $B$ of the real line with the Borel $\sigma$-algebra. If $A$ is an infinite set, then we can take $B$ to be the entire real line.
+\end{cor}
 
 \include{chapters/interlude}
 
@@ -39,54 +88,843 @@
 \include{chapters/2-interpret-prob}
 \include{chapters/2-conv-prob-measure}
 \include{chapters/2-cond-expec-martingale}
-\include{chapters/2-ergodic-theory}
 
 
-\chapter{Setting up random processes}
-\section{Product probability measures} \label{sec:product-prob-meas}
-It is noteworthy that both results use the axiom of dependent choice in the proof.
-\begin{namedthm}[Existence of product probability measures on infinite spaces] \label{thm:prod-prob-meas-countable-spaces}
-    The probability premeasure $\mu_0$ defined above is $\sigma$-additive, and hence by \nameref{thm:Caratheodory-ext}, there is a unique extension of $\mu_0$ to a probability measure on $\bigotimes_{n=1}^\infty \F_n$.
+\chapter{Construction of random processes}
+
+\section{Independent sequences} \label{sec:indep-seq}
+
+A major theme of the previous chapters is about the asymptotic behavior of a sequence of independent random variables. However, it is not immediate that there is an appropriate probability space for us to construct such an \emph{independent} sequence.
+
+If the sequence or random variables is assumed to be $\R$-valued but not necessarily independent, then the sequence always exists on the common probability space $([0,1],\B_{[0,1]},m)$, since we can use \cref{thm:cdf-unif-identification} to realize the distribution $\mu_n$ for each $X_n$. If we have a finite list of independent random variables $X_1,\dotsc,X_n$ with distributions $\mu_1,\dotsc,\mu_n$, then we can always take $(\R^n,\B,\mu_1\times\dotsb\times \mu_n)$ to be the probability space.
+
+It is in fact possible to either continue with the space $([0,1],\B_{[0,1]},m)$ and define an independent sequence, or prove a theorem on the existence of countable product of probability measures. We will go with the first approach, and leave the existence theorem to \cref{sec:product-prob-meas}.
+
+We closely follow \cite{Le_Gall_2022} below, and summarize the main idea first.\footnote{See also \cite[Theorem~4.19]{Kallenberg_2021} for a quick introduction.} The binary digits of a single $\Unif[0,1)$ is an i.i.d.\ sequence of $\Ber(1/2)$ random variables. By a clever expansion of indices, the sequence $(X_n)$ can now be used to generate a \emph{sequence} of i.i.d.\ $\Unif[0,1]$ random variables. An application of \cref{thm:cdf-unif-identification} gives us the desired construction.
+
+On the probability space $\Omega=[0,1),\F=\B_{[0.1)}, P = m$, define \[X_n(\omega) = \lfloor 2^n \omega \rfloor - 2\lfloor 2^{n-1} \omega \rfloor,\] the proper binary expansion of $\omega \in [0,1)$. We claim that the $X_n (\omega)$'s form an i.i.d.\ $\Ber(1/2)$ sequence in our probability space. This is easy because for any finite subcollection, \[
+    P(X_1 = b_1, \dotsc,X_n = b_n) = 2^{-n} = \prod_{k=1}^n P(X_k = b_k).
+\] Let $\phi\colon \N \times \N \to \N$ be a fixed one-to-one and onto map, and define \[
+    Y_{(i,j)} = X_{\phi(i,j)}.
+\] Further define $U_i = \sum_{j=1}^\infty Y_{(i,j)} 2^{-j}$, which forms an i.i.d.\ sequence of Uniform$[0,1]$ random variables.
+
+
+
+
+We may now invoke \cref{thm:cdf-unif-identification} and conclude that \[
+    F_{\mu_i}^{-1}(U_i)
+\] produces an independent sequence of $\mu_i$-distributed real random variables.
+
+Given a sequence of i.i.d.\ random variables \[\xi_n = \begin{cases}
+    1 & \text{with probability }p,\\
+    -1 & \text{with probability }q,
+\end{cases}\] we define $S_n = \xi_1 + \dotsb+\xi_n$. 
+
+Nearest neighborhood rw 
+lazy
+
+There are two different perspectives on may look at random walks.
+
+$()$
+
+
+\section{Consistent family of probability measures} \label{sec:consistent-family}
+
+Let $\{\mu_n\}_{n=1}^\infty$ be a sequence of measures each defined on $S$. We say the sequence is a \df{consistent family of probability measures} if \[
+    \mu_n(A_1\times \dotsb \times A_n) = \mu_{n+1}(A_1\times \dotsb \times A_n \times S)
+\] for any $A_1,\dotsc,A_k \in \B(S)$. The $\mu_n$'s are called \df{finite-dimensional distributions}.
+
+\begin{namedthm}[Daniell--Kolmogorov existence theorem] \label{thm:KET}
+    For a consistent family of distributions $\{\mu_n\}$ on $\R$, then there exists some probability space $(\Omega,\F,P)$ on which we can define a stochastic process $\{X_n\}_{n\in \N}$ with $\{\mu_n\}$ as its finite-dimensional distributions.
 \end{namedthm}
-\begin{proof}
-    The tradition approach requires Tonelli's theorem on finite products, see for example \cite[Section 6.3]{Ambrosio_2011}. We follow \cite{Saeki_1996}, which proceeds from first principles and is much simpler.
-\end{proof}
 
-\begin{namedthm}[Ionesco--Tulcea extension theorem] \label{thm:ITET}
-    
-\end{namedthm}
+We follow the second proof in \cite[Section~36]{Billingsley_1995}. See also \cite[Chapter~8]{Kallenberg_2002}.
 
-\begin{namedthm}[Daniell--Kolmogorov extension theorem] \label{thm:Kolmogorov-ext}
-    
-\end{namedthm}
+For uncountable indices, we have to adjust our definition.
 
-\begin{namedthm}[Nelson extension theorem {\cite[Theorem~10.18]{folland1999}}]
-    
-\end{namedthm}
+generalize to Polish spaces 
 
 
-Sometimes we want to work with explicit constructions
+
+
+
+
+
 
 \section{Poisson processes}
+\begin{prop}
+    For two independent random variables $X\sim \Exp(\lambda)$ and $Y\sim \Exp(\mu)$, we have \begin{enumerate}
+        \item \label{enu:2-Poisson-clocks-a} $\min\{X,Y\} \sim \Exp(\lambda + \mu)$;
+        \item \label{enu:2-Poisson-clocks-b} $P(X \leq Y) = \frac{\lambda}{\lambda + \mu}$;
+        \item \label{enu:2-Poisson-clocks-c} $\min\{X,Y\}$ and $\{X\leq Y\}$ are independent.
+    \end{enumerate}
+\end{prop}
+
+\begin{proof}\leavevmode
+    \begin{enumerate}
+        \item $P(X > t, Y > t) = P(X > t) P(Y > t) = e^{-(\lambda + \mu)t}$.
+        \item \begin{align*}
+            P(X - Y \leq 0) & = \int_0^\infty P(X\leq y) f_Y(y)\,dy \\
+            & = \int_0^\infty (1 - e^{-\lambda y}) \mu e^{-\mu y}\,dy \\
+            & = \int_0^\infty \mu e^{-\mu y} - \int_0^\infty \mu e^{-(\lambda + \mu) y} \,dy \\
+            & = \frac{\lambda}{\lambda + \mu}.
+        \end{align*}
+% density         \item \begin{align*}
+%     P(X - Y \leq t) & = \int_{-\infty}^\infty f_X(t+y) f{_Y}(y)\,dy \\
+%     & = \lambda \mu e^{-\lambda t} \int_{-\infty}^\infty e^{(-\lambda - \mu)y}\ind\{y \geq 0, t + y\geq 0\}\,dy \\
+%     & = \frac{\lambda \mu}{\lambda + \mu}e^{-\lambda t} \bigl[-e^{(-\lambda - \mu)y}\bigr]_{y=\min\{0,-t\}}^\infty
+% \end{align*}
+    \item \begin{align*}
+        P(X > t,Y > t,X \leq Y) & = P(X > t, X\leq Y)\\
+         & = \int_{x = t}^\infty \int_{y = x}^\infty \lambda e^{-\lambda x} \mu e^{-\mu y}\,dy\,dx \\
+         & = \int_{x = t}^\infty \lambda e^{-\lambda x} e^{-\mu x} \,dx \\
+         & = \frac{\lambda}{\lambda + \mu} e^{(-\lambda + \mu) t} \\
+         & = P(X > t,Y>t) P(X \leq Y). \qedhere
+    \end{align*}
+    \end{enumerate}
+\end{proof}
+
+% Hence \[
+%     P(X - Y \leq t) = \begin{cases}
+%       \frac{\lambda \mu}{\lambda + \mu}e^{-\lambda t}  & \text{if } t \geq 0, \\
+%       \frac{\lambda \mu}{\lambda + \mu}e^{\mu t}  & \text{if } t< 0.
+%     \end{cases}
+% \]
+%     \[P(X > t,Y > t,X \leq Y) = P(X > t, Y > t) P(X \leq Y)\]
+
+% LHS = $\int_{t}^\infty \mu e^{-\mu y} \int_{t}^y \lambda e^{-\lambda x}\,dx\,dy$
+
+% \begin{align*}
+%     P(Y \geq X > x) & = P(X \leq Y)P(\min\{X,Y\} > x) + P(X > Y)P(X >x) \\
+%     & = \frac{\lambda}{\lambda + \mu}\exp(-\lambda -\mu) + \frac{\mu}{\lambda + \mu}P(X > x \giv X > Y)
+%     \\ P(X > Y >y) & = 
+% \end{align*}
+
+The above claim can be similarly stated for the smallest of $n$ independent exponential random variables, with the exact same proof; see \cite[Exercise~3.7.3]{Durrett_2019} for the statement.
+
+However, the converse is not true. Consider a random variable $Z \sim \Exp(\lambda + \mu)$, and an independent random variable $\xi \sim \Ber\bigl(\frac{\lambda}{\lambda + \mu}\bigr)$. Let \[
+    (X,Y) = \begin{cases}
+        (Z,Z+1) & \text{if } \xi = 1,\\
+        (Z+1,Z)\quad & \text{if }\xi =0.
+    \end{cases}
+\]
+Then clearly all conditions~\ref{enu:2-Poisson-clocks-a}\ref{enu:2-Poisson-clocks-b}\ref{enu:2-Poisson-clocks-c} are met, but $X$ and $Y$ are clearly not the desired Exponential random variables.
+
+This might be a little disappointing. But with some deliberation, we notice that the three conditions only capture the distribution of the smaller of $X$ and $Y$, and the probability that which of two is smaller one. In other words, we have no information about the larger of the two random variables after the ``time'' $\min\{X,Y\}$ is reached. (Recall an exponential random variable is usually interpreted as the random time at which a light bulb went off.)
+
 Poisson distributions and exponential distributions are duals to each other. Because exponential distributions are memoryless, they form the basis of all continuous-time processes. (for a clock to ring)
+
+A \df{counting process} $\{N(t)\}_{t\geq 0} = \{N_t(\omega)\}_{t\geq 0}$ is a continuous-time stochastic process with these properties:  
+\begin{enumerate}[label=(\roman*)]
+\item for each $t$, $N(t) \in \N_0$;
+\item $N(t)$ is increasing;
+\item \label{enu:count-proc}$N(t)$ is right-continuous for almost every $\omega$.
+\end{enumerate}
+
+Given a stochastic process $X_t$, for each sample $\omega$ we have the so-called \df{sample path} $X_t(\omega)$. It is customary to assume càdlàg sample paths for continuous-time stochastic processes. This is mostly an assumption for theoretic purposes on the regularity of the process. For a counting process this assumption is also somewhat natural, since once an increment in $N$ is supposed to take place, it should take place at precisely this time instant $t$, and not at $t+$.
+
+A \emph{Poisson (point) process} with arrival rate $\lambda$ is the particular counting process that “follows” the Poisson distribution. It satisfies 
+\begin{enumerate}
+
+\item $N(0)=0$;
+
+\item $N(t)$ has right-continuous sample paths;
+
+\item for $(s_{1},t_{1}]\cap (s_{2},t_{2}]= \emptyset$, the increments $N(t_{1})- N(s_{1})$ and $N(t_{2})- N(s_{2})$ are independent random variables; (independent increments)
+
+\item the number of events in any interval of length $t$ follows Poisson$(\lambda t)$. (stationary increments depending solely on $t$)
+
+\end{enumerate}
+
+
+The independent and stationary increments assumption can be expressed explicitly as follows: for any arbitrary $t,h,$ and $k\geq 0$, we have 
+\[
+P(N(t+h)- N(t)=k)=e^{-\lambda h}\frac{(\lambda h)^{k}}{k!}.
+\]
+
+We have the equivalent infinitesimal definition that, for any $t\geq 0$, $N(t)$ follows the equation that for very small positive $h$, \[P(N(t+h)- N(t)=1)=\lambda h+o(h) \quad \text{and} \quad  P(N(t+h)- N(t)=0)=1- \lambda h+o(h).\]
+To illustrate why the two definitions are the same, recall how the Poisson distribution may be interpreted as infinite coin flips. Thus, the coin with success probability $\lambda h$ to increase $N$ by 1 in all intervals with very small length $h$ is what approximates the Poisson process. Note that when $h\rightarrow 0$, the $o(h)$ in the two expressions above will vanish. The rigorous proof of the equivalence between the two definitions requires differential equations and is omitted here.
+
+Poisson thinning and superposition
+\begin{thm}
+    Given a Poisson process $\{N(t)\}$ with rate $\lambda$, and an independent sequence of i.i.d.\ random variables $\xi_j \sim \Ber(p)$, then the process $\{N_1(t)\}$, given by \[
+        N_1(t) = \sum_{j=1}^{N(t)} \xi_j,
+    \] is a Poisson process with rate $p\lambda$.
+\end{thm}
+
+\begin{thm}
+    Given two independent Poisson processes $N_1(t)$ and $N_2(t)$ with rate $\lambda$ and $\mu$ respectively, the process $N(t) \coloneqq N_1(t)+N_2(t)$ is a Poisson process with rate $\lambda + \mu$.
+\end{thm}
+
+Again both claims 
+
+Compound Poisson process
+
+% Similar to what we have done in the theory of Markov chains, different characterizations of stochastic processes may lead to interesting interpretations and properties. As we will soon find out, Poisson processes establish the bridge between the discrete Poisson distribution and the continuous exponential distribution, whose p.m.f. and p.d.f. typically lacked intuition when they were first introduced in a probability class. (As a matter of fact, the exponential distribution is the only continuous distribution with the \textit{lack-of-memory} property, and thus serves as the basis for continuous-time stochastic processes with independent increments.)
+
+% Both theorems below are easily proven following the infinitesimal definition. 
+
+% The superposition of two Poisson processes $N_{1}(t)$ and $N_{2}(t)$ with rate $\lambda _{1}$ and $\lambda _{2}$ by letting $N(t)=N_{1}(t)+N_{2}(t)$ is a new Poisson process with rate $\lambda _{1}+\lambda _{2}$. If events in a Poisson process with rate $\lambda $ has an independent probability $p$ of being type 1, then the counting process of type 1 is a Poisson process with rate $\lambda p$, and the counting process of the remaining events is an \emph{independent} Poisson with rate $\lambda (1- p)$.
+
+% Equally important is the characterization using arrival and interarrival times. We define the $n$-th arrival time $S_{n}$ as $\inf \{t\geq 0 : N(t)=n\}$.
+
+% It turns out that interarrival times $T_{1}\coloneqq S_{1}- S_{0},T_{2}\coloneqq S_{2}- S_{1},\dots $ between two adjacent events in a Poisson process are all independent and follow Exponential$(\lambda)$. To show this, first we have
+% \[
+% P(T_{1}>t)=P(N(t)=0)=e^{- \lambda t},
+% \]
+% which tells us that $T_{1}\sim \operatorname{Exponential}(\lambda)$. We can proceed to conclude about $T_{2},T_{3},\dots $ by induction, following
+% \[
+% P(T_{n+1}>t \giv T_{n}=t_{n},\dots ,T_{1}=t_{1})=P(\text{0 arrival in } (s_{n},s_{n}+t])=e^{- \lambda t},
+% \]
+% since the interval $(s_{n},s_{n}+t]$ is of length $t$. (Here $n\geq 1$ and $s_{n}=t_{1}+t_{2}+\dots +t_{n}$, given arbitrary $t_{i}$’s.)
+
+% In general, we can show that the Poisson process is a continuous-time Markov chain, and conditioning on any stopping time $T<\infty $ (e.g. the $n$-th arrival time $S_{n}=\sum_{i=1}^{n}T_{i}$ above), $N(T+t)- N(T)$ is a new Poisson process with the same rate $\lambda$, independent of $N$ prior to time $T$. The interarrival result above also follows “directly” from this strong Markov property because all $t_{i}$’s are arbitrary, as we have mentioned above.
+
+% It is now clear that $E(S_{n})=\sum_{i=1}^{n}E(T_{i})=n/\lambda $. Furthermore, since $S_{n}$ is the sum of $n$ i.i.d.\ Exponential$(\lambda)$ random variables, it follows the \textit{Gamma distribution} with density
+% \[
+% f_{S_{n}}(t)=\lambda e^{- \lambda t}\frac{(\lambda t)^{n- 1}}{(n-1)!}.
+% \]
+% We may get this expression above by differentiating both sides of
+% \[
+% P(S_{n}>t)=P(N(t)<n)=\sum_{j=0}^{n- 1}e^{- \lambda t}\frac{(\lambda t)^{j}}{j!}.
+% \]
+% The last result we discuss here is the relationship between the uniform distribution and the Poisson process. As it turns out, conditioning on the event $N(t)=n$, we have that the $n$ arrival times $S_{1},S_{2},\dots ,S_{n}$ in the interval $[0,t]$ are distributed as the order statistics of $n$ independent Uniform$([0,t])$ random variables.
+
+% We briefly sketch why this is true. The key to this is that
+% \begin{align*}
+% f(s_{1},s_{2},\dots s_{n} \giv N (t)=n) & =\frac{f(s_{1},s_{2},\dots s_{n},n)}{P(N(t)=n)} \\ & = \frac{f(s_{1})f(s_{2}- s_{1})\dots f(s_{n}- s_{n-1})P(s_{n+1}>t)}{P(N(t)=n)} \\
+% & =\frac{\lambda e^{- \lambda s_{1}}\lambda e^{- \lambda (s_{2}- s_{1})}\dots \lambda e^{- \lambda (s_{n}- s_{n- 1})}e^{- \lambda (t- s_{n})}}{e^{- \lambda t}(\lambda t)^{n}/n!}
+% =\frac{n!}{t^{n}},
+% \end{align*}
+% the exact joint density of the order statistics corresponding to $n$ independent 
+% Uniform$([0,t])$ random variables.
 
 \begin{namedthm}[Poisson limit theorem]
     
 \end{namedthm}
 
 
-\section{Random walks, part I}
-There are two different perspectives on may look at random walks.
 
-\section{Explicit construction of Markov chains}
+\section{Explicit construction of discrete Markov chains}
+
+Let $S$ be a finite or countably infinite set, implicitly with the $\sigma$-field $\mathcal P(S)$. A (row) \df{stochastic matrix} is a countable-dimensional real matrix $\{Q(x,y):x,y\in S\}$ satisfying \begin{enumerate}
+    \item each value takes value in $[0,1]$: for every $x,y\in S$, $0 \leq Q(x,y) \leq 1$;
+    \item each row sums to $1$: for each $x \in S$, $\sum_{y\in S} Q(x,y) = 1$.
+\end{enumerate}
+
+\begin{thm}
+    Let $Q$ be a stochastic matrix on $S$, we can find a probability space $(\Omega,\F,P)$, on which we can construct a Markov chain $\{X_n\}$ started at any initial distribution for $X_0$.
+\end{thm}
+
+The construction of such a probability space is insufficient for our theory. By definition a Markov chain forgets its past. At a future state $X_n = x_n$, we can  pretend that moving forward $\{X_k:k\geq n\}$ is a new Markov chain started at $x_n$, as if the past has never happened. (This is known as the \emph{Markov property}, and will be introduced in \cref{sec:Markov-property}.) To formalize this notion, we are forced to consider a probability space on which the entire Markov chain $\{X_n\}_{n\geq 0}$ can be shifted into the future.
+
+Now we describe the canonical probability space for a Markov chain. Let $\mathbf \Omega = S^\N$, on which we define functions $\mathbf X_0, \mathbf X_1,\dots$ to be the sequence of coordinate projections. This means that for $\omega = (\omega_0,\omega_1,\dotsc)$, we define \[
+    \mathbf X_n(\omega) = \omega_n.
+\]
+Let $\mathfrak F = \sigma(X_0,X_1,\dotsc)$. Under this setup, we show that the probability space $(\Omega,\F,P)$ in the previous theorem can be pushed to another probability space $(\mathbf \Omega,\mathfrak F,\bP)$, the canonical one.
 
 
-\section{Explicit construction of Brownian motions}
+Recall \cref{xca:measurability-proj}, which tells us exactly that $f$ is $/\mathfrak F$
+
+\begin{thm}
+    Let $Q$ be a stochastic matrix on $S$. For any distribution $\mu$ on $S$, there exists a unique probability measure $\bP_\mu$ on $(\mathbf \Omega,\mathfrak F)$ such that under $\bP_\mu$, the sequence of coordinate projections $\{\mathbf X_n\}$ becomes a Markov chain with initial distribution $\mu$ and transition matrix $Q$.
+\end{thm}
+
+\section{Lévy's construction of Brownian motions}
+
+Let $(\Omega,\F,P)$ be the underlying space. An $\R^d$-valued stochastic process $\{B_t\}_{t \geq 0}$ is called a $d$-dimensional \df{Brownian motion} started from $x$ if it satisfies the following three conditions: \begin{enumerate}
+    \item (independent increments) $B_0 = x$, and for any $n \in \N$ and possible $0 = t_0 < t_1 < \dotsb < t_n$, the increments \[
+        B_{t_1} - B_{t_0}, \dotsc , B_{t_n} - B_{t_{n-1}} \] are all independent;
+    \item (stationary increments) for any $t, s \geq 0$, $B_{t+s} - B_t \eqD B_s - B_0$;
+    \item (Gaussian increments) $B_t - B_0 \sim N(0,tI_d)$;
+    \item (continuous sample paths) the $t \mapsto B_t(\omega)$ is continuous $P$-a.s.
+\end{enumerate}
+
+The sample path can be made surely continuous.
+
+When $x = 0$, $\{B_t\}_{t \geq 0}$ is called a \df{standard Brownian motion}.
+
+\begin{thm}[{\cite[Theorem~36.3]{Billingsley_1995}}]
+    For a family of functions $X_t\colon \Omega \to \R$ over $t\in T$, \begin{enumerate}
+        \item if $A \in \sigma(X_t:t\in T)$ and $\omega \in A$, if $X_t(\omega ) = X_t(\omega')$ for all $t \in T$, then $\omega ' \in A$;
+        \item if $A \in \sigma(X_t:t\in T)$, then $A \in \sigma(X_t:t \in S)$ for some countable $S \subseteq T$.
+    \end{enumerate}
+\end{thm}
+
+$\mathcal C\bigl([0,\infty),\R\bigr) \subsetneq \B\bigl(\R^{[0,\infty)}\bigr)$
+
+a direct proof using a special complete orthonormal system
+
+It is possible to endow two different metrics on $C[0,\infty)$.
+
+\begin{prop}[{\cite[Exercise~8.1.6]{Cohn_2013}}]
+    We can define a metric $d(\blank,\blank)$ on $C[0,\infty)$ given by the recipe 
+    \[d(f,g) = \sup\bigl\{1 \bmin \abs{f(t) - g(t)} : t \in [0,\infty)\bigr\}.\] The metric characterizes uniform convergence of continuous functions on $[0,\infty)$: \[
+        f_n \to f \text{ uniformly on }[0,\infty) \iff d(f_n, f) \to 0.
+    \] However, the topology on $C[0,\infty)$ induced from this metric is not separable.
+\end{prop}
+
+\begin{prop}[{\cite[Exercise~8.1.7]{Cohn_2013}}]
+    We can define another metric $d(\blank,\blank)$ on $C[0,\infty)$ given by  
+    \[d(f,g) = \sum_{n = 1}^\infty \frac{1}{2^{n}}\max\bigl\{1 \bmin \abs{f(t) - g(t)} : t \in [0,n]\bigr\}.\] The metric characterizes uniform convergence on compact subsets of $[0,\infty)$: \[
+        f_n \to f \text{ uniformly on }[0,N] \text{ for all }N \in \N \iff d(f_n, f) \to 0.
+    \] Under this metric, $C[0,\infty)$ is in fact complete and separable. (This shows the topology of uniform convergence on compact sets is in fact Polish.)
+\end{prop}
+
+For the functions we will consider it usually suffices to consider uniform convergence on $C[0,1]$, and by scaling we obtain uniform convergence on $C[0,N]$ for all $N$. However, this space is not locally compact.
+
+Weak convergence on the metric space $C[0,1]$ cannot be determined by 
+
+\section{Other constructions of Brownian motions}
+
+modify its path so that it becomes continuous
+
+For $0 < \alpha \leq 1$, we say $f\colon S \to \R$ is $\alpha$-Hölder continuous if for $x,y \in S$, \[
+    \sup_{{x \neq y}} \frac{\abs{f(x)} - f(y)}{d(x,y)^\alpha} < \infty.
+\] (If $\alpha > 1$, then the function must be bounded, and if $\alpha = 0$, then we the function is only bounded.)
+
+It should be easy to see that \[
+    \text{Lipschitz} \subseteq \alpha\text{-Hölder} \subseteq \text{uniform continuity}, 
+\] since for any $0 < \alpha \leq 1$, we get uniform continuity; and if $\alpha = 1$, then we get Lipschitz continuity. When $S$ is a compact subset of a Euclidean space, then Lipschitz further becomes stronger than $C^1$, and uniform continuity is just continuity.
+
+We can define a corresponding \df[Hölder continuity!local]{local Hölder continuity}. Instead take the supremum over the entire $S$, we take it over every compact subset of $S$. 
+Furthermore we have an even weaker notion of Hölder regularity useful in continuous processes. We say $f$ is \df[Hölder continuity!at a point]{$\alpha$-Hölder at a point} $x_0\in S$ if there is a ball $B(x_0;\epsilon)$ around $x_0$ such that \[
+    \sup_{\substack{x \in B(x_0;\epsilon) \\ x\neq x_0}} \frac{\abs{f(x)} - f(x_0)}{d(x,x_0)^\alpha} < \infty.
+\]
+
+\begin{namedthm}[Kolmogorov--Chenstov continuity lemma] \label{thm:Kolmogorov-cont}
+    Given a complete separable metric space $(S,\rho)$, let $X\colon [0,\infty) \times \Omega \to S$ be a stochastic process. Suppose we have positive constant $\alpha,\beta,C$ such that \begin{equation} \label{eq:Kolmogorov-cont}
+        \E\rho(X_s,X_t)^\alpha \leq C \abs{s - t}^{1 + \beta}
+    \end{equation}
+    for $x,y \in [0,\infty)$, then we have a continuous modification $\widetilde{X}$ of $X$ whose sample paths are locally Hölder-$\gamma$ continuous for all $\gamma \in (0,\beta / \alpha)$.
+\end{namedthm}
+
+Again the separability of $S$ is assumed to ensure the measurability of $\rho(X_s,X_t)$, as discussed in \cref{rem:meas-metric-2nd-countable}.
+
+We may generalize the time index set $[0,\infty)$ to be any subset of $\R^d$, while changing the exponent of $\abs{s - t}$ in \eqref{eq:Kolmogorov-cont} from $1 + \beta$ to $d + \beta$.
+
+% https://almostsuremath.com/2020/10/20/the-kolmogorov-continuity-theorem/
+
+\include{chapters/2-ergodic-theory}
 
 \chapter{Markov chains}
 
-\chapter{Brownian motions}
+\section{Markov properties} \label{sec:Markov-property}
 
+\begin{namedthm}[Simple Markov property]
+    Let $G\colon \mathbf \Omega \to \R$ be a nonnegative or bounded Borel measurable function, then 
+    \[
+        \bE_\mu(G\circ \theta_n \giv \mathfrak F_n)= \bE_{X_n}G \quad\text{for all }n\in \N.
+    \]
+\end{namedthm}
+
+Note that $G$ is just a random variable
+
+\begin{namedthm}[Chapman--Kolmogorov equation]
+    $\bP_\mu(X_{n+m} = x) = \sum_{y\in S} \bP_\mu(X_{n} = y)\bP_y(X_{m} = x)$. In particular we have \[
+        \bP_\mu(X_{n+1} = x) = \sum_{y\in S} \bP_\mu(X_{n} = y)\bP_y(X_{1} = x) = \sum_{y\in S} \bP_\mu(X_{n} = y) Q(y,x).
+    \] By an inductive argument one gets $\bP_\mu(X_n = x) = \sum_y\mu(y) Q^n(y,x)$, and in particular \[
+        \bP_y(X_n = x) = Q^n(y,x).
+    \]
+\end{namedthm}
+
+\begin{namedthm}[Strong Markov property]
+    Let $G_n\colon \mathbf \Omega \to \R$ be a sequence of Borel measurable functions bounded by $M$ for all $n \in \N$, then 
+    \[
+        \bE_\mu\bigl(\ind_{\{T<\infty\}}G_T \circ \theta_T \bigm\vert \mathfrak F_T\bigr) = \ind_{\{T<\infty\}}\bE_{X_T}G_T.
+    \]
+\end{namedthm}
+
+\section{Recurrence and transience}
+Let the \df{hitting time} to $y$ be $T_y = \inf\{n\geq 1 : X_n = y\}$, then the expected hitting time to $y$ starting from $x$ is $\bE_x N_y$. Let the number of visits to $y$ be $N_y = \sum_{n = 1}^\infty \ind\{X_n = y\}$. The goal of this section is to establish the connection between the three quantities.
+
+\begin{fact}
+    $\bE_x N_y = \sum_{n=1}^\infty \bP_x(X_n = y) = \sum_{n=1}^\infty Q^n(x,y)$.
+\end{fact}
+
+\begin{thm}
+    For any $x \in S$, then there are only two possibilities for a state: \begin{enumerate}
+    \item \df[recurrent state]{recurrent}, i.e., $\bP_x(T_x<\infty) = 1$. In this case $\bP_x(N_x = \infty) = 1$ and hence $\bE_x N_x = \sum_n Q^n(x,x) = \infty$.
+    \item \df[recurrent state]{transient}, i.e., $\bP_x(T_x<\infty) < 1$. In this case $\bP_x(N_x < \infty) =1$, and furthermore $\bE_x N_x = \sum_n Q^n(x,x) < \infty$.
+\end{enumerate}
+\end{thm}
+
+positive recurrent
+
+a finite mc has at least one recurrent state
+
+\begin{namedthm}[Recurrence as an equivalence relation]
+    
+\end{namedthm}
+
+\section{Stationary distributions}
+\begin{defn}
+    Given a nonzero measure $\pi$ such that $\pi(x) < \infty$ for all $x \in S$, we say \begin{enumerate}
+        \item $\pi$ is a \df{stationary/invariant measure} with respect to $Q$ if for all $y \in S$, \begin{equation}
+            \pi(y) = \sum_{x\in S} \pi(x)Q(x,y); \label{eq:def-stationary}
+        \end{equation}
+        \item $\pi$ is a \df{reversible measure} with respect to $Q$ if for all $x, y \in S$, we have \begin{equation}
+            \pi(x)Q(x,y) = \pi(y)Q(y,x). \label{eq:def-reversible}
+        \end{equation}
+    \end{enumerate}
+\end{defn}
+
+A stationary measure can be easily interpreted in the matrix notation. If we write $\pi$ as a row vector indexed by $S$, then \eqref{eq:def-stationary} is equivalent to $\pi = \pi Q$. Furthermore, this gives $\pi = \pi Q^n$ for any $n$.
+
+\begin{fact}
+    A reversible measure is a stationary measure, which is clear by doing a summation over $x$ on both sides of \eqref{eq:def-reversible}.
+\end{fact}
+
+\begin{namedthm}[Kolmogorov cycle condition for stationarity]
+    Suppose $Q$ is irreducible. A necessary and sufficient condition for $Q$ to have a reversible measure is \begin{enumerate}
+        \item $Q(x,y) > 0 \implies Q(y,x) > 0$;
+        \item for any cycle $x_0,x_1,\dotsc,x_n = x_0$, \[
+            \prod_{j=1}^n Q(x_{j-1},x_j) = \prod_{j=1}^nQ(x_j,x_{j-1}).
+        \]
+    \end{enumerate}
+\end{namedthm}
+
+
+time reversal
+
+\begin{prop}
+    Let 
+\end{prop}
+
+\section{Convergence to stationarity}
+
+\begin{prop} \leavevmode
+    \begin{enumerate}
+        \item In an irreducible and aperiodic chain, there exists an $N$ such that $Q^n(x,x) > 0$ for all $n \geq N$;
+        \item if the chain is furthermore finite, then there exists $M$ such that $Q^n(x,y) > 0$ for all $n \geq M$.
+    \end{enumerate}
+\end{prop}
+
+\begin{namedthm}[Convergence in total variation]
+    Let $Q$ be irreducible and aperiodic for $\{X_n\}$, and let $\pi$ be its stationary distribution. We have \[ 
+        \max_{x\in S}\tv\bigl(Q^n(x, \blank),\pi\bigr) \to 0.
+    \]
+    If the state space is finite, then we have an exponential convergence rate: for all time $n$, there exists some rate $r<1$ such that \[
+        \max_{x\in S}\tv\bigl(Q^n(x, \blank),\pi\bigr) \leq Ce^{rn}
+    \] for some absolute constant $C > 0$.
+    
+\end{namedthm}
+
+\section{Ergodicity of Markov chains}
+
+\begin{namedthm}[Ergodic theorem for Markov chains]
+    Let $Q$ be irreducible with stationary distribution $\pi$, and let $f \in L^1(S,\pi)$. For any initial distribution $\mu$, we have \[
+        \frac{1}{n} \sum_{k=0}^{n-1} f(X_n) \to \sum_y f(y) \pi(y)\quad \bP_\mu\text{-a.s.}
+    \]
+\end{namedthm}
+\begin{proof}
+    
+\end{proof}
+
+\section{Harmonic Markov chains}
+
+\section{Random walks as Markov chains}
+
+\begin{namedthm}[Reflection principle]
+    %Let $\xi_1,\xi_2,\dotsc$ be a i.i.d.\ sequence of variables with distribution symmetric about $0$. Let $S_n = \sum_{j=1}^n\xi_j$.
+    
+     For any real number $a \geq 0$, we have 
+    \[
+        \bP_0 \Bigl(\max_{m \leq n} S_m \geq a\Bigr) = \bP_0(S_n \geq a) + \bP_0(S_n \geq a + 1)
+    \]
+\end{namedthm}
+
+The key to many results about Markov processes is to write the desired event in terms of stopping times, which we have control over by the strong Markov property.
+
+\section{Major examples}
+Ehrenfest urn model
+Pólya's urn
+
+\section{Continuous-time Poisson jump Markov chains}
+
+\section{The general continuous-time theory}
+
+Given a collection $\{Q_t\}$ of transition kernels, if we have in addition \begin{enumerate}
+    \item for every $x \in S$, $Q_0(x,\blank) = \delta_x$;
+    \item the Chapman--Kolmogorov equation holds: for every $A \in \mathcal S$ \[
+        Q_{s+t} (x,A) = \int_{y\in S} Q_t(y,A)\,Q_s(x,dy);
+    \]
+    \item for each fixed $A \in \mathcal S$, the mapping $(x,t) \mapsto Q_t(x,A)$ is a $\mathcal S \otimes \mathcal B_{[0,\infty)}$-measurable function.
+\end{enumerate}
+
+Notice that $\nm{Q_tf} \leq \nm{f}$
+
+$Q_0 = I$
+
+Also for any $x\in S$ and $A \in \mathcal S$, \begin{align*}
+    Q_sQ_{t}\ind_A(x) & = Q_s\int_{y\in S} \ind_A(y)\,Q_t(x,dy) \\
+    & = \int_{z \in S}\int_{y\in S} \ind_A(y)\,Q_t(z,dy)\,Q_s(x,dz) \\
+    & = \int_{z \in S} Q_t(z,A)\,Q_s(x,dz) \\
+    & = Q_{s+t}(x,A) = Q_{s+t}\ind_A(x),
+\end{align*}
+and the property $Q_sQ_t = Q_{s+t}$ follows.
+
+Therefore a Markov semigroup is structurally a one-parameter strongly continuous contractive semigroups on the space of bounded Borel measurable functions. Very often we are interested in other function spaces, in particular $C_0$ and $L^p$ spaces.
+
+A transition semigroup $\{Q_t\}$ is called a \df{Feller semigroup} if \begin{enumerate}
+    \item $Q_t$ takes $f \in C_0(S)$ to $Q_tf\in C_0(S)$;
+    \item for any $f \in C_0(S)$, we have the pointwise convergence $Q_tf(x)\to f(x)$ at all $x\in S$.
+\end{enumerate}
+
+It turns out that condition implies the strong convergence $\nm{Q_tf - f} \to 0$.
+
+We have a 
+
+Hille--Yosida theorem
+
+Hunter Evans Taylor
+
+\begin{namedthm}[Simple Markov property]
+    Let $\Phi \colon D(S) \to \R$ be nonnegative/bounded measurable, and assume that $\{X_t\}$ has càdlàg sample paths. Then 
+    \[
+        \bE_\mu[\Phi(X_{s+t}) \giv \mathfrak F_s]= \bE_{X_s}\Phi(X_t) \quad\text{for all }n\in \N.
+    \]
+\end{namedthm}
+
+Carré du champ operator 
+
+
+measures leftover from being a product rule
+
+\[\Gamma(f,g) = \tfrac{1}{2} \bigl[L(fg) - (Lf) g - f (Lg)\bigr]. \]
+
+\section{Harris chains}
+
+\include{chapters/2-brownian-motions}
+
+
+\chapter{Stochastic calculus}
+\section{Continuous filtration and martingales}
+
+If $X_t$ is progressively measurable, then $X_t$ is adapted to $\F_t$.
+
+A continuous adapted process $\{M_t\}$ with $M_0 = 0$ is called a \df{continuous local martingale} if there exists an increasing sequence of stopping times $\{T_n\}$ such that $T_n(\omega) \to +\infty$ a.s., while for each $n$, the stopped process $\{M_{t \bmin T_n}\}_t$ is a uniformly integrable martingale.
+
+% $M_0 \neq 0$，then we say
+
+Suppose $\{M_t\}$ is a continuous local martingale started at $0$ and also a finite-variation process. then $M_t(\omega) =0$ for a.e.\ $\omega$ over $t\geq0$.
+
+For a continuous local martingale $M$ started from $0$, we have $M = 0$ if and only if $\qv{M} = 0$.
+
+\begin{prop}[Proposition~3.4]
+    A left-continuous/right-continuous adapted process is progressively measurable.
+\end{prop}
+
+\begin{namedthm}[Doob's maximal inequality]
+    
+\end{namedthm}
+
+\begin{namedthm}[Doob's $L^p$ inequality]
+    
+\end{namedthm}
+
+A process $\{X_t\}$ is said to be of class $D$ if $\{X_\tau : \tau\text{ is a finite stopping time}\}$ is uniformly integrable.
+
+\begin{namedthm}[Doob--Meyer decomposition]
+    The process $\{X_t\}$ is a submartingale of class $D$ if and only if \[
+        X_t = M_t + A_t, 
+    \] where $M$ is a uniformly integrable martingale, and $A$ is an increasing predictable process such that $\E A_\infty < \infty$. The decomposition is unique.
+
+    (If the process $X$ is a supermartingale then we have $X_t = M_t - A_t$ instead.)
+\end{namedthm}
+
+\begin{namedthm}
+    
+\end{namedthm}
+
+finite variation process
+
+quadratic variation
+
+Let $\{\F_t\}$ be a right-continuous and complete filtration, and $\{X_t\}$ be an adapted submartingale (or supermartingale) such that $t \mapsto \E X_t$ is right-continuous (which is clearly satisfied when $\{X_t\}$ is just a martingale). Then $\{X_t\}$ has a càdlàg modification $\{\widetilde{X}_t\}$ that remains a submartingale (or supermartingale).
+
+A local martingale is a martingale if and only if it is uniformly integrable.
+
+A continuous martingale must be a continuous local martingale, but the converse is false in general.
+
+$B_t^2 - t$ is a continuous martingale
+
+and 
+
+Fix any $t > 0$, and let $p = \{t_0,\dotsc,t_{n(p)}\}$ be any partition of the time interval $[0,t]$, where \[
+        0 = t_0 < t_1 < \dotsb < t_{n(p)} = t.
+    \] 
+    If we have a sequence of partitions $p_m$ of $[0,t]$ such that the mesh $\nm{p_m} \to 0$, then \[
+        \sum_{j=1}^{n(p)}(M_{t_{j}} - M_{t_{j-1}})^2 \to \qv{M}_t\text{ in }L^2,
+    \] and hence in probability.
+
+\begin{thm}
+    For a continuous local martingale $\{M_t\}$, there exists an increasing process $\{\qv{M}_t\}$ unique up to distinguishability, called the \df{quadratic variation} of $M_t$, such that \[
+        M_t^2 - \qv{M}_t
+    \] gives a new continuous local martingale.
+    
+    The name comes from the following result. Fix any $t > 0$, and let $p = \{t_0,\dotsc,t_{n(p)}\}$ be any partition of the time interval $[0,t]$, where \[
+        0 = t_0 < t_1 < \dotsb < t_{n(p)} = t.
+    \] We define the $\operatorname{QV}$ of the continuous local martingale $M$ with respect to a partition of $[0,t]$ by \[
+        \operatorname{QV}(M,p) = \sum_{j=1}^{n(p)}(M_{t_{j}} - M_{t_{j-1}})^2
+    \]
+    
+    If we have a sequence of partitions $p_m$ of $[0,t]$ such that the mesh $\nm{p_m} \to 0$, then \[
+        \operatorname{QV}(M,p_m) \to \qv{M}_t\text{ in probability.}
+    \] % where the supremum is taken over all $n$ and all partitions $0 = t_0 < t_1 <\dotsb <t_n = n$.
+\end{thm}
+
+Given two continuous local martingales $M_t$ and $N_t$, we define their \df{covariation process} by \[
+    \bkt{M}{N}_t = \frac{1}{2}\bigl(\qv{M + N}_t - \qv{M}_t - \qv{N}_t\bigr)
+\]
+
+
+
+symmetric bilinear form
+
+A process $X_t$ is a \df{continuous semimartingale} the sum of a continuous local martingale $X_t$ and a finite variation process $A_t$.
+
+Let two stochastic processes $\{X_t\}$ and $\{\widetilde{X}_t\}$ be indexed by a common set $T$. The two processes are \df{indistinguishable} if there exists a null set $N \subseteq \Omega$ such that for all $\omega \in \Omega - N$, it holds that \[
+    \widetilde{X}_t(\omega) = X_t(\omega)\quad \text{for all }t\in T.
+\] The process $\widetilde{X}_t$ is said to be a \df[modification of sample paths]{modification} of $X_t$ if for each $t \in T$, it holds that \[
+    P(\omega: \widetilde{X}_t = X_t) = 1.
+\] Modification means that we are modifying at each time instant, but indistinguishable means that the entire sample paths are indistinguishable with respect to the samples.
+
+\begin{namedthm}[Kunita--Watanabe inequality]
+    For two continuous local martingales $M$ and $N$, and two measurable processes $H$ and $K$, we have \[
+        \int_0^\infty \abs{H_s}\,\abs{K_s}\,\abs{d\bkt{M}{N}_s} \leq \biggl(\int_0^\infty H_s^2 \,d\qv{M}_s\biggr)^{1/2} \biggl(\int_0^\infty K_s^2 \,d\qv{N}_s\biggr)^{1/2}
+    \] almost surely.
+\end{namedthm}
+
+A continuous local supermartingale that is bounded below is a true supermartingale.
+
+Domination property: a continuous local martingale $M$ such that $\sup_t \abs{M_t} < Y$ for some $Y \in L^1$ is a uniformly integrable (true) martingale.
+
+\begin{namedthm}[Burkholder--Davis--Gundy inequality]
+    For $0\leq p < \infty$, there exists two absolute constants $c_p$ and $C_p$ such that for any continuous local martingale $M$, it holds that \[
+        c_p \E \bigl(\sup_t \abs{M_t}\bigr)^p \leq \E \qv{M}_\infty^{p/2} \leq C_p \E \bigl(\sup_t \abs{M_t}\bigr)^p.
+    \]
+\end{namedthm}
+
+In particular, this means that for a continuous local martingale $M$ such that $\E \qv{M}_\infty^{1/2} < \infty$, $\E \sup_t \abs{M_t} < \infty$, which implies that $M$ is in fact a uniformly integrable martingale.
+
+\section{Construction of stochastic integrals}
+\subsection{The Brownian case}
+
+agrees with the Wiener integral 
+
+\subsection{The \texorpdfstring{$L^2$}{L2} martingale case}
+
+Itô's isometry
+
+\[\E\biggl(\int H_s \,dM_s\biggr)^2 = \E \int H_s^2\,d\qv{M}_s\]
+
+\begin{namedthm}[Itô--Döblin formula]
+    For $n$ continuous semimartingales $X_1,\dotsc,X_n$ and $F\in C^2(\R^n)$, we have for all $t \geq 0$, it holds that \begin{align*}
+        F(X_t^1,\dotsc,X_t^n) & = F(X_0^1,\dotsc,X_0^n) + \sum_{j=1}^n \int _0^t \frac{\partial F}{\partial x^j} (X_s^1,\dotsc,X_s^n)\,dX_s^j \\
+        & \qquad + \frac{1}{2}\sum_{j,k=1}^n \int _0^t \frac{\partial F}{\partial x^j\partial x^k} (X_s^1,\dotsc,X_s^n)\,d\bkt{X^j}{X^k}_s.
+    \end{align*}
+\end{namedthm}
+
+Note that the Itô's formula is usually proved for functions $F$ defined globally on $\R^n$. To make this in general applicable to an open subset $U$ of $\R^n$ (which will occur in the context of PDEs), we need to introduce a continuous bump function and 
+
+\begin{cor}
+    If we take $n = 2$ and $F(x,y) = xy$, then we have for two continuous semimartingales $X$ and $Y$ that \[
+        X_tY_t = X_0Y_0 + \int_0^t X_s \,dY_s + \int_0^t Y_s \,dX_s + \bkt{X}{Y}_t.
+    \]
+\end{cor}
+
+If we $\{X_t\}$ is a continuous local martingale, then the continuous martingale \[
+        X_t^2 - \qv{X}_t = 2\int_0^t X_s\,dX_s + \qv{X}_t.
+    \]
+
+Product rule
+\[
+    d(X_tY_t) = X_t\,dY_t + Y_t\,dX_t + d\bkt{X}{Y}_t
+\]
+
+$dX_t = \sigma(t,X_t)\,dB_t + b(t,X_t)\,dt$
+
+\begin{namedthm}[Martingale representation theorem]
+    Let $\F_t$ be the minimal completed filtration of a standard Brownian motion. For any random variable $Y \in L^2(\Omega, \F_\infty, P)$, there exists a unique progressive process $H \in L^2(B)$ such that \[
+        Y = \E Y + \int_0^\infty H_s\,dB_s.
+    \] Replacing $Y$ by a not necessarily continuous true martingale bounded in $L^2$, then there exists a unique progressive process $H \in L^2(B)$ and some constant $C > 0$ such that \[
+        M_t = C + \int_0^t H_s \,dB_s.
+    \]
+
+    The same claim still holds if $Y$ is a continuous local martingale that is $L^2_\mathrm{loc}(B)$.
+\end{namedthm}
+
+Given a Brownian motion $B_t$, its completed filtration $\F_t$ is automatically right-continuous.
+
+All martingales with respect to $\F_t$ has not only a continuous modification, not just càdlàg.
+
+change of measures right-continuous and complete filtration
+
+\begin{namedthm}[Girsanov's theorem]
+    
+\end{namedthm}
+
+Novikov's condition. $\E \exp \bigl(\frac{1}{2}\qv{L}_\infty\bigr) < \infty$
+
+Kazamaki's condition. $L$ is a uniformly integrable martingale, and $\E \exp\bigl(\frac{1}{2} L_\infty \bigr) < \infty$
+
+$\mathcal E(L)$ is a uniformly integrable martingale
+
+For a continuous local martingale $M$ and any real/complex number $\lambda$, we define the \df[Doléans-Dade exponential]{stochastic exponential} (also known as \emph{Doléans-Dade exponential}) of $\lambda M$ by \[
+    \mathcal E(\lambda M)_t = \exp\biggl(\lambda M_t - \frac{\lambda^2}{2}\qv{M}_t\biggr).
+\] Note that since $\mathcal E(\lambda M)$ is bounded below, it is a continuous supermartingale, is a martingale if and only if $\E \mathcal E(\lambda M)_t = 1$.
+It is unique solution to the SDE \[
+    dZ_t = \lambda Z_t\,dM_t\text{, where } X_0 = 0.
+\]
+
+
+\[
+    \mathcal E(X)_t \mathcal E(Y)_t = \mathcal E(X+Y + \bkt{X}{Y})_t
+\]
+
+For two continuous local martingales $M$ and $N$, $\mathcal E (M) \mathcal E (N)$ is a continuous local martingale if $\bkt{M}{N} = 0$.
+
+\begin{thm}
+    For a continuous local martingale $D$ that take strictly positive values, it has a \df{stochastic logarithm} $L$, in the sense that \[
+        D_t = \mathcal E (L)_t = \exp\Bigl(L_t - \frac{1}{2}\qv{L}_t\Bigr).
+    \] An explicit formula for $L$ is given by \[
+        L_t = \log D_0 + \int_0^t \frac{1}{D_s}\,ds.
+    \]
+\end{thm}
+
+\begin{namedthm}[Lipschitz existence and uniqueness]
+    Let $b\colon [0,\infty) \times \R^n \to \R^n$ and $\sigma\colon [0,\infty) \times \R^n \to \R^{n\times m}$ satisfy the global Lipschitz condition in the space parameter: for each $t\in [0,\infty)$, it holds that \[
+        \nm{b(t,x) - b(t,y)}_2 + \nm{\sigma(t,x) - \sigma(t,y)}_{\mathrm F} \leq C \nm{x- y }_2
+    \] for all $x,y\in \R^n$. (The matrix norm $\nm{\blank}_{\mathrm F}$ is the Frobenius norm, which is simply the $2$-norm of the vector associated to the matrix.) Let $B_t$ be a Brownian motion, and let $\F_t$ be its completed filtration. Assume $\xi$ is an $L^2$ random variable independent of $\F_\infty$, then we have a unique pathwise solution to \[
+        \begin{cases}
+            dX_t = \sigma(t,X_t)\,dB_t + b(t,X_t)\,dt,\\ X_0 = \xi.
+        \end{cases}
+    \]
+\end{namedthm}
+
+linear growth condition is automatic when we have the global Lipschitz condition
+
+strong Markov property of solution to SDE
+
+\begin{namedthm}[Lévy's martingale characterization of Brownian motions]
+    For a continuous process adapted to $\F_t$, the process $X_t$ is a $d$-dimensional standard Brownian motion if and only if it is a continuous local martingale with \[
+        \bkt{X^j}{X^k}_t = \delta_{jk}t \quad \text{for all components $j$ and $k$.}
+    \]
+\end{namedthm}
+
+\begin{namedthm}[Yamada--Watanabe]
+    
+\end{namedthm}
+
+Geometric Brownian motions
+\[
+    dX_t = \sigma X_t\,dB_t + \mu X_t\,dt
+\]
+
+Assume $X_0 > 0$. We differentiate $d\log X_t$ using the Itô's formula: \begin{align*}
+    d \log X_t & = \frac{1}{X_t}\,dX_t - \frac{1}{2X_t^2} \,d\qv{X}_t\\
+    & = \sigma \,dB_t + \mu \,dt - \frac{1}{2X_t^2} \sigma^2 X_t^2\,dt \\
+    & = \sigma \,dB_t + \biggl(\mu  - \frac{\sigma^2}{2}\biggr)\,dt
+\end{align*}
+Therefore \[
+    \log X_t - \log X_0 = \sigma B_t + \biggl(\mu  - \frac{\sigma^2}{2}\biggr)t,
+\] which gives \[
+    X_t = X_0 \cdot \exp \biggl(\sigma B_t + \Bigl(\mu  - \frac{\sigma^2}{2}\Bigr) t\biggr).
+\]
+
+There is one subtle issue with this approach. We need to show that $X_t > 0$ must holds for all $t \geq 0$, so that $\log X_t$ makes sense for all $t \geq 0$.
+localization trick
+
+Assume $X_0 = 0$
+
+
+Ornstein--Uhlenbeck process is the solution to the classical Langevin's equation 
+\begin{equation} \label{eq:classical-Langevin}
+    dX_t = \sigma dB_t - \lambda X_t\,dt
+\end{equation}
+
+The explicit solution can be easily computed $d(e^{\lambda t} X_t)$ using the product rule: \[X_t = X_0 e^{- \lambda t} + \sigma e^{-\lambda t} \int_0^t e^{\lambda s}\,dB_s.\] Note that the second term is distributed as a Brownian motion indexed by $t$. It also has the name of stochastic convolution.
+
+Let $\lambda  = 1$ and $\sigma = \sqrt{2}$, we get \begin{align*}
+     X_t & = e^{- t}X_0 + \sqrt{2} e^{-t}\int_{0}^t e^{s}\,dB_s\\
+     & \eqD e^{-t}\bigl(X_0 + \beta_{e^{2t} -1}\bigr),
+\end{align*}
+where $\beta$ is a standard Brownian motion independent of $X_0$.
+
+Now we perturb \eqref{eq:classical-Langevin} and consider the overdamped Langevin's equation \[
+    dX_t = \sigma \,dB_t - [\lambda X_t + \grad U(X_t)]dt,
+\] which has an additional gradient flow drift term. Therefore compared to the classical Langevin, the overdamped process is more attracted to where $U(x)$ is small.
+
+We focus on the only useful case $\sigma = \sqrt 2$: \[
+    dX_t = \sqrt 2 \,dB_t - [\lambda X_t + \grad U(X_t)]dt
+\]
+The semigroup $Q_t$ associated with this process has a unique invariant measure given by \[
+    d\pi(x) = Z^{-1}e^{-U(x)}\,d\gamma(x),
+\] where $\gamma$ is the Gaussian measure with variance $1/\lambda$, and $Z$ is the normalizing constant for $\pi$ to be a probability measure. In particular, note that when $\lambda = 1$, then $\gamma$ is the standard Gaussian measure, and when $\lambda = 0$, then $\gamma$ should just be the Lebesgue measure. 
+
+When the potential energy $U$ is a density function, we may sample the Gibbs measure \[
+     d\pi = \frac{e^{-U(x)}}{Z}\,dm
+\] from the SDE \[
+    dX_t = \sqrt 2 \,dB_t - \grad U(X_t)dt.
+\]
+
+\cite[Section~12.6.5]{DaPrato_2014}
+
+
+Linear equations
+
+\[
+    dX_t = CX_t\,dB_t +  DX_t\,dt
+\]
+
+$n$-dimensional squared Bessel processes
+
+\[
+    dX_t = 2\sqrt{X_t} \,dB_t + n\, dt
+\]
+
+\section{Applications to partial differential equations}
+
+Given the THSDE \[dX_t = \sigma(X_t)\,dB_t + b(X_t)\,dt,\] which we know has generator \[
+    Lf = \frac{1}{2} \sum_{i,j=1}^n a_{ij} \partial_i \partial_j f + \sum_{k=1}^n \partial_k f,
+\] where $a_{ij}$ is the $(i,j)$-th entry of the matrix $a = \sigma \sigma^{\mathrm T}$. 
+
+and suppose for each $x$ the SDE has a weak solution.
+
+Then parabolic PDE \[
+    \begin{cases}
+        u_t = Lu\\
+        u(0,x) = f(x)
+    \end{cases}
+\] has a probabilistic solution \[
+    u(t,x) = Q_tf(x) = \E_x f(X_t).
+\]
+
+This is the Cauchy problem, the initial value problem on $\R^n$.
+
+Consider the elliptic PDE \[
+    \begin{cases}
+        Lu = 0 & \text{in } D\\
+        u(x) = g(x) & \text{on } \partial D.
+    \end{cases}
+\] We claim that it has the probabilistic solution \[
+    u(x) = \E_x(X_{\tau_D}),
+\] where $\tau_D = \inf\{t \geq 0 : X_t \notin D\}$ is the \df{first exit time} to the domain $D$.
+
+This is the Dirichlet boundary problem for the differential operator $L$, which asks if there exists an function $u$ that is $L$-harmonic in $D$ and agrees with $g$ on the boundary.
+
+Setting $L = \tfrac{1}{2} \lap$, we then obtain a formal solution to the Dirichlet problem for Poisson equation: 
+\[
+    u(x) = \E_x(B_{\tau_D}).
+\]
+
+Exterior cone condition
+
+a convex domain
+
+
+\include{chapters/2-topics}
 
 \include{chapters/epilogue}
 
@@ -99,8 +937,14 @@ There are two different perspectives on may look at random walks.
 % \addcontentsline{toc}{chapter}{Bibliography}
 \printbibliography[heading=bibintoc]
 
+\setlength\columnsep{20pt}
+\begin{multicols}{2}
+    \printnomenclature
+\end{multicols}
+
 % \cleardoublepage
 % \phantomsection
 % \addcontentsline{toc}{chapter}{List of Definitions}
 \printindex
+
 \end{document}

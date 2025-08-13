@@ -1,6 +1,6 @@
 \ProvidesPackage{preamble}
 
-%use the following locally when mtpro2 and classico are installed
+%% use the following locally when mtpro2 and classico are installed
 %\renewcommand{\rmdefault}{ptm}
 %\usepackage[scaled=0.955]{classico} % biolinum
 %\usepackage[scaled=0.822]{beramono} % nimbusmononarrow
@@ -17,6 +17,7 @@
 
 \usepackage[margin=1.5in]{geometry}
 \usepackage{amsmath,amssymb,amsthm}
+\usepackage{dsfont}
 \usepackage{mathtools}
 \usepackage{mathrsfs}
 \usepackage{tikz-cd}
@@ -27,7 +28,7 @@
 \usepackage[dvipsnames]{xcolor}
 \usepackage{marginnote}
 \usepackage{imakeidx}
-\usepackage{nomencl}
+\usepackage[intoc]{nomencl}
 \usepackage{xifthen}
 \usepackage[pdfusetitle,bookmarks,bookmarksnumbered,bookmarksopen,bookmarksopenlevel=0,colorlinks,
 citecolor=CornflowerBlue,urlcolor=CornflowerBlue,linkcolor=BurntOrange]{hyperref}
@@ -81,7 +82,7 @@ citecolor=CornflowerBlue,urlcolor=CornflowerBlue,linkcolor=BurntOrange]{hyperref
 \newtheorem{thm}[equation]{Theorem}
 \newtheorem*{thm*}{Theorem}
 \newtheorem{prop}[equation]{Proposition}
-% \newtheorem*{prop*}[equation]{Proposition}
+% \newtheorem*{prop*}{Proposition}
 \newtheorem{fact}[equation]{Fact}
 \newtheorem{lem}[equation]{Lemma}
 \newtheorem{cor}[equation]{Corollary}
@@ -270,18 +271,23 @@ citecolor=CornflowerBlue,urlcolor=CornflowerBlue,linkcolor=BurntOrange]{hyperref
 \newcommand{\Q}{\mathbf{Q}}
 \newcommand{\ind}{\mathbf{1}}
 \renewcommand{\Pr}{P}
+\newcommand{\bP}{\mathbf{P}}
 \newcommand{\E}{\mathop{}\!\mathrm{E}}
+\newcommand{\bE}{\mathop{}\!\mathbf{E}}
 \newcommand{\Var}{\operatorname{Var}}
 \newcommand{\Cov}{\operatorname{Cov}}
 \newcommand{\Corr}{\operatorname{Corr}}
 \newcommand{\bmin}{\land}
 \newcommand{\bmax}{\lor}
-\newcommand{\giv}{\,|\,}
+\newcommand{\giv}{\mathbin{|}}
 \newcommand{\A}{\mathcal{A}}
 \newcommand{\B}{\mathcal{B}}
-\newcommand{\F}{\mathcal{F}}
+\newcommand{\F}{\mathcal{F}} % sigma-field
+% \newcommand{\Fo}{\mathcal{F}^o}
 \newcommand{\G}{\mathcal{G}}
+\newcommand{\bH}{\mathbf{H}}
 \newcommand{\M}{\mathcal{M}}
+\newcommand{\subp}{\M^{\leq 1}}
 \newcommand{\Mat}{\operatorname{Mat}}
 \renewcommand{\Re}{\operatorname{Re}}
 \renewcommand{\Im}{\operatorname{Im}}
@@ -290,9 +296,14 @@ citecolor=CornflowerBlue,urlcolor=CornflowerBlue,linkcolor=BurntOrange]{hyperref
 \newcommand{\mean}[1]{\overline{#1}}
 % \renewcommand{\ol}[1]{\wwbar{#1}}
 \newcommand{\locint}{L^1_\mathrm{loc}}
+\newcommand{\locLp}{L^p_\mathrm{loc}}
+\newcommand{\diam}{\operatorname{diam}}
+\newcommand{\BV}{\operatorname{BV}}
+\newcommand{\AC}{\operatorname{AC}}
 \newcommand{\eR}{\ol{\R}}
 \newcommand{\cpl}{\mathrm{c}}
 \newcommand{\trp}{\mathrm{T}}
+\newcommand{\Id}{\mathrm{Id}}
 \newcommand\sbullet[1][.5]{\mathbin{\vcenter{\hbox{\scalebox{#1}{$\bullet$}}}}}
 \newcommand{\la}{\langle}
 \newcommand{\ra}{\rangle}
@@ -300,25 +311,47 @@ citecolor=CornflowerBlue,urlcolor=CornflowerBlue,linkcolor=BurntOrange]{hyperref
 \newcommand{\nm}[1]{\lVert #1 \rVert}
 \newcommand{\abs}[1]{\lvert #1 \rvert}
 \newcommand{\tr}{\operatorname{tr}}
+\newcommand{\epi}{\operatorname{epi}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\graph}{\operatorname{graph}}
+\newcommand{\dist}{\operatorname{dist}}
+\newcommand{\grad}{\nabla}
+\newcommand{\lap}{\Delta}
 \newcommand{\blank}{\,\cdot\,}
 \renewcommand{\phi}{\varphi}
 % \renewcommand{\subseteq}{\subset}
-\newcommand{\tv}[1]{\nm{#1}_{\mathrm{TV}}}
-\newcommand{\KL}[2]{D_{\mathrm{KL}}(#1\Vert #2)}
+\newcommand{\tv}{d_{\mathrm{TV}}}
+\newcommand{\tmix}{t_{\mathrm{mix}}}
+\newcommand{\trel}{t_{\mathrm{rel}}}
+\newcommand{\KL}[2]{D(#1\Vert #2)}% {D_{\mathrm{KL}}(#1\Vert #2)}
 \newcommand{\Ent}{\operatorname{Ent}}
 \newcommand{\support}{\operatorname{support}}
-\newcommand{\symdiff}{\triangle}
+\newcommand{\symdiff}{\mathbin{\triangle}}
 \newcommand{\wkconv}{\Rightarrow}
-\newcommand{\eqD}{=_d}
+\newcommand{\eqD}{\stackrel{\mathrm{D}}{=}}
+\newcommand{\bkt}[2]{\inp{#1}{#2}} % bracket
+\newcommand{\qv}[1]{\langle #1 \rangle} % quadratic variation
 % \renewcommand{\implies}{\Rightarrow}
 % \renewcommand{\impliedby}{\Leftarrow}
 \newcommand{\argmin}{\operatorname*{arg\,min}}
 \newcommand{\argmax}{\operatorname*{arg\,max}}
+\newcommand{\conv}{\operatorname{conv}}
 \newcommand{\nul}{\operatorname{null}}
 \newcommand{\ran}{\operatorname{range}}
 \newcommand{\Exp}{\operatorname{Exponential}}
 \newcommand{\Poi}{\operatorname{Poisson}}
 \newcommand{\Ber}{\operatorname{Bernoulli}}
+\newcommand{\Bin}{\operatorname{Binomial}}
+\newcommand{\Unif}{\operatorname{Uniform}}
+\newcommand{\LDP}{\operatorname{LDP}}
+\newcommand{\wLDP}{\operatorname{wLDP}}
+\newcommand{\Int}{\operatorname{Int}}
+
+
+\usepackage{tikz,pgfplots}
+\pgfplotsset{compat=1.17}
+% \usepgfplotslibrary{groupplots}
+\usepackage{subfig}
 
 % requires xifthen; for automatic/manual indexing
 \newcommand{\df}[2][]{\ifthenelse{\isempty{#1}}{\textit{#2}\index{#2}}{\textit{#2}\index{#1}}}
@@ -330,27 +363,53 @@ citecolor=CornflowerBlue,urlcolor=CornflowerBlue,linkcolor=BurntOrange]{hyperref
 % disable automatic page designation
 \DeclareFieldFormat{postnote}{#1}
 
+\DeclareNolabel{
+  \nolabel{\regexp{[\p{P}\p{S}\p{C}\p{Z}]+}}
+}
 
 
-\renewcommand{\nomname}{Index of Notation}
+
+%% This code creates the groups for nomenclature
+% -----------------------------------------
+\renewcommand\nomgroup[1]{%
+  \item[\bfseries
+  \ifstrequal{#1}{F}{Function spaces}{%
+  \ifstrequal{#1}{M}{General measure theory}{%
+  \ifstrequal{#1}{P}{Probability}{%
+  \ifstrequal{#1}{O}{Other symbols}{}}}}%
+]}
+% -----------------------------------------
+
+
+\renewcommand{\nomname}{Index of Notations}
 \makenomenclature
-\nomenclature{$L^p$}{$L^p$ space}
-\nomenclature{$m$}{Lebesgue measure on $\R^d$}
-\nomenclature{$P$}{probability measure}
-\nomenclature{$\mu$}{a general measure, or a probability distribution}
-\nomenclature{$\E$}{expected value}
-\nomenclature{$C_c$}{space of continuous functions with compact supports}
-\nomenclature{$C_0$}{space of continuous functions that vanishes at infinity}
-\nomenclature{$C_b$}{space of bounded continuous functions}
-\nomenclature{$\bigotimes$}{product $\sigma$-algebra}
-\nomenclature{$\nm{\blank}$}{norm}
-\nomenclature{$\inp{\blank}{\blank}$}{inner product, or dual pairing}
-\nomenclature{$\nm{\blank}_{\mathrm{TV}}$}{total variation norm in probability}
-\nomenclature{$H$}{Hilbert space}
-\nomenclature{$\B$}{Borel $\sigma$-algebra}
-\nomenclature{$\mathcal{L}$}{Lebesgue $\sigma$-algebra}
-\nomenclature{$\A$}{a general $\sigma$-algebra}
-\nomenclature{$\F$}{a general $\sigma$-field, or a collection of functions}
-\nomenclature{$\mathcal{P}$}{space of (Borel) probability measures}
-\nomenclature{$\M$}{space of (Borel) probability measures}
+\nomenclature[F]{$L^p$}{$L^p$ space}
+\nomenclature[F]{$\nm{\blank}$}{norm}
+\nomenclature[F]{$\nm{\blank}_u$}{uniform/supremum norm}
+\nomenclature[F]{$\inp{\blank}{\blank}$}{inner product, or dual pairing}
+\nomenclature[F]{$C_c$}{space of continuous functions with compact supports}
+\nomenclature[F]{$C_0$}{space of continuous functions that vanishes at infinity}
+\nomenclature[F]{$C_b$}{space of bounded continuous functions}
+\nomenclature[M]{$m$}{Lebesgue measure on $\R^d$}
+\nomenclature[P]{$P$}{probability measure}
+\nomenclature[M]{$\mu$}{a general measure, or a probability distribution}
+\nomenclature[M]{$\M_r$}{space of signed/complex Radon measures}
+\nomenclature[P]{$\E$}{expected value}
+
+\nomenclature[M]{$\bigotimes$}{product $\sigma$-algebra}
+\nomenclature[P]{$\tv(\blank,\blank)$}{total variation distance between two probability measures}
+\nomenclature[F]{$\nm{\blank}_{p}$}{$\ell^p$/$L^p$ norm}
+\nomenclature[M]{$\B$}{Borel $\sigma$-algebra}
+\nomenclature[M]{$\mathcal{L}$}{Lebesgue $\sigma$-algebra}
+\nomenclature[M]{$\A$}{a general $\sigma$-algebra}
+\nomenclature[P]{$\F$}{a general $\sigma$-field, or a collection of functions}
+\nomenclature[P]{$\mathcal{P}$}{space of (Borel) probability measures}
+\nomenclature[P]{$\mathcal{P}_p$}{Wasserstein $p$-space of probability measures}
+\nomenclature[M]{$\M$}{space of signed/complex Borel measures}
 \nomenclature{$\wp$}{power set}
+\nomenclature{$S(x;r)$}{the sphere centered at $x$ with radius $r$}
+\nomenclature{$B(x;r)$}{the ball centered at $x$ with radius $r$}
+\nomenclature{$\bmax$}{maximum of two}
+\nomenclature{$\bmin$}{minimum of two}
+\nomenclature[P]{$\bP_\mu$}{probability measure on the canonical space for stochastic processes, with initial distribution $\mu$}
+\nomenclature[P]{$\bE_\mu$}{expectation on the canonical space for stochastic processes, with initial distribution $\mu$}

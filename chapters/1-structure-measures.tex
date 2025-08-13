@@ -18,7 +18,7 @@ Continuity from above and below still holds for signed and complex measures. The
 \begin{xca}
     Let $\mu$ be a signed/complex measure. If $E_n \uparrow E$ or $E_n \downarrow E$ in $\A$, then $\mu(E) = \lim_n(E_n)$.
 \end{xca}
-Also the inclusion-exclusion formula still holds by $\sigma$-additivity.However monotonicity no longer holds for signed/complex measures, but we may make the following definitions for a signed measure.
+Also the inclusion-exclusion formula still holds by countable additivity. However monotonicity no longer holds for signed/complex measures, but we may make the following definitions for a signed measure.
 
 \begin{defn}
     For a signed measure $\mu$, a measurable set $A$ is a \df[positive/negative/null set for a signed measure]{positive (negative, or null) set} if for every measurable subset $B$ of $A$, $\mu(B)\geq0$ ($\leq 0$, or $=0$). Equivalently, the measurable set $A$ is positive (negative, or null) if for all $E\in \A$, $\mu(E\cap A) \geq 0$ ($\leq 0$, or $= 0$).
@@ -56,7 +56,7 @@ Also the inclusion-exclusion formula still holds by $\sigma$-additivity.However 
     \] Therefore \[\mu(D_m) \geq \mu(A_m) \geq L,\] and taking $m \to \infty$ gives us $\mu(A_m) \to L$ as $m\to \infty$. Now the magic takes place. We know $A_m \uparrow \liminf_m E_m$, and thus $\mu(\liminf E_m) = \lim \mu(A_m)$. The two limits must agree, and hence $L = \mu(\liminf E_m)$. This finishes the proof. 
 \end{proof}
 
-In the proof above we have constructed some set that attains $\inf\{\mu(A):A\in \A\}$. This implies the boundedness of $\mu$ from both above and below. (Apply the argument to $-\mu$.)
+In the proof above, our negative set $N$ attains $\inf\{\mu(A):A\in \A\}$, and by symmetry our positive set $P$ attains $\sup\{\mu(A):A\in \A\}$. This implies the boundedness of $\mu$ from both above and below.
 
 We define the \df[total variation!measure of a signed/complex measure]{total variation} of the signed/complex measure $\mu$ to be a function $\abs{\mu}\colon \mathcal{A} \to [0,\infty]$ given by \begin{equation} \label{eq:ttl-var-defn}
     \abs{\mu}(E) = \sup\biggl\{\sum_{n=1}^\infty \abs{\mu(E_n)} : \{E_n\}\text{ is a measurable partition of } E\biggr\},
@@ -126,6 +126,27 @@ One should check that $\nu \ll \mu$ if and only if $\abs{\nu} \ll \mu$ if and on
     \nu \ll \abs{\nu} \ll \nu.
 \]
 
+For signed $\nu$, define $L^1(\nu) = L^1(\nu^+) \cap L^1(\nu^-)$, and for $f \in L^1(\nu)$, define \[
+    \int f\,d\nu = \int f\,d\nu^+ - \int f\,d\nu^-.
+\]
+
+Observe for $f \in L^1(\abs{\nu})$, we require 
+\[
+    \int \abs{f}\,d\abs{\nu} = \int \abs{f}\,d\nu^+ + \int \abs{f}\,d\nu^- < \infty.
+\] This shows that $L^1(\abs{\nu}) = L^1(\nu)$
+
+$\abs{\int f\,d\nu} \leq \int \abs{f} \,d\abs{\nu}$.
+
+\begin{prop} \label{prop:signed-meas-op-norm}
+    $\abs{\nu}(A)$ is the ``operator norm'' of the linear functional $f \mapsto \int_A f\,d\nu$. By this we mean \[
+        \abs{\nu}(A) = \sup_{\abs{f} \leq 1} \biggl\vert \int_A f\,d\mu\biggr\vert,
+    \] where the supremum is taken over all pointwise bounded functions.
+    
+    If $f$ is in some continuous function space \emph{with the uniform/supremum norm} ($C_c/C_0/C_b$, which we will see later), the operator norm becomes a genuine one. In this case a signed measure can be viewed as a bounded linear functional on this continuous function space with the uniform norm.
+
+    In particular, if we view $\nu$ as the linear operator mapping $f \mapsto \int_X f\,d\nu$, then the ``operator norm'' of $\nu$ is just the total variation norm.
+\end{prop}
+
 
 \section{Radon--Nikodym theorem and Lebesgue decomposition}
 Depending on what kind of measures we are looking at, there exists multiple versions of the Radon--Nikodym theorem. The following version is the most basic one in practice. It considers a pair of $\sigma$-finite and finite measures.
@@ -176,6 +197,18 @@ We briefly discuss Lebesgue decomposition for other types of measures below.
 Radon--Nikodym derivative with respect to counting measure
 
 Lebesgue decomposition of a monotonic function (p344 345 Bogachev) % https://proofwiki.org/wiki/Lebesgue_Decomposition_of_Finite_Borel_Measure
+
+\begin{namedthm}[Chain rule]
+    
+\end{namedthm}
+
+\begin{prop}[{\cite[9.10]{Axler_2020}}] \label{prop:derivative-ttl-var-meas}
+    If for a positive measure $\mu$ and a function $f \in L^1(\mu)$ we have $\frac{d\nu}{d\mu} = f$, then \[
+        \frac{d\abs{\nu}}{d\mu} = \abs{f}.
+    \]
+\end{prop}
+
+
 \section{Differentiation}
 \begin{namedthm}[Vitali covering lemma]
     
@@ -187,7 +220,9 @@ There is a class of function, slightly weaker than the usual integrable $L^1$ fu
 The main difference between $L^1$ functions and $\locint$ functions is that the tail convergence behavior of $\locint$ functions is not controlled.
 
 \begin{defn}
-    Hardy--Littlewood maximal function
+    For $f\in \locint$, its \df{Hardy--Littlewood maximal function} $Mf$ is defined by \[
+        Mf(x) = \sup_{r > 0} \frac{1}{m\bigl(B(x;r)\bigr)} \int_{B(x;r)} \abs{f(y)}\,dy.
+    \]
 \end{defn}
 
 \begin{namedthm}[Lebesgue differentiation theorem]
@@ -196,17 +231,45 @@ The main difference between $L^1$ functions and $\locint$ functions is that the 
 
 density point
 
-\section{Functions of bounded variations}
-\section{Absolutely continuous functions}
+\section{Bounded variations and absolutely continuity}
+
 It is well-known that there are continuous yet nowhere differentiable functions, such as the famous Weierstrass function.
 
 \begin{defn}
-    Let $I \subseteq \R$ be an interval. A function $f\colon I\to \R$ is absolutely continuous if for all $\epsilon > 0$, there exists $\delta > 0$ such that \[
-        \sum_{i=1}^n (b_i - a_i) < \delta \implies \sum_{i=1}^n \abs{f(b_i) - f(a_i)} <\epsilon
-    \] holds for any finite family of pairwise disjoint open intervals $\{(a_i,b_i)\}_{i=1}^n$ contained in $I$.
+    Let $J \subseteq \R$ be any interval between $a$ and $b$ (possibly unbounded). A function $F\colon J\to \R$ \begin{enumerate}
+        \item has \df{bounded variation} if \[
+            V(F,J) \coloneqq \sup\sum_{j=1}^n\bigl\vert F(t_{j}) - F(t_{j-1})\bigr\vert < \infty,
+        \] where the supremum is taken over all $n$ and $t_0 < t_1 < \dotsb < t_n$ contained in the interval $J$.
+        \item is \df{absolutely continuous} if for all $\epsilon > 0$, there exists $\delta > 0$ such that \[
+        \sum_{j=1}^n (b_j - a_j) < \delta \implies \sum_{j=1}^n \bigl\vert{F(b_j) - F(a_j)}\bigr\vert <\epsilon
+    \] holds for any finite family of pairwise disjoint open intervals $\{(a_j,b_j)\}_{j=1}^n$ contained in $J$.
+    \end{enumerate}
+
+    % For ease of exposition we will let $J$ be the not necessarily bounded closed interval $[a,b]$. The results in this section all carry over to the case $(a,b]$ and $(a,b)$ with no effort.
+
+    We will write $V_a^b(F)$ for $V(F,[a,b])$, and define a function $T_F \colon [-\infty,\infty] \to [0,\infty]$ by \[T_F(x) = \begin{cases}
+        0 & \text{if }x = -\infty, \\
+        V(F,(-\infty,x]) & \text{if }x\in \R,\\
+        \lim_{x \to \infty} V(F,(-\infty,x]) &  \text{if }x = \infty.
+    \end{cases}\]
+    The limit as $x \to \infty$ in the last line make sense because $T_F$ is an increasing function on $\R$.
+
+    \begin{thm}
+        A function $F \in \BV[a,b]$ is differentiable a.e., with $F'$ being integrable.
+    \end{thm}
+
+    Recall we defined the distribution function $F_\mu$ of a positive measure $\mu$ by $F_\mu(x) = \mu(-\infty,x]$. We carry this definition to signed and complex measures.
+    \begin{thm}
+        If $\mu$ is a signed/complex Borel measure on $\R$, then $F_\mu$ is $\BV$, right-continuous, with $F_\mu(-\infty) = 0$.
+        
+        Conversely, if $F$ is $\BV$, right-continuous, with $F(-\infty) = 0$, then there exists a unique signed/complex Borel measure $\mu$ on $\R$ such that $F = F_\mu$.
+        
+         We have hence established a one-to-one correspondence between $\mu$ and right-continuous $F$ with $F(-\infty) = 0$. Also, $\abs{\mu} = \mu_{T_{F_\mu}}$.
+    \end{thm}
 \end{defn}
+
 \section{Fundamental theorem of calculus}
-\begin{namedthm}[Fundamental theorem of calculus (for Lebesgue integrals)]
+\begin{namedthm}[Fundamental theorem of calculus]
     For $f\colon [a,b]\to \R$, the following are equivalent: 
     \begin{enumerate}
         \item $f$ is absolutely continuous; 
@@ -222,44 +285,18 @@ It is well-known that there are continuous yet nowhere differentiable functions,
 Bogachev 5.4.5 4.7.60
 
 \begin{namedthm}[Integration by parts]
+    For absolutely continuous functions $f$ and $g$ on $[a,b]$, we have \[
+        \int_a^b f'(x)g(x)\,dx = f(b)g(b) - f(a)g(a) - \int_a^bf(x)g'(x)\,dx.
+    \]
+\end{namedthm}
+
+
+For completeness state the change of variables formula on the real line. Note the distinction between $\int_{[\phi(a),\phi(b)]}$ and $\int_{\phi(a)}^{\phi(b)}$.
+\begin{namedthm}[Substitution method]
+    Let $\phi\colon [a,b]\to \R$ be monotonic and absolutely continuous, and let $J$ be the closed interval between $\phi(a)$ and $\phi(b)$. If $f\in L^1(J)$, then $f(\phi) \phi' \in L^1[a,b]$, with \begin{equation} \label{eq:sub-method}
+        \int_{\phi(a)}^{\phi(b)} f(x)\,dx = \int_{a}^b f\bigl(\phi(t)\bigr)\phi'(t)\,dt.
+    \end{equation}
+    The interval $[a,b]$ above can in fact be any intervals, including unbounded ones.
     
+    If we drop the monotonicity of $\phi$ above, but instead impose that $f(\phi)\phi'\in L^1$, then \eqref{eq:sub-method} remains true.
 \end{namedthm}
-
-\section{Riesz' theorems, vague, and weak convergence of measures}\label{sec:Riesz-thm}
-
-\begin{defn}
-    Let $X$ be an l.c.H.\ space. A \df{Radon measure} $\mu$ on $X$ is a Borel measure that is locally finite, outer regular on all Borel sets, and compact inner regular on all open sets.
-\end{defn}
-
-Also may known as \emph{Borel regular measure} or \emph{Riesz measure}
-
-\begin{prop}
-    Every Radon measure is inner regular on $\sigma$-finite Borel sets. In particular, every $\sigma$-finite Radon measure is compact inner regular on all Borel sets.
-\end{prop}
-
-Since we are in a Hausdorff space, a compact inner regular measure is also closed inner regular, and because the measure is finite, it is also outer regular. \textcite{Bogachev_2007,Bogachev_2018} defines a signed measure , 
-
-Indeed, for finite measures, Radon measures are the same as compact inner regular measures.
-
-\begin{prop}
-    Every locally finite Borel measure on an lcscH space is compact inner regular on all Borel sets, and is hence a Radon measure.
-\end{prop}
-
-On an lcscH spcae, finite/signed/complex Borel measures are always Radon.
-
-\begin{namedthm}[Riesz–Markov–Kakutani theorem for compact metric spaces]
-    Let $(X,d)$ be a compact metric space\footnote{Every compact metric space is separable.}, then the dual space $C(X)^*$ is isometrically isomorphic to $\M(X)$, i.e., for all linear functionals $L \in C(X)^*$, there is a unique $\mu \in \M(X)$ such that \[
-        L(f) = \int_X f\,d\mu\quad \text{for all }f\in C(X);
-    \] meanwhile $\nm{L} = \nm{\mu}$.
-\end{namedthm}
-
-\begin{namedthm}[Riesz–Markov–Kakutani theorem for l.c.(s.c.)H.\ spaces] \label{thm:Riesz-C0}
-    Let $X$ be an l.c.H.\ space, then the dual space $C_0(X)^*$ is isometrically isomorphic to $\M_r(X)$, i.e., for all linear functionals $L \in C_0(X)^*$, there is a unique inner regular Borel measure $\mu$ such that \[
-        L(f) = \int_X f\,d\mu\quad \text{for all }f\in C_0(X);
-    \] meanwhile $\nm{L} = \nm{\mu}$.
-
-    In particular, if $X$ is further assumed to be second countable, then the space of Radon measures $\M_r(X)$ above is just the space of Borel measures $\M(X)$.
-\end{namedthm}
-% https://math.stackexchange.com/questions/184766/when-is-c-0x-separable
-
-% finite Radon measure (Bogachev 7.1)

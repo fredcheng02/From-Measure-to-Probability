@@ -1,0 +1,241 @@
+\chapter{Brownian motions}
+
+
+\section{Some sample path properties}
+
+\begin{thm}
+    Almost surely, the sample paths of Brownian motions are locally $\alpha$-Hölder continuous for $\alpha < 1/2$, but at no points for $\alpha > 1/2$. 
+\end{thm}
+
+
+\begin{namedthm}[Lévy's modulus of continuity]
+    Almost surely \[
+        \limsup_{\delta \to 0^+} \sup_{0\leq t \leq 1-\delta } \frac{\abs{B_{t+\delta}- B_t}}{\sqrt{2\delta \log(1/\delta)}} = 1.
+    \]
+\end{namedthm}
+
+\begin{thm}
+    For a standard Brownian motion $\{B_t\}$, 
+    \begin{enumerate}
+        \item under an orthogonal transformation $U$, $\{UB_t\}_t$ is still a standard Brownian motion;
+        \item for any $\gamma >0$, the scaled $\{\frac{1}{\gamma}B_{\gamma^2 t}\}_t$ is still a standard Brownian motion;
+        \item the process \[
+        W_t \coloneqq \begin{cases}
+            tB_{1/t} & \text{when }t>0;\\
+            0 & \text{when }t = 0.
+        \end{cases}
+    \] is also a standard Brownian motion, called the \df[time inversion of Brownian motion]{time inversion} of $B_t$.
+    \end{enumerate}
+\end{thm}
+
+$\F_{0+} = \bigcap_{t > 0} \F_t$
+
+Let $\mathcal T = \bigcap_{s \geq 0} \sigma(B_t:t\geq s)$, the tail $\sigma$-field of the Brownian motion $\{B_t\}$.
+
+\begin{namedthm}[Blumenthal's zero--one law]
+    For any $A \in \F_{0+}$, we have $\bP_x(A) = 0$ or $1$.
+\end{namedthm}
+
+If we complete the natural filtration of the Brownian motion, then the filtration $\widetilde{\F}_t$ becomes right-continuous, and hence $\widetilde{\F}_{0+} = \widetilde{\F}_0$.
+    
+\begin{thm}
+    For any $A \in \mathcal T $, we have $\bP_x(A) = 0$ or $1$.
+\end{thm}
+
+\begin{thm}
+    
+\end{thm}
+
+In any small interval $[0,\epsilon)$ right of $0$, the Brownian motion is almost surely positive, negative, and zero at some time instant.
+
+The zero set of a Brownian motion is an closed set without isolated points. Therefore it is also uncountable.
+
+Almost surely $t\mapsto B_t$ is not monotone on any nondegenerate intervals
+
+Almost surely $t\mapsto B_t$ is of unbounded variation on any nondegenerate intervals.
+
+\section{Markov properties}
+
+\begin{namedthm}[Simple Markov properties]
+    For every fixed time $s \geq 0$, the process $B_{s+t} - B_s$ is a Brownian motion that is independent of $\F_{s+}$.
+\end{namedthm}
+
+with transition density given by \[
+    p_t(x,y) = \frac{1}{(2\pi t)^{d/2}} \exp\biggl(-\frac{\abs{x - y}^2}{2t}\biggr).
+\]
+
+\begin{namedthm}[Strong Markov properties]
+    Given a stopping time $T$ such that $P(T < \infty) >0$. Then under the conditional probability measure $P(\blank \giv T < \infty)$, we have \[\ind\{T < \infty\} (B_{T+t} - B_T) \quad\text{is a Brownian motion independent of}\quad \F_{T+}.\]
+\end{namedthm}
+
+infinitesimal peak into the future
+
+\begin{prop}[(reflected Brownian motion)]
+    If $T$ is a stopping time, then \[
+    B_t \ind\{t \leq T\} + (2B_T - B_t) \ind_{t > T}
+\] is also a standard Brownian motion indexed by $t$.
+\end{prop}
+
+
+divergence behavior
+\begin{thm}
+    For a one-dimensional Brownian motion starting from any $x$, 
+    $\limsup_t \frac{B_t}{\sqrt t} = +\infty$ and $\liminf_t \frac{B_t}{\sqrt t} = -\infty$ $\bP_x$-a.s.
+\end{thm}
+
+As in the case for random walks, this can be proven using the . However, 
+
+\begin{namedthm}[Reflection principle]
+    For any $a \geq 0$, we have 
+    \[
+        \bP_0 \Bigl(\max_{s \leq t} B_s \geq a\Bigr) = 2\bP_0(B_t \geq a) = \bP_0(\abs{B_t} \geq a)
+    \]
+    If we let the running maximum of Brownian motion $\max_{s\leq t} B_s$ be $S_t$, then $S_t \eqD \abs{B_t}$.
+\end{namedthm}
+
+More generally, we have for any $a \geq 0$ and $b \leq a$ that \[
+    \bP_0\Bigl(\max_{s\leq t} B_s \geq a, B_t \leq b\Bigr) = \bP_0(B_t \geq 2a - b).
+\] Clearly \[
+    \bP_0\Bigl(\max_{s\leq t} B_s \geq a, B_t \geq 2a - b\Bigr) = \bP_0(B_t \geq 2a - b).
+\]
+
+\section{A third return to random walks}
+
+
+
+
+\begin{namedthm}[Law of iterated logarithms]
+    \[
+        \limsup_t \frac{B_t}{\sqrt{2t\log\log t}} = 1\quad \text{a.s.}
+    \]
+\end{namedthm}
+
+Since $B_t \eqD -B_t$, we also have a.s.\ $\liminf_t \frac{B_t}{\sqrt{2t\log\log t}} = -1$. Therefore some authors would write \[
+    \limsup_t \frac{\abs{B_t}}{\sqrt{2t\log\log t}} = 1\quad \text{a.s.}
+\]
+
+
+martingales
+
+linear martingales $B_t$ quadratic martingales $B_t^2 - t$ exponential martingales
+
+We write $T_a = \inf\{t \geq 0: B_t = a\}$
+
+\begin{thm}
+    For $ - a< 0< b$, let $T = \inf\{t \geq 0 : B_t \notin [-a,b]\}$, which we usually call the \df{exit time} to the interval $[-a,b]$. Then \[
+        \bP_0(B_T = -a) = \frac{b}{a+b},\ \bP_0(B_T = b) = \frac{a}{a+b} \text{, and } \bE_0 T = ab.
+    \]
+\end{thm}
+
+\begin{namedthm}[Skorohod representation theorem]
+    For $X \in L^2$ with $\E X = 0$, we have a stopping time $T$ with respect to the natural filtration of the Brownian motion, such that \[
+        B_T \eqD X\quad \text{and} \quad \E T = \E X^2.
+    \]
+\end{namedthm}
+
+We can embed the symmetric random walk into a Brownian motion.
+
+\begin{cor}
+    For i.i.d.\ real-valued $X_1,\dotsc,X_n$ with mean $0$ and variance $1$. Define $S_n = \sum_{j=1}^n X_j$. We can find a sequence of stopping times $\{T_k\}_{k=0}^\infty$ with $T_0 = 0$, such that \[
+        \text{each }S_n = B_{T_n} \quad\text{and}\quad T_n - T_{n-1}\text{ are i.i.d.}
+    \]
+\end{cor}
+
+As usual, we use $S_n = \xi_1 + \dotsb + \xi_n$, where $\xi_1 \dotsc, \xi_n$ are independent with zero mean and unit variance. Define the function \[
+    S(t) = 
+        S_{\lfloor t\rfloor} (1 + \lfloor t \rfloor - t) + S_{\lfloor t\rfloor + 1} (t - \lfloor t\rfloor),
+\] which extends $S_n$ by linearly interpolates between the points $(n,S_n)$ on the graph.
+
+The following result tells us the symmetric random walks $S(t)$, when scaled, becomes a Brownian motion in the weak limit.
+
+\begin{namedthm}[Donsker's invariance principle]
+On the space $C[0,1]$ with the Borel $\sigma$-field, we have 
+    \[
+        \frac{S(n\blank)}{\sqrt{n}}\wkconv B(\blank)
+    \]
+\end{namedthm}
+
+It is important to be clear about what the weak convergence here actually means.
+
+\section{Introduction to Gaussian processes}
+
+\begin{namedthm}[Borell--TIS inequality]
+    
+\end{namedthm}
+
+fractional Brownian motion
+
+Given a parameter $0 < H < 1$, we may define a standard Gaussian process $\{B_H(t)\}$ with zero mean and covariance function \[
+    \E \bigl[B_H(s)B_H(t)\bigr] = \frac{1}{2}\bigl(s^{2H} + t^{2H} - \abs{t - s}^{2H}\bigr)
+\] for any $s,t$. This process is known as the standard one-dimensional \df{fractional Brownian motion} with \df{Hurst parameter} $H$.
+
+non independent increments, but still remains stationary (fractional Gaussian noise)
+
+When $H = 1/2$, it is clear that we recover the standard Brownian motion.
+When $H < 1/2$ ($> 1/2$), $\E \bigl[B_H(s)B_H(t)\bigr] < 0$ ($>0$), negatively (positively correlated) correlation function.
+
+locally Hölder-$\alpha$ continuous for any $\alpha < H$
+
+\section{Processes induced from Brownian motions}
+Throughout this section, the time index of processes will be in the parentheses instead of the subscripts.
+
+The stopping time process $\{T_b : b\geq 0\}$ is an increasing homogeneous Markov process. Its transition density is given by \[
+    p_{a}(s,t) = \frac{a}{\sqrt{2\pi (t-s)^3}} \exp\biggl(-\frac{a^2}{2(t-s)}\biggr), 
+\] for $s < t$.
+
+The statement is indeed confusing. The stopping time process is indexed by the states $b$, while $s$ and $t$ are candidates for stopping times. The transition density $p_{a}(s,t)$ describes the density of the conditional distribution \[
+    P(T_{b_2} = t \giv T_{b_1} = s),
+\] where $a = b_2 - b_1$.
+
+A (standard) reflected Brownian motion is given by $\{\abs{B_t}\}$, where $B_t$ is a standard Brownian motion. The name comes from the observation that once $B_t$ hits zero in its sample, it must ``reflect'' to stay nonnegative.
+
+A (standard) Brownian bridge process $W^0(t)$ is defined in distribution by $\{B(t) - tB(1)\}_{0\leq t \leq 1}$. 
+
+\begin{prop}
+    A Brownian bridge has the distribution of a Brownian motion conditioning on hitting $0$ at time $0$. To be precise, \[
+        \{B(t) - tB(1)\}_{0\leq t \leq 1} \eqD \{B(t) \giv B(1) = 0\}_{0\leq t \leq 1}.
+    \] Recall that the conditional distribution of the right-hand side is given by the f.d.d.\ \[
+        P\bigl(B(t_1) = x_1, \dotsc.B(t_n) = x_n \bigm\vert B(1) = 0\bigr) = \frac{1}{p_1(0,0)} \prod_{j = 0}^{n}p_{t_{j+1} - t_{j}}(x_j,x_{j+1}).
+    \] for $0 = t_0 < t_1 < \dotsb < t_n  < t_{n+1}= 1$.
+    
+\end{prop}
+
+\begin{prop}
+    The Brownian bridge is a continuous Gaussian process with zero mean and covariance function \[
+        \E(X_s X_t) = s(1 - t)\quad \text{for all }0\leq s \leq t \leq 1.
+    \]
+\end{prop}
+
+\begin{namedthm}[Vervaat transform]
+    Let $\tau_m = \argmin_t W^{0}(t)$, which is a.s.\ unique. It turns out that \[
+        W^\oplus (\blank) \eqD W^0 (\tau_m + \blank ) - W^0 (\tau_m).
+    \]
+\end{namedthm}
+
+Fix time $T>0$. we define the \df{last passage time} at level $0$ before time $T$ by \[\sigma =  \sigma_T = \sup\{s \leq T : B_s  = 0\},\]
+and the \df{first passage time} after time $T$ to be \[
+    \tau = \tau_T = \inf\{s \geq T : B_s = 0\}.
+\] Be aware that only $\tau$ is a stopping time with respect to the natural filtration of the Brownian motion. The random time $\sigma$, being the \emph{last} passage time, is dependent on the future up to the fixed time $T$. However, we may show that it is a stopping time under time-reversal.
+
+
+A (standard) $d$-dimensional squared Bessel process 
+
+\section{Generalization of Brownian motions}
+
+\begin{defn}
+    A (standard) Lévy process 
+    $X_0 = 0$
+    Independent and stationary increments
+    as time $t \to 0^+$, we have $X_t\to 0$ in probability
+    continuity in probability: at all times $t\geq 0$, for any $\epsilon>0$, we have \[
+        \lim_{h \to 0} P(\abs{X_{t+h} - X_t} > \epsilon) = 0.
+    \]
+\end{defn}
+
+A version that is càdlàg
+
+Brownian motion and Poisson process now falls under the same umbrella
+
+
+
+Lévy--Khintchine formula

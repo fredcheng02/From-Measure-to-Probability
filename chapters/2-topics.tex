@@ -1,0 +1,207 @@
+\chapter{Special Topics}
+\section{Random matrices}
+\subsection{Random measures}
+Given a probability space $(\Omega,\F, P)$, we say a random variable $L\colon \Omega \to \mathcal P(S)$ is a \df[random measure]{random (probability) measure}. Given a sequence of random probability measures $L_n(\omega)$ and another random measure $L(\omega)$ (not necessarily with mass $1$) on $\Omega$, we say $L_n$ converges almost surely/in probability to $L$ if we have the almost sure convergence/convergence in probability of random variables \[
+    \int f \,dL_n(\omega) \to \int f\,dL(\omega)\quad \text{for all }f \in C_b(S).
+\] We emphasize that $L_n(\omega)$ and $L(\omega)$ are measures defined on $S$, so the above indeed makes sense.
+
+almost sure convergence implies convergence in probability, but not vice versa (consider deterministic $L_n$ and $L$)
+
+
+\subsection{The moment problem}
+
+\subsection{Stieltjes transform}
+
+\subsection{Ensembles}
+A Gaussian orthogonal ensemble (GOE)
+
+A Gaussian unitary ensemble (GUE)
+
+\subsection{Asymptotic laws on the spectrum of random matrices}
+
+The \df{empirical spectral distribution} of a self-adjoint matrix is $\frac{1}{n}\sum_{k=1}^n \delta_{\lambda_k}$. 
+
+\begin{namedthm}[Semicircle law]
+    
+\end{namedthm}
+
+\begin{namedthm}[Marchenko--Pastur law]
+    \[
+        {d\mu_{\mathrm{MP}}} = \frac{\sqrt{}{}}{}
+    \]
+\end{namedthm}
+
+\begin{namedthm}[Bai--Yin Law]
+    
+\end{namedthm}
+
+\begin{namedthm}[Tracy--Widom law]
+    
+\end{namedthm}
+
+\section{Determinantal point processes}
+
+\section{Large deviation theory}
+
+Let $I\colon S \to [0,\infty]$ be a LSC function and $\{r_n\}$ be an increasing sequence of positive real numbers that goes to $+\infty$. We say the sequence of Borel probability measures $\mu_n$ satisfies the large deviation principle (LDP) with rate function $I$ and normalization $r_n$ if for any closed sets $F$ and open sets $G$, \begin{align}
+    \limsup_n \frac{1}{r_n} \log \mu_n(F) & \leq -\inf_{x \in F} I(x), \label{eq:LDP-closed} \\
+    \liminf_n \frac{1}{r_n} \log \mu_n(G) & \geq -\inf_{x \in G} I(x). \label{eq:LDP-open}
+\end{align} We write $\LDP(\mu_n,r_n,I)$.
+
+If \eqref{eq:LDP-closed} is replaced by \begin{equation}
+    \limsup_n \frac{1}{r_n} \log \mu_n(K) \leq -\inf_{x \in K} I(x), \label{eq:wLDP-compact}
+\end{equation} for any compact set $K$, then we say the weak large deviation principle holds, and write $\wLDP(\mu_n,r_n,I)$ instead.
+
+This is equivalent to saying that for any Borel set $A$, \begin{align*}
+    -\inf_{x \in \Int G} I(x) & \leq \liminf_n \frac{1}{r_n} \log \mu_n(A) \\ & \leq \limsup_n \frac{1}{r_n} \log \mu_n(A) \leq -\inf_{x \in \clos{G}} I(x).
+\end{align*}
+
+If $S$ is regular (e.g.\ a metric space), then there is at most on rate function $I$ that satisfies $\LDP(\mu_n,r_n,I)$.
+
+We say a rate function $I$ is \df[rate function!tight]{tight} if $\{x : I(x) \leq c\}$ is a compact subset of $S$ for any $c \in \R$.
+
+We say the sequence $\{\mu_n\} \subseteq \mathcal P(S)$ is \df[exponentially tight measure with normalization]{exponentially tight with normalization} $\{r_n\}$ if for each $0 < b < \infty$, there exists a compact set $b$ such that \[
+    \limsup_n \frac{1}{r_n} \log \mu_n(K_b^\cpl) \leq -b.
+\]
+
+exponential tightness and \eqref{eq:wLDP-compact} together implies \eqref{eq:LDP-closed}, and to show LDP, it suffices to show wLDP and then establish exponential tightness. In addition, the rate function $I$ is tight.
+
+\begin{namedthm}[Cramér's theorem]
+    Let $X_1,X_2,\dotsc$ be be a sequence of i.i.d.\ $\R^d$-valued random variables with distribution $\pi$. Let $\mu_n$ be the distribution of the sample mean $\frac{X_1+\dotsb+X_n}{n}$. Then $\wLDP(\mu_n,n,I)$ holds for $I(a) = \sup_{t\in \R^d}\{\inp{a}{t} - \log M_{X_1}(t)\}$, the Legendre dual of the cumulant generating function of $X$.
+    
+    If in addition there exists a neighborhood around $0$ such that $M_{X_1}(t) < \infty$, then $\LDP$ holds and $I$ is a tight rate function. (In the special $d = 1$ then $\LDP$ also holds, but $I$ may not be tight.)
+\end{namedthm}
+
+\begin{namedthm}[Sanov's theorem]
+    Given a Polish space $S$, let $X_1,X_2,\dotsc$ be a sequence of i.i.d.\ $S$-valued random variables with distribution $\pi \in \mathcal P(S)$. Define the empirical sample distribution \[
+        L_n = \frac{1}{n}\sum_{k=1}^n \delta_{X_k},
+    \] which is a $\mathcal P(S)$-valued random variable. Let $\nu_n$ be the distribution of $L_n$ (i.e., $P \circ L_n^{-1}$), which is a measure defined on $\mathcal P(S)$. Then \[\LDP\bigl(\nu_n,n,\KL{\blank}{\pi}\bigr).\]
+\end{namedthm}
+
+The interpretation of this theorem is that under the true distribution that $\pi$, the probability that the sample distribution is some other $\nu_n$ decays at the rate $\exp\bigl(-\KL{\nu_n}{\pi}n\bigr)$. This provides a quantitative comparison between the sampling distribution and the true distribution, a very natural question in statistics. The probability that the sampling distribution lies in some set in $\mathcal P(S)$ corresponds to the distribution of $L_n$. Therefore the distribution of sample distribution indeed makes sense.
+
+\section{Mixing times of Markov chains}
+Let the state space $S$ be finite.
+
+Define the worst scenario distance between $t$-step and the stationary distribution by \begin{align*}
+    d(t) & = \max_{\mu \in \mathcal P(S)} \tv(\mu Q_t,\pi)\\
+    & = \max_{x \in S}\tv\bigl(Q_t(x,\blank),\pi\bigr).
+\end{align*}
+
+We define the $\epsilon$-\df{mixing time} to be \[
+    \tmix(\epsilon) = \inf\{t \geq 0 : d(t) \leq \epsilon\}
+\]
+
+relaxation time
+
+$\tv(\mu,\nu) \leq \tv(\mu,\rho) + \tv(\nu,\rho)$
+
+submultiplicativity of coupling distance
+\begin{thm}
+    $d(s+t) \leq 2d(s)d(t)$
+\end{thm}
+
+\begin{namedthm}[Fekete's lemma]
+    For a subadditive function $f\colon [0,\infty) \to \R$, i.e., \[
+        f(s+t) \leq f(s) + f(t)\quad\text{for all }s,t>0.
+    \] We have \[
+        \lim_t \frac{f(t)}{t} = \inf_{t > 0} \frac{f(t)}{t} \in [-\infty,\infty).
+    \]
+    
+    The same result holds for a subadditive sequence of real numbers; see \cite[Lemma~25.19]{Kallenberg_2021}. Taking $-f$ in place of $f$ gives us a result for superadditive function.
+\end{namedthm}
+
+\[\tmix(\epsilon) \geq \trel \log\biggl(\frac{1}{2\epsilon}\biggr)\]
+
+The mixing time for symmetric random walks on the $n$-cycle $\Z_n$ is $n^2$.
+
+The mixing time for random walks\footnote{If discrete-time, we can let the chain to be $1/2$-lazy} on the boolean hypercubes $\{0,1\}^n$ is $n\log n$.
+
+\section{Models from statistical mechanics}
+
+Gibbs random field. 
+
+ferromagnetic Ising model on a finite graph $G=(V,E)$ with parameter $\beta \geq 0$
+
+Let $S = \{-1,1\}^{V}$ be the space of configurations, which basically means that each vertex of the graph is assigned a spin $-1$ or $1$. We want to define a probability distribution $P$ on the space of random configurations $S$, which takes the interaction of spins between adjacent vertices into account. 
+
+Define the probability measure $\pi$ on the finite set $S$ by 
+\[
+    \pi\{\sigma\} = \frac{1}{Z_\beta} \exp\bigl(-\beta H(\sigma)\bigr),
+\]
+where \[
+    H(\sigma) = -\sum_{v\sim w} \sigma(v)\sigma(w)
+\] is known as the \df{potential energy/Hamiltonian}, and $Z_\beta$ is the normalizing constant \[
+    Z_\beta = \sum_{\sigma \in S} \exp\bigl(-\beta H(\sigma)\bigr),
+\] also known as the \df{partition function}. The measure $\pi$ is called the \df{Gibbs measure}. In general we can generalize 
+
+The parameter $\beta$ is the reciprocal of the temperature in physics. For $\beta$ close to $0$, $\pi$ is closed be being uniform, and for $\beta$ large, we should expect larger $\pi(\sigma)$ for distributions with lower energy.
+
+The partition function is impossible to compute when $S$ is large, which means that it is impossible to find the exact $\pi$. However in computer science we are interested in developing fast sampling algorithms with these distributions. A sampling algorithms from a given distribution using a Markov chain converging to this distribution is called a \df{Markov chain Monte Carlo} method.
+
+Metropolis chain
+
+Glauber Dynamics
+
+Curie Weiss model on $n$ spins \[
+    H(\sigma) = -\frac{J}{2n}\sum_{1\leq i,j\leq n} \sigma_i\sigma_j - h\sum_{k=1}^n \sigma_j,
+\] where $J > 0$ is a constant and $h \in \R$ represent the external magnetic field. The difference between the CW model and the Ising model is that in the latter we are considering interactions between neighbors on a graph, but in the former we are considering interactions between all the spins, and the underlying graph is irrelevant.
+
+\subsection{Bernoulli bond percolation} \label{subsec:bbp}
+We use $\omega \in \{0,1\}^{E^d}$ for each configuration on the $E^d$ grid, which is in fact a random variable that takes value in $\{0,1\}^{E^d}$. Using $\omega$ for a random outcome can indeed be confusing initially, but at the end of the day what we really care about is how the configurations are distributed. The probability space we will take is $(\Omega,\F,P_p)$, where $\Omega = \{0,1\}^{E^d}$, $\F$ is the product $\sigma$-field, and $P_p = \otimes^{E^d} \Ber(p)$, the distribution of the configurations when the edges are open with i.i.d.\ $\Ber(p)$.
+
+Notice that each vertex of the grid must be contained in exactly one connected component with open edges, which is often called an \df{open cluster}. Let this open cluster be be denoted 
+
+Define \[\theta(p) = P_p (\text{the origin is contained in an infinite open cluster}),\] and \[
+    p_c(d) = \sup\{p : \theta(p) = 0\}.
+\]
+
+$\theta(p)$ is an increasing function in $p$
+
+$p_c(d+1) \leq p_c(d)$, and in fact the strict inequality holds for $d \geq 1$
+
+$0 < p_c(p) < 1$ for $d \geq 2$
+
+For any increasing $L^2(P_p)$ function, we have 
+
+Burton--Keane trifurcation argument
+
+\subsection{First passage percolation} \label{sec:FPP}
+
+\section{Optimal transport} \label{sec:ot}
+
+Monge's formulation of the optimal transport problem
+Let $L$ be the \df{transport map}, a measurable map from $S$ to $T$
+
+
+Let $c\colon S \times T \to [0,\infty]$ be the cost function, which we will assume to be LSC. 
+
+\df{Kantorovich's formulation} of the optimal transport problem says the following: given $\mu \in \mathcal P(S)$ and $\nu \in \mathcal{P} (T)$, we want to find \[
+    \inf_{\pi \in \Pi(\mu ,\nu)}\int_{S \times T} c(x,y)\,d\pi(x,y),
+\] where $\Pi(\mu,\nu)$ is the space of all couplings between $\mu$ and $\nu$, also called the space of \df{transport plans}. We will refer to this formulation as KOT.
+
+Under the assumption that $(S,\mathcal S)$ and $(T,\mathcal T)$ are Polish, and the cost function is LSC, then the optimal coupling in KOT is attained. This boils down to the so-called \emph{direct method in the calculus of variations}. This method is based on the following result: \begin{thm}[{\cite[Box~1.1]{Santambrogio_2015}}]
+    Let $S$ be a compact metric space, and $f\colon S \to (-\infty,\infty]$ be LSC, then $\min_x f(x)$ can be obtained.
+\end{thm}
+
+Define $\mathcal C\colon \Pi(\mu,\nu) \to [0,\infty]$ by $\mathcal C\pi = \int c(x,y)\,d\pi$, the evaluation of the cost of a transport plan. This is a positive linear functional.
+
+\begin{thm}
+    If $c\colon S \times T \to [0,\infty]$ is LSC, then the function(al) $\mathcal C\colon \Pi(\mu ,\nu) \to [0,\infty]$ is also LSC, when $\Pi(\mu ,\nu) \subseteq \mathcal P(S \times T)$ is endowed with the topology of weak convergence.
+\end{thm}
+
+If $S$ and $T$ are compact and $c$ is continuous (even be negative-valued), the above result follows straightforward from \nameref{thm:Riesz2} and \flcnameref{thm:seq-Alaoglu}, a technique we should already be familiar from before; see \cite[Theorem~1.4]{Santambrogio_2015}.
+
+Combine this with \cref{cor:compact-coupling-space-Polish}, we can immediately conclude that the infimum in KOT can be achieved.
+
+\begin{proof}[Proof that $W_p$ is a metric]
+    
+\end{proof}
+
+\begin{proof}[Proof of the \flcnameref{thm:duality-W1}]
+    
+\end{proof}
+
+Monge's problem
+    
+\section{Local times}

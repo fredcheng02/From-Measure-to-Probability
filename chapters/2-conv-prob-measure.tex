@@ -1,4 +1,4 @@
-\chapter{Modes of convergence in probability}
+\chapter{Modes of convergence in probability} \label{chap:modes-conv-prob}
 \section{Statistical distances}
 \begin{namedthm*}[Important disclaimer]
     This section deals purely with comparisons of probability measures $\mu$ and $\nu$ on a given measurable space $(S,\mathcal S)$, and has nothing to do with random variables. In practice we may want to see $\mu$ and $\nu$ indeed as probability distributions of random variables on the codomain space $(S,\mathcal S)$. Please be very careful about this distinction.
@@ -6,34 +6,41 @@
 
 Given two probability measure $\mu$ and $\nu$ on $(S,\mathcal S)$, we have the signed measure $\mu - \nu \colon \mathcal S \to [-1,1]$. Its total variation norm \begin{align*}
     \nm{\mu - \nu} & = \abs{\mu-\nu}(S) \\
-    & = \sup_{A\in \mathcal S}\abs{(\mu-\nu)(A)} + \abs{(\mu-\nu)(\Omega - A)} \\
+    & = \sup_{A\in \mathcal S}\abs{(\mu-\nu)(A)} + \abs{(\mu-\nu)(S - A)} \\
     & = \sup_{A \in \mathcal S} \abs{\mu(A) - \nu(A)} + \abs{1 - \mu(A) - 1 + \nu(A)} \\
     & = 2\sup_{A\in \mathcal S}\abs{\mu(A) - \nu(A)}.
 \end{align*}
 
 The factor $2$ above is usually dropped in probabilistic applications. We define the \df[total variation!distance between probability measures]{total variation distance} between $\mu$ and $\nu$ to be \[
-    \tv{\mu-\nu} = d_\mathrm{TV}(\mu,\nu) = \sup_{A \in \mathcal S} \abs{\mu(A) - \nu(A)}.
+     \tv(\mu,\nu) = \frac{1}{2}\nm{\mu - \nu} =\sup_{A \in \mathcal S} \abs{\mu(A) - \nu(A)}.
 \] It should be clear that the absolute value sign can be dropped in the definition above, since \[\mu(A) - \nu(A) = \nu(A^\cpl) - \mu(A^\cpl).\]
 
 \begin{defn}
     On a given measurable space $(S,\mathcal S)$, we say a sequence of probability measure $\{\mu_n\}$ \emph{converges} to a probability measure $\mu$ \df[convergence!in total variation]{in total variation} if \begin{equation}
-        \tv{\mu_n -\mu} \to 0. \label{eq:ttl-var-conv}
+        \tv(\mu_n,\mu) \to 0. \label{eq:ttl-var-conv}
     \end{equation}
 \end{defn}
 Note that if $\mu_n$ are probability measures and \eqref{eq:ttl-var-conv} holds, then the TV-limit $\mu$ must be a probability measure. This is because \[
-    0 = \lim_n \tv{\mu_n -\mu} = \lim_n \sup_{A\in \mathcal S} \abs{\mu_n(A) - \mu(A)},
-\] which in particular implies $\mu_n (S) - \mu(S) \to 0$. We remark that convergence in total variation may be understood as uniform setwise convergence.
+    0 = \lim_n \tv(\mu_n,\mu) = \lim_n \sup_{A\in \mathcal S} \abs{\mu_n(A) - \mu(A)},
+\] which in particular implies $\mu_n (S) - \mu(S) \to 0$. We remark that convergence in total variation may be understood as \emph{uniform} setwise convergence. \df[setwise convergence]{Setwise convergence}, by its name, means that \[
+    \mu_n (S) - \mu(S) \to 0\quad \text{for all }S\in \mathcal S.
+\]
 
-The total variation convergence given above can of course be defined for general finite/signed/complex measures, by using the total variation norm $\nm{\blank}$ in place of the half-total variation norm $\tv{\blank}$ in probability. (Of course there is no difference in definition if we change by a constant factor $2$.) We do not discuss this convergence in the general setting.
+The total variation convergence given above can of course be defined for general finite/signed/complex measures, by using the distance induced from the total variation norm $\nm{\blank}$ in place of $\tv$. (We know $\tv(\mu_n,\mu)$ and $\nm{\mu_n-\mu}$ differ by a constant factor of $2$, which leads to the same definition of convergence.) We do not discuss this convergence in the general setting.
 
-The following result is a restatement of something we have proved in \cref{sec:signed}.
+% The following result is a restatement of something we have proved in \cref{sec:signed}.
+
+If $\mu - \nu \ll \rho$, then by \cref{prop:derivative-ttl-var-meas} \[\nm{\mu - \nu} = \abs{\mu - \nu}(S) = \int_S\frac{d\abs{\mu - \nu}}{d\rho}\,d\rho.\] This leads to the following characterization of TV distance for discrete and continuous random variables.
 \begin{fact}
-    If $\mu$ and $\nu$ have a common dominating measure $\rho$, then \[
-        \tv{\mu - \nu} = \frac{1}{2} \int_{S} \biggl\vert\frac{d\mu}{d\rho}(\omega) - \frac{d\nu}{d\rho}(\omega)\biggr\vert\,d\rho.
-    \]
-    In particular, if $(S,\mathcal S)$ is a discrete space, then \[\tv{\mu - \nu} = \frac{1}{2}\sum_{x \in S} \abs{\mu\{x\} - \nu\{x\}}.\] And if $(S,\mathcal S) = (\R,\B)$, with $\rho$ being the Lebesgue measure, then \[\frac{1}{2}\int_\R \abs{f(x) - g(x)} \,dx,\] where $f = \frac{d\mu}{d\rho}$ and $g = \frac{d\nu}{d\rho}$ are the two probability densities\footnote{Of course we may consider $\mu$ and $\nu$ on some restricted subspace of $(\R,\B)$, but as mentioned before we drop such consideration for brevity.}. In short, the total variation distance between two probability measures is half the $L^1$ distance between their densities.
+    If $\mu$ and $\nu$ have a common dominating measure $\rho$, then \begin{equation}
+        \tv(\mu,\nu) = \frac{1}{2} \int_{S} \biggl\vert\frac{d\mu}{d\rho}(x) - \frac{d\nu}{d\rho}(x)\biggr\vert\,d\rho. \label{eq:tv-dominating-expression}
+    \end{equation}
+    In particular, if $(S,\mathcal S)$ is a discrete space, then \[\tv(\mu,\nu) = \frac{1}{2}\sum_{x \in S} \abs{\mu\{x\} - \nu\{x\}}.\] And if $(S,\mathcal S) = (\R,\B)$, with $\rho$ being the Lebesgue measure, then \[\tv(\mu,\nu) = \frac{1}{2}\int_\R \abs{f(x) - g(x)} \,dx,\] where $f = \frac{d\mu}{d\rho}$ and $g = \frac{d\nu}{d\rho}$ are the two probability densities\footnote{Of course we may consider $\mu$ and $\nu$ on some restricted subspace of $(\R,\B)$, but as mentioned before we drop such consideration for brevity.}. In short, the total variation distance between two probability measures is half the $L^1$ distance between their densities.
 \end{fact}
-    
+
+    Furthermore from the proof of \cref{prop:derivative-ttl-var-meas}, one can get \[
+        \tv(\mu,\nu) = \sum_{x: \mu\{x\} \geq \nu\{x\}} \mu\{x\} - \nu\{x\} 
+    \] for discrete random variables (and similarly for continuous random variables), which can be handy at times.
 
 The \df{Kullback--Leibler divergence/relative entropy} of $\mu$ with respect to $\nu$ is given by \[
     \KL{\mu}{\nu} = \begin{cases}
@@ -72,10 +79,42 @@ If we have another probability measure $\mu$ with $\mu \ll \nu$, then \[
 Fisher information 5.1.2 Markov diffusion operators LSI
 
 \begin{namedthm}[Pinsker's inequality]
-    $\tv{\mu - \nu} \leq \sqrt{\frac 1 2 \KL{\mu}{\nu}}$.
+    $\tv(\mu, \nu) \leq \sqrt{\frac 1 2 \KL{\mu}{\nu}}$.
 \end{namedthm}
 
-Hellinger distance
+Fix $\nu \in \mathcal P(S)$, and write $D(\blank) = \KL{\blank}{\nu}$. Define the function \[
+    \varphi(g) = \log \E_\nu (e^g)
+\] for all bounded measurable functions $g\colon S \to \R$. Meanwhile define $D$ on the entire $\M(S)$ by setting $D(\mu) = +\infty$ for $\mu \notin \mathcal P(S)$.
+
+\begin{namedthm}[Donsker--Varadhan variational principle]
+The functions $\varphi\colon (\text{bounded measurable}) \to \R$ and $D\colon \M(S) \to \R$ are convex conjugates of each other. This implies that $\KL{\blank}{\nu}$ is convex, and 
+    \[
+        \KL{\mu}{\nu} = \sup\{\E_\mu g - \log \E_\nu (e^g) : g \text{ bounded measurable}\}.
+    \]
+\end{namedthm}
+
+If $S$ is a metric space, then the supremum can be taken over $C_b(S)$.
+
+weak convergence
+\[
+    \KL{\mu}{\nu} \leq \liminf_n \KL{\mu}{\nu}.
+\]
+
+\begin{namedthm}[Gibbs variational principle]
+    
+\end{namedthm}
+
+Say $\mu$ and $\nu$ have a common dominating measure $\rho$, with \[
+    \frac{d\mu}{d\rho} = f\quad\text{and}\quad  \frac{d\nu}{d\rho} = g,
+\]
+then the \df{Hellinger distance} between $\mu$ and $\nu$ is defined by \[
+    d_{\mathrm H}(\mu,\nu) = \biggl(\frac{1}{2} \int_S \bigl[\sqrt{f(x)} - \sqrt{g(x)}\bigr]^2\,d\rho(x)\biggr)^{1/2}.
+\]
+(Do not mistaken this with the Hausdorff distance, which has the exact same notation. We will not mention Hellinger distance anywhere else in the text.) The Hellinger distance always exists, since we may take $\rho = \mu + \nu$. The distance is well-defined, in the sense that it is independent of the choice of such $\rho$. (Clearly this is a straightforward exercise using the chain rule for Radon--Nikodym derivatives.) One can obviously write down the expression when $\rho$ is the counting measure or the Lebesgue measure, which we omit here.
+
+When the Hellinger distance exists, the following holds: \[
+    d_{\mathrm H}^2(\mu,\nu) \leq \tv(\mu,\nu) \leq \sqrt{2} d_{\mathrm H}(\mu,\nu).
+\] This follows from a straightforward comparison with \eqref{eq:tv-dominating-expression}.
 
 probability metric
 
@@ -83,38 +122,81 @@ The \df{integral probability metric} (IPM) uses a class of test functions $\F$ t
     d_{\F}(\mu,\nu) = \sup_{f \in \F} \biggl\vert \int_S f\,d\mu - \int_S f\,d\nu \bigg\vert.
 \] To be precise $d_\F$ is in fact a pseudometric, and it is a metric if and only if there exists $f \in \F$ such that $\int_S f \,d\mu \neq \int_S f\,d\nu$.
 
-If we take $\F$ to be the collection of all indicator functions, then $d_{\F} = d_\mathrm{TV}$.
+If we take $\F$ to be the collection of all indicator functions, then $d_{\F} = \tv$.
 
 The \df{Kolmogorov uniform metric} is defined by \[
     d_{\mathrm{K}}(\mu,\nu) = \sup_{x\in \R} \abs{F_\mu(x) - F_\nu(x)} = \sup_{x\in \R}\bigl\vert\mu(-\infty,x] - \nu(-\infty,x]\bigr\vert,
 \] which is the an IPM $d_\F$ with $\F = \{\ind_{(-\infty,x]} : x\in \R\}$.
 
-Let $(S,d)$ be a Polish space, and $1\leq p < \infty$, the \df{Wasserstein distance} of order $p$ is defined by \[
-    W_p(\mu,\nu) = \biggl[\inf_{\pi \in \Pi(\mu,\nu)} \int_S d(x,y)^p \,d\pi(x,y)\biggr]^{1/p}.
-\] Alternatively, one may write \[
-    W_p(\mu,\nu) = \inf\bigl\{\E \bigl[d(X,Y)^p\bigr]^{1/p} : X \sim \mu, Y \sim \nu\bigr\}, 
-\] and understand it as an $L^p$ distance between two probability measures.
+Let $(S,\rho)$ be a separable metric space, and $1\leq p < \infty$, the \df{Wasserstein distance} of order $p$ is defined by \begin{equation} \label{eq:Wp-analysis-char}
+    W_p(\mu,\nu) = \inf_{\pi \in \Pi(\mu,\nu)} \biggl[\int_{S\times S} \rho(x,y)^p \,d\pi(x,y)\biggr]^{1/p}.
+\end{equation}
+
+Alternatively, one has the probabilistic interpretation \begin{equation} \label{eq:Wp-prob-char}
+    W_p(\mu,\nu) = \inf\bigl\{\E \bigl[\rho(X,Y)^p\bigr]^{1/p} : X \sim \mu, Y \sim \nu\bigr\}, 
+\end{equation} and understand it as an $L^p$ distance between two probability measures.
+
+To see why the two characterizations are equivalent, first of all \[
+    \E \bigl[\rho(X,Y)^p\bigr] = \int_{S\times S} \rho(x,y)^p \,d\pi(x,y).
+\] for $\pi = P\circ (X, Y)^{-1}$. Secondly, $\mu = P \circ X^{-1}$ is equivalent to saying for $A\in \mathcal S$, we have \begin{align*}
+    \pi(A \times S) & = P \circ (X,Y)^{-1}(A\times S)\\
+    & = P\circ X^{-1}(A) = \mu(A).
+\end{align*} (A similar result holds for $\nu$.) This shows that $X \sim \mu$ and $Y \sim \nu$ is equivalent to $\pi \in \Pi(\mu,\nu)$, and hence the right hand sides of \eqref{eq:Wp-analysis-char} and \eqref{eq:Wp-prob-char} should be the same.
+
+The separability of $(S,\rho)$ ensures $\rho\colon S\times S \to [0,\infty)$ to be a measurable function with respect to the product $\sigma$-field $\B(S) \otimes \B(S)$, which we discussed in \cref{rem:meas-metric-2nd-countable}.
 
 Restricting $\mu$ and $\nu$ to be measures on the \df{Wasserstein space} enforces $W_p$ to be finite, and henceforth a metric, as we will see. The \emph{Wasserstein space} of order $p$ is defined by \[
-    \mathcal W_p(S) = \biggl\{\mu \in \mathcal{P}(S): \int_S d(x_0,x)^p \,d\mu(x) < \infty \text{ for all }x_0\in S\biggr\}.
+    \mathcal P_p(S) = \biggl\{\mu \in \mathcal{P}(S): \int_S \rho(x_0,x)^p \,{d}\mu(x) < \infty \text{ for all }x_0\in S\biggr\}.
 \]
 
+\begin{fact}
+    As expected, the Wasserstein distance gives a metric on $\mathcal P_p(S)$.
+\end{fact}
+
+Unfortunately the proof of this fact has to be delayed to . 
+
+
+\begin{fact}
+    The infimum in the definition of Wasserstein distance can be attained. 
+\end{fact}
+
+\begin{namedthm}[Dual representation of $W_1$] \label{thm:duality-W1}
+    For $\mu,\nu \in \mathcal P_p(S)$, we have \[
+        W_1(\mu,\nu) = \sup\biggl\{\biggl\vert\int f\,d\mu  - \int f\,d\nu\biggr\vert : f \text{ is }1\text{-Lipschitz}\biggr\}.
+    \] Thus $W_1$ is an IPM.
+\end{namedthm}
+
+\section{The coupling technique}
+
+Given two probability measures $\mu$ and $\nu$ on $(\R,\B)$, we say $\nu$ stochastically dominates $\mu$, denoted by $\mu \preceq \nu$, if \[
+    \mu(t,\infty) \leq \nu(t,\infty) \text{ for all } t \in \R. 
+\] We are interested in the case where $\mu$ and $\nu$ are realized by two real-valued random variables \emph{defined on the same probability space} $(\Omega,\F,P)$, and we write $X \preceq Y$ if $\mu_X \preceq \mu_Y$.
+
+Clearly $X \preceq $ is equivalent to saying for any increasing $f$ such that $\E\abs{f(X)}$ and $\E\abs{f(Y)}$ are finite, we have \[
+    \E f(X) \leq \E f(Y).
+\]
+
+layer cake representation
+
+\begin{namedthm}
+    For a given joint pair $(X,Y)$ such that $X \preceq Y$, there exists a \df{monotone coupling} $(\widehat X,\widehat Y)$, which means that \[
+    \widehat X \leq \widehat Y\text{ a.s., while } \mu_{\widehat X} = \mu_X \text{ and } \mu_{\widehat Y} = \mu_Y.
+\]
+\end{namedthm}
+\begin{proof}
+    In light of \cref{thm:cdf-unif-identification}, we may use the same uniform random variable to define the distribution of $X$ and $Y$. The monotonicity is easy to see.
+\end{proof}
+
+This provides another proof of 
+
+Strassen's theorem
+
 \section{Weak convergence of probability measures}
-Let $(S,d)$ be a metric space. We use $\M(S)$ for the space of finite signed/complex Borel measures on $S$, $\M_+(S)$ for the space of finite Borel measures on $S$, and $\mathcal P(S)$ for the space of Borel probability measures. A \df{subprobability measure} $\mu$ is a measure with $\mu(S) \leq 1$.
-\begin{defn}
-    A sequence $\{\mu_n\} \subseteq \M(S)$ \df[convergence!weak]{converges weakly} to $\mu\in \M(S)$ if for all $f\in C_b(S)$, we have \begin{equation}
-        \int_S f\,d\mu_n \to \int_S f\,d\mu, \label{eq:wkconv-def}
-    \end{equation}
-    which we denote by $\mu_n \wkconv \mu$.
-\end{defn}
+Let $(S,\rho)$ be a metric space. We use $\mathcal P(S)$ for the space of Borel probability measures. A \df{subprobability measure} $\mu$ is a measure with $\mu(S) \leq 1$, and we denote the space of all Borel subprobability measures by $\subp(S)$.
 
-This is the general definition of weak convergence of general Borel measures. Our attention will be restricted to the case when ${\mu_n}$ is a sequence of Borel probability measures.
+Our attention will be restricted to the case when ${\mu_n}$ is a sequence of Borel probability measures.
 
-It is common to see the notation $\mu f$ in place of $\int_S f\,d\mu$, because we may see $\mu$ as a linear operator acting on the space $C_b(S)$ with the topology of uniform convergence. The bounded continuous functions in the definition are called \df{test functions}, because this mode of convergence is tested with respect to $C_b(S)$.
-
-In analysis one is often interested in test function classes $C_0$ and $C_c$; see \cref{sec:Riesz-thm}. Below is one reason why the choice of $C_b$ is desirable to probabilists. Suppose the sequence $\{\mu_n\} \subseteq \mathcal{P}(S)$ converges weakly to $\mu\in \M(S)$. If we take $f = 1$ on the entire $S$ in \eqref{eq:wkconv-def}, then we have $\mu(S) = \lim_n \mu_n(S) = 1$, thus proving that the weak limit $\mu$ is a Borel probability measure as well. Hence no ``mass'' is lost in this convergence, in contrast to ...
-
-The current section aims to present the tip of the iceberg of the theory of weak convergence. For the thorough treatment of weak convergence of Borel probability measures on metric spaces, see the classical \cite{Billingsley_1999} and \cite{Parthasarathy_1967}. Weak convergence is a subject of greater importance to probability compared to general measure theory and analysis. This has led to our choice (and many authors' choice) to present weak convergence solely in the context of probability. % A brief overview of the general theory of weak convergence has been included in \cref{sec:weak-conv-general-meas}, based on \cite{Bogachev_2018}.
+The current section aims to present the tip of the iceberg of the theory of weak convergence. For the thorough treatment of weak convergence of Borel probability measures on metric spaces, see the classical \cite{Billingsley_1999} and \cite{Parthasarathy_1967}.
 
 \begin{defn}
     A sequence $\{\mu_n\}$ of Borel probability measures \emph{converges weakly} to a Borel probability measure $\mu$ if for all $f\in C_b(S)$, we have \[
@@ -125,34 +207,35 @@ The current section aims to present the tip of the iceberg of the theory of weak
     If each $\mu_n$ and $\mu$ represents the distribution of some $(S,\mathcal B_S)$-valued random variables $X_n$ and $X$, then we usually say \df[converges in distribution]{$X_n$ converges to $X$ in distribution}, denoted by\footnote{sometimes even mix up and write $X_n \wkconv \mu$} $X_n \wkconv X$. Because of \cref{cor:dist-cdf-equiv}, when $S = \R$ we also write $F_{X_n} \wkconv F_{X}$.
 \end{defn}
 
-\begin{thm}
-    When $S = \R$, the weak convergence of probability measures $\mu_n \wkconv \mu$ is equivalent to $F_n(x) \to F(x)$ at every continuity point $x$ of $F$, where $F_n$ and $F$ are the distribution functions of $\mu_n$ and $\mu$, respectively.
-\end{thm}
-
 Recall that vague convergence
 
 \begin{prop}
     Weak convergence of integer-valued measures is equivalent to pointwise convergence.
 \end{prop}
 
-\begin{namedthm}[Alexandroff portmanteau\footnote{As \textcite{Bogachev_2018} points out, ``I do not know who invented such a nonsensical name for Alexandroff's theorem.''} theorem]
-The following statements are equivalent characterizations of the weak convergence of Borel probability measures on a metric space $(S,d)$.
+\begin{namedthm}[Alexandroff portmanteau theorem] \label{thm:portmanteau-weak}\footnote{As \textcite{Bogachev_2018} points out, ``I do not know who invented such a nonsensical name for Alexandroff's theorem.''}
+The following statements are equivalent characterizations of the weak convergence of Borel probability measures on a metric space $(S,\rho)$.
     \begin{enumerate}
         \item $\int f\,d\mu_n \to \int f\,d\mu$ for all bounded Lipschitz functions $f$ on $S$;
         \item $\int f\,d\mu_n \to \int f\,d\mu$ for all bounded uniformly continuous functions $f$ on $S$;
-        \item $\limsup_n \int f\,d\mu_n \leq \int f\,d\mu$ for all u.s.c.\ functions bounded from above;
-        \item $\liminf_n \int f\,d\mu_n \geq \int f\,d\mu$ for all l.s.c.\ functions bounded from below;
+        \item $\limsup_n \int f\,d\mu_n \leq \int f\,d\mu$ for all USC functions bounded from above;
+        \item $\liminf_n \int f\,d\mu_n \geq \int f\,d\mu$ for all LSC functions bounded from below;
         \item $\limsup_n \mu_n(F)\leq \mu(F)$ for all closed sets $F$;
         \item $\liminf_n \mu_n(G)\geq \mu(G)$ for all open sets $G$;
-        \item $\lim_n \mu_n(A) = \mu(A)$ for all \df{continuity sets} $A$ with respect to $\mu$, i.e., Borel sets $A$ with $\mu(\partial A) = 0$.
+        \item \label{enu:continuity-set-portmanteau} $\lim_n \mu_n(A) = \mu(A)$ for all \df{continuity sets} $A$ with respect to $\mu$, i.e., Borel sets $A$ with $\mu(\partial A) = 0$.
     \end{enumerate}
 \end{namedthm}
+The same convergence remains in force if we have $\lim_n \mu_n(S) = \mu(S)$ for $\mu_n,\mu \in \M^+(S)$.
+
+\begin{thm}
+    When $S = \R$, the weak convergence of probability measures $\mu_n \wkconv \mu$ is equivalent to $F_n(x) \to F(x)$ at every continuity point $x$ of $F$, where $F_n$ and $F$ are the distribution functions of $\mu_n$ and $\mu$, respectively.
+\end{thm}
+\begin{proof}
+    Characterization~\ref{enu:continuity-set-portmanteau} immediately tells us the direction that weak convergence implies convergence at all continuity points of the limiting distribution function. For the reverse direction, 
+\end{proof}
 
 
-
-(sequential Banach--Alaoglu) vague convergence Prohorov’s theorem 
-
-The proof of the following result resembles that of the classical Arzelà--Ascoli theorem on $\R^d$. The shared proof idea is to construct a desired subsequence (that converges pointwise on all rationals) by the so-called diagonal argument. %However, when constructing the subsequence, most authors implicitly uses the axiom of dependent choice.
+The proof of the following result (and its generalizations) resembles that of the classical Arzelà--Ascoli theorem on $\R^d$. The shared proof idea is to construct a desired subsequence (that converges pointwise on all rationals) by the so-called diagonal argument. %However, when constructing the subsequence, most authors implicitly uses the axiom of dependent choice.
 The construct can be made very explicit, as we will show below.
 
 \begin{lem} \label{lem:Helly-pre}
@@ -201,11 +284,32 @@ The construct can be made very explicit, as we will show below.
 
 Recall that the subsequential limit $F$ constructed above associates to a Borel measure $\mu_F$, by \cref{thm:increasing-rcont-Borel-measure-connection}\ref{enu:CDF-measure}. This $\mu_F$ is a subprobability measure on $(\R,\B)$, since for all continuity points $x$, \[\mu_F(-\infty,x] = F(x)\leq 1.\] Since the increasing function $F$ has at most countably many discontinuities, we can construct a sequence of continuity points approaching $\infty$, and conclude $\mu_F(\R)\leq 1$.
 
-(Our conclusion here can also be understood and generalized via very heavy machinery\footnote{and the stronger axiom \textsf{DC}; we did not use any choice axiom in our elementary proof}. For every separable normed space $(S,\nm{\blank})$, $(C_0(S),\nm{\blank}_u)$ is also a separable normed space. By the \flcnameref{label:seq-Alaoglu}, $C_0(S)^*$ is weak-star sequentially compact. By , the sequence $\mu_n \subseteq \mathcal P(S)$, which is norm bounded in $\M(S)$, must have a subsequential vague limit $\mu$ that is a subprobability measure.)
+See {\cite[Theorem~21.18, Corollary~21.19]{Schilling_2017}} for a direct proof.
 
-The $\mu_F$ above is not in general a probability measure, for example, consider the sequence of distribution functions $F_n$ of the uniform distributions over $[-n,n]$. The sequence $\{F_n\}$ \emph{itself} (and hence all of its subsequences) converges vaguely to the $0$ function. To ensure that the subsequential $F$ constructed in \cref{lem:Helly-pre} is indeed a distribution function, we require tightness in addition.
+\begin{namedthm}[Helly selection theorem] \label{thm:Helly-selection-LCS}
+    Let $S$ be a locally compact separable metric space. For any sequence $\{\mu_n\} \subseteq \subp(S)$, it has a vague subsequential limit in $\subp(S)$. This means exactly that $\subp(S)$ is sequentially compact in the vague topology.
+\end{namedthm}
+\begin{proof}
+    This follows by combining three results. We know $(C_c(S),\nm{\blank}_u)$ is a separable normed space, and by the \flcnameref{thm:seq-Alaoglu}, $C_c(S)^*$ must be weak-star sequentially compact. By the \nameref{thm:Riesz2}, the sequence $\{\mu_n\} \subseteq \mathcal P(S)$ is norm bounded in $\M(S) \cong C_c(S)^*$. Hence $\mu_n$ must have a subsequential vague limit $\mu$ that satisfies $\nm{\mu} \leq 1$. Since $\mu_n$ are all positive measures, $\mu$ must also be positive measure, and hence a subprobability measure.
+\end{proof}
 
-\begin{thm}[{\cite[Theorem~21.17]{Schilling_2017}}]
+\begin{cor} \label{cor:seq-compact-space-prob-meas}
+    When $S$ is a compact metric space, weak and vague convergence coincides. Hence for any sequence $\{\mu_n\} \subseteq \mathcal P(S)$, it has a weak subsequential limit in $\mathcal P(S)$. This shows that $\mathcal P(S)$ is sequentially compact in the vague/weak topology.
+\end{cor}
+
+A finite-dimensional normed space $(S,\nm{\blank})$ must be locally compact and separable.
+
+The $\mu_F$ above is not in general a probability measure, for example, consider the sequence of distribution functions $F_n$ of the uniform distributions over $[-n,n]$. The sequence $\{F_n\}$ \emph{itself} (and hence all of its subsequences) converges vaguely to the $0$ function. To ensure that the subsequential $F$ constructed in \cref{lem:Helly-pre} is indeed a distribution function, we require tightness over \emph{the entire sequence of measures} in addition. We say a family of measures $\Gamma$ is \df{tight} if for each $\epsilon > 0$, there exists some compact set $K_\epsilon$ such that \[
+    \sup_{\gamma \in \Gamma} \mu_\gamma (S - K_\epsilon) < \epsilon.
+\] Indeed this is just the generalization of tightness of one measure we have discussed previously. (Some authors use the term ``uniformly tight'' or ``equi-tight'' to stress the difference.)
+
+When $S$ is compact, we know weak and vague convergence for a sequence of measures are the same. To upgrade vague convergence to weak convergence in the general case of a locally compact separable metric space $S$, it seems natural to control the proximity-in-measure of $S$ to a compact metric space.
+
+    When $S = \R^d$, vague convergence may be further defined by $
+            \int f\,d\mu \to \int f\,d\mu 
+    $ for $f \in C_c^\infty(\R^d)$
+
+\begin{thm}[{\cite[Theorem~21.17]{Schilling_2017}}] \label{thm:vague-to-weak}
     Let $S$ be locally compact and separable\footnote{Of course we can state this result in general for lc(sc)H spaces, but we chose not to due to our focus on metric spaces.}, and $\{\mu_n\} \subseteq \mathcal P(S)$, then the following are equivalent. \begin{enumerate}
         \item $\mu_n \wkconv \mu$;
         \item $\mu_n \to \mu$ vaguely, with $\mu\in \mathcal P(S)$;
@@ -213,16 +317,22 @@ The $\mu_F$ above is not in general a probability measure, for example, consider
     \end{enumerate}
 \end{thm}
 
-
+We are now ready to generalize \cref{cor:seq-compact-space-prob-meas} from compact to locally compact separable metric spaces. It also provides an accurate characterization for tightness.
+\begin{prop} \label{prop:tightness-characterization}
+    For a sequence of Borel probability measures in a locally compact separable metric space, every vague subsequential limit (which always exists by \cref{thm:Helly-selection-LCS}) is a probability measure if and only if the sequence is tight.
+\end{prop}
+\begin{proof}
+    One direction is already contained in the previous theorem. For the other direction, suppose every vague subsequential limit of $\{\mu_n\}$ is a probability measure, but the sequence is not tight. By \nameref{thm:Helly-selection-LCS}, we may assume in addition that $\mu_{n_j}$ is vaguely convergent sequence, with limit as a probability measure by assumption. This contradicts \cref{thm:vague-to-weak}.
+\end{proof}
 
 \begin{namedthm}[Helly selection theorem]
     If we assume that in \cref{lem:Helly-pre} $\{F_n\}$ is a tight sequence of distribution functions, then the vague subsequential limit $F$ constructed there is a distribution function.
 \end{namedthm}
 
-generalization subprobability measure, Rd
+generalization subprobability measure (21.16 17 18)
 
 \begin{namedthm}[Skorohod representation theorem (Polish space)]
-    Let $(S,d)$ be Polish. Suppose $\mu_n \wkconv \mu$, then there exist $X_n$ and $X$ defined on a common probability space $(\Omega,\F,P)$, such that $X_n \sim \mu_n$, $X\sim \mu$, and $X_n \to X$ pointwise everywhere on $\Omega$.
+    Let $(S,\rho)$ be Polish. Suppose $\mu_n \wkconv \mu$, then there exist $X_n$ and $X$ defined on a common probability space $(\Omega,\F,P) = ([0,1],\B,m)$, such that $X_n \sim \mu_n$, $X\sim \mu$, and $X_n \to X$ pointwise everywhere on $\Omega$.
 \end{namedthm}
 
 Redefine $X_n$ by $X$ outside the set of convergence
@@ -230,19 +340,65 @@ Weak compactness
 
 Prohorov metric for $S = \Z$
 
+\subsection{The topology and metric of weak convergence}
+
+Compare with the Arzelà--Ascoli theorem for the space of continuous functions.
+
+\begin{namedthm}[Prohorov’s theorem] \label{label:Prohorov}
+    Let $S$ be a metric space (not necessarily separable). Suppose a collection of random variables $\mathcal K \subseteq \mathcal P(S)$ is tight, then $\mathcal K$ is precompact in the topology of weak convergence on $\mathcal P(S)$.
+
+    
+\end{namedthm}
+\begin{proof}
+    We follow \cite[Theorem~23.2]{Kallenberg_2021}. \cite[Theorem~6.7]{DaPrato_2006} uses the diagonal argument twice 
+\end{proof}
+
+The converse is true when $S$ is Polish. Note this is just a generalization of \nameref{thm:Ulam}.
+
+\begin{cor} \cite[Corollary~2.9]{ABS_2024} \label{cor:compact-coupling-space-Polish}
+    Let $S$ and $T$ be Polish, then the space $\Pi(\mu,\nu)$ of couplings between $\mu \in \mathcal P(S)$ and $\nu \in \mathcal P(T)$ is a compact subspace of $\mathcal P(S \times T)$.
+\end{cor}
+\begin{proof}
+    First we show $\Pi(\mu,\nu)$ is closed in $\mathcal P(S \times T)$. We know each $\pi \in \mathcal P(\mu,\nu)$ is characterized by \[
+        \int_{S \times T} (\varphi, \Id_Y) \,d\pi = \int_S \varphi\,d\mu\quad \text{for all }\varphi\in C_b(S),
+    \] and similarly with respect to the marginal $\nu$. It is then clear that the weak limit of a sequence $\{\pi_n\} \subseteq \Pi$ still falls in $\Pi$.
+    
+    By \nameref{label:Prohorov}, it now suffices to show that $\Pi(\mu,\nu)$ is a tight family. By \nameref{thm:Ulam}, for any $\epsilon >0$, there exists $K_1 \subseteq S$ and $K_2 \subseteq T$ such that \[
+        \mu(S - K_1) < \epsilon/2\quad \text{and} \quad \mu(T - K_2) < \epsilon/2.
+    \] It follows that for any $\pi \in \Pi(\mu,\nu)$ \begin{align*}
+        \pi (S \times T - K_1 \times K_2) & \leq \pi\bigl((S - K_1) \times T\bigr) + \pi\bigl(S \times (T - K_2)\bigr)\\
+        & = \mu(S - K_1)  + \nu(T - K-2) < \epsilon,
+    \end{align*} proving tightness.
+\end{proof}
+
+\begin{thm}[{\cite[Theorem~3.1.2]{Bogachev_2018}}]
+    The weak topology on $\M^+(S)$
+\end{thm}
+
+Prohorov metric On a Polish space
+
+Wasserstein distance 
+
+\subsection{Problem of measurability}
+
+When $S$ is infinite, $\B(S)$ is not separable.
 
 \section{Comparisons between modes of convergence}
 \begin{thm}
-    If $\mu_n \to \mu$ in total variation, then $\mu_n \wkconv \mu$.
+    If $\mu_n \to \mu$ in total variation, $\mu_n \to \mu$ setwise, which implies that $\mu_n \wkconv \mu$.
 \end{thm}
 \begin{proof}
-    $\mu_n \to \mu$ in total variation means that for all $A \in \mathcal S$, $\mu_n(A) \to \mu(A)$, or equivalently, \[
+    The first part has already been discussed. For the second part, we know setwise convergence means that for all $A\in \mathcal S$, \[
         \int \ind_A \,d \mu_n \to \int \ind_A\, d\mu.
-    \] Now use the standard argument to extend to all $C_b$ functions.
+    \] The convergence then extends to all bounded measurable functions, which of course include $C_b(S)$.
+    
+    Alternatively this also follows from characterization~\ref{enu:continuity-set-portmanteau} in \nameref{thm:portmanteau-weak}.
 \end{proof}
 
+For this reason, $\mu_n \to \mu$ setwise is often referred to as \emph{strong convergence of measures} as opposed to weak convergence of meausres.
+
 \begin{thm}
-    If $X_n \to X$ a.s., then $X_n \to X$ in probability, which further implies $X_n \wkconv X$.
+    If $X_n \to X$ a.s., then $X_n \to X$ in probability, which further implies $X_n \wkconv X$ when $S$ is a separable metric space.
 \end{thm}
 \begin{proof}
     The first part was done in \cref{thm:relation-modes-conv}. 
@@ -271,14 +427,14 @@ Convergence of one sequence in distribution and another to a constant implies jo
 The following result is a direct corollary of 
 
 \begin{namedthm}[Slutsky's theorem]
-    Given $X_n \wkconv X$ and $Y_n \wkconv c$, then \begin{enumerate}
+    Suppose $X_n \wkconv X$ and $Y_n \wkconv c$ as real random variables, then \begin{enumerate}
         \item $X_n + Y_n \wkconv X + c$;
-        \item $X_nY_n\wkconv cX$;
-        \item $X_n/Y_n \wkconv X/c$, provided that $c \neq 0$.
+        \item $Y_nX_n\wkconv cX$;
+        \item $X_n/Y_n \wkconv X/c$, provided that $c$ is invertible.
     \end{enumerate}
 \end{namedthm}
 
-
+Holds for random matrices as well
 
 \section{Laws of large numbers}
 \begin{namedthm}[$L^2$ weak law]
@@ -326,11 +482,11 @@ Combining the above information gives uniformly integrability of $\{\mean{X}_n\}
     
 \end{namedthm}
 
-Let $X_1,X_2,\dotsc$ follow a common distribution $\mu$, or alternatively a common distribution function $F$. The \df{empirical distribution} of the first $n$ random variables is defined to \[
+Let $X_1,X_2,\dotsc$ follow a common distribution $\mu$ on the real line, or alternatively a common distribution function $F$. The \df{empirical/sample distribution} of the first $n$ random variables is defined to \[
     \mu_n = \frac{1}{n} \sum_{k = 1}^n \delta_{X_k},
-\] which is the averaging of the first $n$ observations. Notice that this is a random variable in terms of $X_1,\dotsc,X_n$. This gives us the \df{empirical distribution function} \[
-    F_n(x) = \mu(-\infty,x] = \frac{1}{n} \sum_{k=1}^n \ind\{X_k \leq x\}.
-\]
+\] which is the averaging of the point mass of the first $n$ sample observations. Notice that $\mu_n$ is a \df[random measure]{random probability measure}, a random variable from $\Omega$ to $\mathcal P(\R)$. This $\mu_n$ gives us the \df{empirical distribution function} \[
+    F_n(x) = \mu(-\infty,x] = \frac{1}{n} \sum_{k=1}^n \ind\{X_k \leq x\},
+\] which is a random function defined on $\Omega$.
 
 \begin{namedthm}[Glivenko--Cantelli theorem]
     As $n \to \infty$, \[
@@ -354,17 +510,21 @@ Integral transform converts a given problem to one which is easier to solve, and
         \E\exp(itX) = \E\cos(tX) + i\E\sin(tX)
     \] always exists, because the real and imaginary parts are both bounded by $1$.
 
+    testing against coefficients give you enough information to recover information about the random variable
+
+    For a random vector $X \in \R^d$, we would define $M_X(t) = \E \exp(i\inp{t}{X})$ and $\varphi_X(t) = \E\exp(i\inp{t}{X})$ for $t \in \R^d$.
+
     The \df{cumulant generating function} is defined to be the log moment generating function.
 
     \cite[Theorem~7.13.1]{Bogachev_2007} Bochner
 
 \begin{exa}
-    For $Z \sim N(0,1)$ and $t\in \R$, we have the $M_Z(t)$ given by \begin{align*}
+    For $X \sim N(0,1)$ and $t\in \R$, we have the $M_X(t)$ given by \begin{align*}
         \E \exp(tX) & = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty e^{-x^2/2} e^{tx} \,dx \\
         & = e^{t^2/2} \frac{1}{\sqrt{2\pi}} \int_{-\infty}^\infty \exp\Bigl(-\frac{1}{2}(x-t)^2\Bigr)\,dx = \exp(t^2/2).
     \end{align*}
 
-    It turns out that the $\phi_Z(t)$ has almost the same expression (except for the sign): \[
+    It turns out that the $\phi_X(t)$ has almost the same expression (except for the sign): \[
         \E \exp(itX) = \exp(-t^2/2)
     \] for all $t\in \R$. It suffices to show that \begin{equation}
         \E \exp(tX) = \exp(t^2/2) \label{eq:mgf-chf-normal}
@@ -374,6 +534,10 @@ Integral transform converts a given problem to one which is easier to solve, and
         \partial_t \E\exp(tX) & = \E\partial_t \exp(tX) \\
         & = \E X\exp(tX);
     \end{align*} and the right-hand side is obviously holomorphic\footnote{Recall we defined complex exponentials as power series, and power series/polynomials are differentiable term-by-term.}.
+\end{exa}
+
+\begin{exa}
+    The $L^2$ limit of a sequence of normal random variables must be normal.
 \end{exa}
 
 \begin{namedthm}[Recovery theorem for m.g.f]
@@ -393,7 +557,7 @@ When the high-order derivatives of $\phi$ is finite, they recover the high-order
     \end{enumerate}
 \end{namedthm}
 
-\begin{namedthm}[Inversion formula]
+\begin{namedthm}[Inversion formula on the real line]
     Let $X \sim F$ with ch.f.\ $\phi$, and define $\ol F\colon \R \to [0,1]$ \[
         \ol{F}(x) = \frac{1}{2}[F(x) + F(x-)].
     \]
@@ -404,9 +568,10 @@ When the high-order derivatives of $\phi$ is finite, they recover the high-order
 Note $\ol{F}(b) - \ol{F}(a) = \mu(a,b) + \frac{1}{2}(\mu\{a\}+\mu\{b\})$. In particular, if $a$ and $b$ are not atoms of $\mu_F$, then the expression is equal to $\mu(a,b]$.
 
 \begin{thm}[(c.d.f.\ and ch.f.\ correspondence)]
-    $X=_d Y$ if and only if $\phi_X = \phi_Y$.
+    For any real random vectors $X$ and $Y$, $X=_d Y$ if and only if $\phi_X = \phi_Y$.
 \end{thm}
 \begin{proof}
+    A short proof can be given when $X$ and $Y$ are $\R$-valued.
     One direction is obvious. Now assume $\phi_X = \phi_Y$, which gives \[
         \ol{F}_X(b) - \ol{F}_X(a) = \ol{F}_Y(b) - \ol{F}_Y(a)
     \] for all real numbers $a \leq b$. Take $a \to -\infty$ gives us $\ol{F}_X(b) = \ol{F}_Y(b)$.
@@ -420,6 +585,10 @@ Note $\ol{F}(b) - \ol{F}(a) = \mu(a,b) + \frac{1}{2}(\mu\{a\}+\mu\{b\})$. In par
         \lim_{n} \ol{F}(b_n) = \frac{1}{2} \lim_{n} [F(b_n) + F(b_n-)] = F(x).
     \] The conclusion now follows.
 \end{proof}
+
+\begin{cor}
+    Two $\R^d$-random variables $X$ and $Y$ are independent if and only if $\phi_{X,Y} = \phi_X \phi_Y$.
+\end{cor}
 
 \begin{thm} \leavevmode
     \begin{enumerate}
@@ -447,4 +616,54 @@ Note $\ol{F}(b) - \ol{F}(a) = \mu(a,b) + \frac{1}{2}(\mu\{a\}+\mu\{b\})$. In par
 
 \begin{namedthm}[Lyapunov condition]
     
+\end{namedthm}
+
+\begin{namedthm}[Bochner's theorem]
+    A characteristic function $\varphi\colon \R \to \C$ is precisely characterized by the following three properties: \begin{enumerate}
+        \item $\varphi(0) = 1$, and $\sup_{t}\abs{\varphi(t)} \leq 1$;
+        \item $\varphi$ is uniformly continuous on $\R$;
+        \item $\varphi$ is a positive semidefinite function, i.e., for any finite number of real numbers $t_1,\dotsc,t_n$, the matrix $[\varphi(x_j - x_k)]_{j,k}$ is positive semidefinite.
+    \end{enumerate}
+\end{namedthm}
+
+
+moment problem
+
+\begin{namedthm}[Berry--Essen bound]
+    For $X_1,X_2,\dotsc$ i.i.d.\ with $\E \abs{X_1}^3 < \rho$, $\E X_1 = 0$, and $\E X_1^2 = \sigma^2$, let \[
+        G_n(x) = P\biggl( \frac{X_1 + \dotsb + X_n}{\sigma\sqrt n} \leq x\biggr)
+    \] be the empirical CLT-scaled distribution. We have \[
+        \abs{G_n(x) - G(x)} \leq \frac{C\rho}{\sigma^3 \sqrt n}
+    \] for some absolute constant $C > 0$.
+
+    One can show that 
+\end{namedthm}
+
+$\sqrt{n}$ rate of convergence to the distribution function
+
+de Moivre--Laplace central limit theorem for binomial distributions with fixed $p$'s can be proved directly for example with the help of Stirling's formula
+
+\begin{thm}
+    \[
+        \frac{S_n - np}{\sqrt{n pq}} \wkconv N(0,1)
+    \]
+
+    \[
+        \frac{S_n}{\sqrt{n}} \wkconv N(0,1)
+    \]
+
+    \cite[Theorem~3.12]{Durrett_2019} $2k/\sqrt{2n} \to x$
+    \[
+        P(S_{2n} = 2k) \simeq \frac{\exp(-x^2 / 2)}{\sqrt{\pi n}}.
+    \]
+\end{thm}
+
+If $p_n$ decreases inversely in $n$, then we have the following theorem.
+
+\begin{namedthm}[Poisson limit theorem]
+    For a sequence of $X_n \sim \Bin(n,p_n)$, where $n p_n \to \lambda$ for some positive constant $\lambda$, we have \[
+        X_n \wkconv \Poi(\lambda).
+    \] Explicitly, this means given $Y \sim \Poi(\lambda)$, for all $k \in \N_0$, we have \[
+        P(X_n = k) \to P(Y = k)\quad \text{as } n \to \infty.
+    \]
 \end{namedthm}

@@ -48,9 +48,9 @@ Our new definitions of conditional expectation and conditional probability are v
 % The Radon--Nikodym derivative should match on partitions
 
 \begin{fact}[(characteristic property)] \label{fact:char-property-CE}
-    Let $\E \abs{X} < \infty$ and $\E\abs{X Z} < \infty$ (in particular, if $Z$ is bounded $\G$-measurable), then we have \[
+    Let all $X \in \F$ and $Z \in \G$ satisfying $\E \abs{X} < \infty$ and $\E\abs{X Z} < \infty$, we have \[
         \E(\E(X \giv \G) Z) = \E(X Z).
-    \]% (The boundedness is required for the expectation to exist automatically. One can make some modifications in certain cases.)
+    \] This property characterizes the conditional expectation $\E(X \giv \G)$.  % (The boundedness is required for the expectation to exist automatically. One can make some modifications in certain cases.)
 \end{fact}
 \begin{proof}
     Left as an exercise, using the standard limiting argument.
@@ -73,10 +73,12 @@ Our new definitions of conditional expectation and conditional probability are v
 \end{namedthm}
 
 \begin{cor}[(Contraction property)] \label{cor:CE-contraction}
-    The conditional expectation $\E(\blank \giv \G)$ is a $1$-Lipschitz linear operator on $L^p$ ($1 \leq p < \infty$): for $X \in L^p(\Omega,\F,P)$, $\bigl\vert \E(X^p \giv \G)\bigr\vert \leq \E\bigl(\abs{X}^p \bigm\vert \G\bigr)$, and taking expectations on both sides gives
+    The conditional expectation $\E(\blank \giv \G)$ is a $1$-Lipschitz linear operator on any $L^p$ ($1 \leq p < \infty$): for $X \in L^p(\Omega,\F,P)$, $\bigl\vert \E(X^p \giv \G)\bigr\vert \leq \E\bigl(\abs{X}^p \bigm\vert \G\bigr)$, and taking expectations on both sides gives
         \[
             \E\bigl(\bigl\vert\E(X \giv \G)\bigr\vert^p\bigr) \leq \E \abs{X}^p.
         \]
+
+    In particular, this implies that if $X_n \to X$ in $L^p$, then $\E(X_n \giv \G) \to \E(X\giv \G)$ in $L^p$.
 \end{cor}
 
 \begin{thm}[(alternative Hilbert space definition)]
@@ -88,7 +90,7 @@ Our new definitions of conditional expectation and conditional probability are v
     \]
     This is true by \cref{fact:char-property-CE} and $\E(X \giv \G) \in L^2(\G)$, which follows from \cref{cor:CE-contraction}.
     
-    To extend the linear operator $\pi$ to a larger domain $L^1(\F)$, recall that $L^2(\F)$ is dense when considered as a metric subspace of $L^1(\F)$, and $L^1(\G)$ is complete. Now consider $\pi$ as a function from $(L^2(\F),\nm{\blank}_1)$ to $(L^1(\G),\nm{\blank}_1)$. We claim this $\pi$ is now $1$-Lipschitz. To see this, it suffices to verify that \[
+    To extend the linear operator $\pi$ to a larger domain $L^1(\F)$, recall that $L^2(\F)$ is dense when considered as a metric subspace of $L^1(\F)$, and $L^1(\G)$ is complete. Now consider $\pi$ as a function from $(L^2(\F),\nm{\blank}_1)$ to $(L^1(\G),\nm{\blank}_1)$. We claim this $\pi$ is bounded, in particular $1$-Lipschitz. To see this, it suffices to verify that \[
         \E \bigl\vert\E(X\giv \G)\bigr\vert \leq \E \abs{X}
     \] for all $X \in L^2(\F)$. Now let $A = {\E(X \giv \G) \geq 0}$, then \begin{align*}
         \E \bigl\vert\E(X\giv \G)\bigr\vert & = \E\bigl(\E (X \giv \G)\ind_A\bigr) - \E\bigl(\E(X \giv \G)\ind_{A^\cpl}\bigr) \\
@@ -97,6 +99,8 @@ Our new definitions of conditional expectation and conditional probability are v
 
     With all these information, by \cref{thm:ext-unif-cont-func} we have a continuous linear operator $\Pi\colon L^1(\F) \to L^1(\G)$, and by the uniqueness of the extension, $\Pi$ should exactly be the conditional expectation $\E(\blank \giv \G)$ defined previously.
 \end{proof}
+
+$L^2$-contractivity follows from Hilbert subspace projection reduces norm
 
 \begin{namedthm}[Tower property] \label{thm:tower}
     For $\G_1 \subseteq \G_2$, we have \[
@@ -107,17 +111,31 @@ Our new definitions of conditional expectation and conditional probability are v
 \end{namedthm}
 
 \begin{prop}
+    For $Y \in \G$, we have $\E(XY \giv \G) = Y\E(X \giv \G)$.
+\end{prop}
+
+\begin{prop}
     For two sub-$\sigma$-fields $\G_1$ and $\G_2$ of $\F$, then the following three are equivalent:
     \begin{enumerate}
         \item $\G_1$ and $\G_2$ are independent;
-        \item \label{enu:indep-sub-sigma-fields} $\E(X\giv \G_1) = \E X$ for every $X \in L^1(\G_2)$ or $L^+(\G_2)$;
+        \item \label{enu:indep-sub-sigma-fields} $\E(X\giv \G_1) = \E X$ for every $X \in L^+(\G_2)$ or $L^1(\G_2)$;
         \item $\E(\ind_{G_2} \giv \mathcal G_1) = P(G_2)$ for every $G_2 \in \G_2$.
     \end{enumerate}
 \end{prop}
 
 In particular, let $X$ and $Y$ be two random variables. Consider $\G_1 = \sigma(X)$ and $\G_2 = \sigma(Y)$. Then $X$ and $Y$ are independent if and only if \[
-    \E\bigl(f(X) \giv Y\bigr) = \E f(X)
-\] for all $f \in L^1$.
+    \E[f(X) \giv Y] = \E f(X)
+\] for all $f$ such that $\E \abs{f(X)} < \infty$.
+
+\begin{prop}
+    Let $X\colon (\Omega,\F) \to (T,\mathcal T)$ and $Y\colon (\Omega ,\F) \to (S,\mathcal S)$, and say $\G$ is a sub-$\sigma$-field of $\F$. If $X$ is $\G$-measurable and $Y$ is independent of $\G$, then for any $f\colon (T\times S ,\mathcal T\otimes \mathcal S) \to (\R,\B)$ such that $\E\abs{f(X,Y)} < \infty$, we have \[
+        \E[f(X,Y)\giv \G] = h(X),\text{ where }h(x) = \E f(x,Y).
+    \]
+    
+    In particular, when $X$ and $Y$ are independent, we have \[
+        \E[f(X,Y)\giv X] = h(X).
+    \]
+\end{prop}
 
 \begin{defn}
     Let $X$ be nonnegative $\F$-measurable, then we define its \df[conditional expectation!for nonnegative random variables]{conditional expectation} given $\G$ to be \[
@@ -125,7 +143,92 @@ In particular, let $X$ and $Y$ be two random variables. Consider $\G_1 = \sigma(
     \]
 \end{defn}
 
-\section{Conditional distributions}
+\nameref{thm:Radon-Nikodym} fails to help us 
+
+
+
+
+\begin{namedthm}[de~Finetti's theorem]
+    For a sequence of exchangeable random variables, conditioning on the exchangeabale $\sigma$-field $\mathcal E$, $X_1,X_2,\dotsc$ are i.i.d.\ More precisely, we can show that for any bounded measurable functions $f_j$'s, it holds that \[
+        \E\biggl(\prod_{j=1}^n f(X_j)\biggm\vert \mathcal E\biggr) = \prod_{j=1}^n \E[f(X_j) \giv \mathcal E].
+    \]
+\end{namedthm}
+
+This result roughly says that the conditional distribution of $X_j \giv \mathcal E$ becomes i.i.d. We remind that when $X_j$'s take value in standard Borel spaces, then there is a regular conditional distribution for $X_j \giv \mathcal E$.
+
+\section{Conditional distributions and transition kernels}
+
+\begin{defn} \label{def:reg-cond-dist}
+Let $(\Omega,\F)$ and $(S,\mathcal S)$ be two measurable space. A \df{random probability measure} is $\nu\colon \Omega\times \mathcal S \to [0,1]$ such that \begin{enumerate}
+    \item for ($P$-a.e.)\ $\omega \in \Omega$, the function $\nu(\omega,\blank)$ is a probability measure on $(S,\mathcal S)$;
+    \item for each $A \in \mathcal S$, the function $\omega \mapsto \nu(\omega,A)$ is $\F$-measurable.
+\end{enumerate}
+
+Let $Y\colon (\Omega,\F)\to (S,\mathcal S)$, and $\G$ be a sub-$\sigma$-field of $\F$. A \df{regular conditional distribution} of $Y$ given $\G$ is a random probability measure $\nu\colon \Omega\times \mathcal S \to [0,1]$ such that satisfies: 
+    \begin{enumerate}[resume]
+        \item\label{enu:reg-cond-meas} for each $A \in \mathcal S$, the function $\omega \mapsto \nu(\omega,A)$ is a version of $P(Y\in A\giv \G)$.
+    \end{enumerate}
+\end{defn}
+
+Recall that the function $P(Y \in A \giv \G)$ is unique only $P$-a.e., hence a version of $P(Y \in A \giv \G)$ means a function defined at each $\omega \in \Omega$. Note that condition~\ref{enu:reg-cond-meas} may be replaced by the following: for each $f$ such that $\E \abs{f(Y)} < \infty$, we have for $P$-a.e.\ $\omega$, \[
+    \E [f(Y ) \giv \G] = \int f(y)\,\nu(\omega,dy).
+\] This follows by observing that \[\E\bigl(\ind_{\{Y \in A\}} \bigm\vert \G\bigr) (\omega) = P(Y \in A \giv \G) (\omega) =\int \ind_A(y)\,\nu(\omega,dy),\] and then employing the standard approximation argument.
+
+Most often we take $\G = \sigma(X)$, and then our $\nu$ defined above is the \emph{regular conditional distribution} of $Y$ given $X$. In this case however, our notation above turns out to be awkward, since we want to make the role of $\omega$ implicit, but the role of $x = X(\omega)$ explicit. To accomplish this the following general definition is introduced.
+
+\begin{defn}
+    Given two measurable spaces $(T,\mathcal T)$ and $(S,\mathcal S)$, the \df{stochastic/transition kernel} from $T$ to $S$ is a function $\kappa: T \times \mathcal S \to [0,1]$ that satisfies: \begin{enumerate}
+    \item for each $x \in T$, the function $\kappa (x,\blank)$ is a probability measure on $(S,\mathcal S)$;
+    \item for each $A \in \mathcal S$, the function $x \mapsto \kappa (x,A)$ is $\mathcal T$-measurable.
+\end{enumerate}
+\end{defn}
+
+Note that a transition kernel $\nu$ from $\Omega$ to $S$ is just a random measure. Now rephrasing \cref{def:reg-cond-dist}, the regular conditional distribution of $Y$ given $\mathcal G$ is a transition kernel $\nu$ from $\Omega$ to $S$ such that \begin{equation*}
+    \text{the function }\omega \mapsto \nu(\omega,A) \text{ is a version of } P(Y \in A\giv \G),
+\end{equation*} for each $A \in \mathcal S$.
+
+If we consider two random variables $X\colon (\Omega,\F) \to (T,\mathcal T)$ and $Y\colon (\Omega,\F) \to (S,\mathcal S)$, respectively, then the regular conditional distribution of $Y$ given $X$ is $\kappa \circ X$, where $\kappa \colon S \times \mathcal T \to [0,1]$ is a transition kernel such that \begin{equation}\kappa(X(\omega),A) \text{ is a version of } P(Y \in A \giv X) (\omega). \label{eq:transition-ker-to-rcd} \end{equation} for each $A \in \mathcal S$.
+
+It turns out quite surprising that the notion of a transition kernel fully generalizes \cref{def:reg-cond-dist}. Indeed it is clear that random measures are just transition kernels. To recover the definition of regular condition probability in \cref{def:reg-cond-dist}, we may set $X$ to be the identity map from $(\Omega,\G)$ to itself.
+
+These are all formal definitions. When doing concrete computations, 
+
+It turns out that regular condition distributions do not always exist. 
+
+However, if we assume that $Y$ takes value in a standard Borel space $(S,\mathcal S)$, then the regular conditional probability of $Y$ given $X$ exists.
+
+\begin{thm}
+    % For an $(E,\mathcal E)$-valued random variable $X$ and another $(F,\F)$-valued random variable $Y$. Suppose $(F,\mathcal F)$ is a standard Borel space, then there exists a regular conditional distribution of 
+    Let $\rho$ be a probability measure on the product space $(T \times S,\mathcal T \otimes \mathcal S)$, where $(S,\mathcal S)$ is a standard Borel space. Then $\rho = \mu \otimes \kappa$, where $\mu = \rho(\blank \times S)$ and $\kappa$ is a transition kernel from $T$ to $S$.
+\end{thm}
+
+    \begin{enumerate}
+        \item For two discrete random variables $X$ and $Y$, we want \[\kappa(x,A) = \begin{cases}
+            P(Y \in A \giv X = x) & \text{if } P(X = x) > 0 , \\
+            \delta_{y_0}(A) & \text{if } P(X = x) = 0.
+        \end{cases}  \]
+        \item For two continuous random variables $X \in \R^m$ and $Y \in \R^n$, with joint density $f(x,y)$. We know the marginal density of $X$ is given by 
+        \item Gaussian 
+    \end{enumerate}
+
+\cite[Theorem~8.5]{Kallenberg_2021}
+
+\begin{namedthm}[Disintegration of random variables]
+    Consider two random variables $X\colon (\Omega, \G) \to (T,\mathcal T)$ and $Y\colon (\Omega,\F) \to (S,\mathcal S)$, where $(S,\mathcal S)$ is a standard Borel space. Then the joint distribution $\rho$ of $(X,Y)$ is equal to the product measure $\mu \times \kappa$, where $\mu$ is the marginal distribution of $X$ and $\kappa$ is a transition kernel that satisfies \eqref{eq:transition-ker-to-rcd}.
+
+    It follows that for any measurable $f \geq 0$ or $\E \abs{f(X,Y)} < \infty$, we have 
+    \[
+        \E [f(X,Y)\giv X] = \int f(X,y)\,\kappa(X,dy).
+    \]
+\end{namedthm}
+\[
+    \E [f(X,Y)\giv \G] = \int f(X,y)\,\nu(dy).
+\]
+
+\[
+    \E f(X,Y) = \E \int f(X,y)\,\kappa(X,dy).
+\]
+
 
 \section{Stopping times}
 A \df{discrete filtration} on a given a probability space $(\Omega,\F,P)$ is an expanding sequence of sub-$\sigma$-fields $\F_0 \subseteq \F_1\subseteq \dotsb$ of $\F$. Given a sequence of random variables $X_0, X_1, \dotsc$. we define its \df{natural filtration} by setting $\F_n = \sigma(X_0,X_1,\dotsc)$ for all $n\in \N_0$. 
@@ -141,8 +244,8 @@ Let $S$ and $T$ be two stopping times. Prove the following claims.
 
 \begin{namedthm}[Wald's equations] \leavevmode
     \begin{enumerate}
-        \item Let $X_1,X_2,\dotsc$ be i.i.d.\ $L^1$ random variables. If $\tau$ is a stopping time with $\E \tau<\infty$, then $\E S_\tau = \E X_1 \E \tau$.
-        \item Let $X_1,X_2,\dotsc$ be i.i.d.\ mean zero $L^2$ random variables.  If $\tau$ is a stopping time with $\E \tau<\infty$, then $\E S_\tau^2 = \E(X_1)^2\E \tau$.
+        \item Let $X_1,X_2,\dotsc$ be i.i.d.\ $L^1$ random variables. If $T$ is a stopping time with $\E T<\infty$, then $\E (X_1 + \dotsc + X_T) = \E X_1 \E T$.
+        \item Let $X_1,X_2,\dotsc$ be i.i.d.\ mean zero $L^2$ random variables.  If $T$ is a stopping time with $\E T<\infty$, then $\E (X_1 + \dotsc + X_T)^2 = \E(X_1)^2\E T$.
     \end{enumerate}
 \end{namedthm}
 
@@ -151,11 +254,13 @@ Given a filtration $\{\F_n\}$, a \df{discrete martingale} is a sequence of $L^1$
     \E(X_{n+1}\giv \F_n) = X_n.
 \]
 
-\begin{exa} Here are some of the most important examples of martingales coming up in applications.
+\begin{exa} Here are some of the most important examples of martingales coming up in applications. Let $\{X_j\}_j$ be a sequence of random variables, and $S_n = \sum_{j = 1}^n X_j$. Let $\F_n$ be the natural filtration with respect to $X_n$.
     \begin{enumerate}
-        \item Linear martingales.
-        \item Quadratic martingales.
-        \item Exponential martingales.
+        \item Linear martingales: if the sequence $\E X_j = 0$ for all $j$, then $S_n$ is a martingale.
+        \item Quadratic martingales: if $\E X_j = 0$ and $\E X_j^2 = \sigma^2$ for all $j$, we have $S_n^2 - n\sigma^2$ as a martingale.
+        \item Exponential martingales: say an unrelated sequence $Y_j$'s are nonnegative, i.i.d., with $\E Y_j = 1$, then $M_n = \prod_{j=1}^n Y_j$ is a martingale.
+
+        It is clear that  $\frac{\exp(tX_j)}{M_{X_j}(t)}$ is a candidate for our $Y_j$.
     \end{enumerate}
 \end{exa}
 
@@ -195,19 +300,33 @@ Let $\{X_n\}$ be a martingale (resp.\ supermartingale), and $T$ be a stopping ti
     \end{enumerate}
 \end{namedthm}
 
-\begin{namedthm}[Doob's decomposition]
-    Any submartingale or supermartingale  $\{X_n\}$ can be uniquely decomposed by $X_n = M_n + A_n$, where $\{M_n\}$ is a martingale and $\{A_n\}$ is a predictable sequence starting from $A_0 = 0$.
+\begin{namedthm}[Doob's decomposition] \label{thm:doob-decomp}
+    Any adapted integrable process $\{X_n\}$ can be uniquely decomposed by $X_n = M_n + A_n$, where $\{M_n\}$ is a martingale and $\{A_n\}$ is a predictable sequence starting from $A_0 = 0$. This is known as the \df{Doob decomposition}.
 
-    Conversely, an adapted integrable processes is a submartingale (resp.\ supermartingale) if and only if it has a Doob decomposition with an increasing (resp.\ decreasing) predictable sequence.
+    Furthermore, an adapted integrable process $\{X_n\}$ is a submartingale (resp.\ supermartingale) if and only if it has a Doob decomposition with an increasing (resp.\ decreasing) predictable sequence.
 \end{namedthm}
 \begin{proof}
+    The proof is quite elementary and may be left as an exercise. We want $X_n = M_n + A_n$, and conditioning both sides on $\F_{n-1}$ gives \begin{align*}
+        \E(X_n \giv \F_{n-1}) = M_{n-1} + A_n = X_{n-1} - A_{n-1} + A_n.
+    \end{align*}
+    This gives for all $n\in \N$, \begin{equation}
+        A_n - A_{n-1} = \E(X_n \giv \F_{n-1}) - X_{n-1}. \label{eq:doob-decomp}
+    \end{equation} Set $A_0 = 0$, and by repeatedly applying the above identity we get \[
+        A_n = \sum_{k=1}^n \E(X_k - X_{k-1} \giv \F_{k-1}) 
+    \] that is $\F_{k-1}$ measurable. We have shown that the decomposition, if exists, must be unique.
     
+    It remains to check that $M_n$ is indeed a martingale: \begin{align*}
+        \E(M_n \giv \F_{n-1}) & = \E(X_n \giv \F_{n-1}) - A_n \\
+            & = X_{n-1} - A_{n-1} = M_n,
+    \end{align*} where we used \eqref{eq:doob-decomp}.
+
+    The furthermore part follows immediately from \eqref{eq:doob-decomp}.
 \end{proof}
 
 \begin{namedthm}[Martingale convergence theorem] \label{thm:martingale-conv-thm}
     Say $\{X_n\}$ is a submartingale bounded in $L^1$, then the sequence $X_n$ converges a.s.\ to some $X_\infty \in L^1$.
 
-    The same conclusion holds for a submartingale.
+    supermartingale/martingale 
 \end{namedthm}
 
 It is clear that the limit $X_\infty$ cannot be explicitly computed, and we have to employ some clever trick to prove the existence of the limit. 
@@ -247,7 +366,7 @@ The same example also show that the \flcnameref{thm:martingale-conv-thm} does no
     \end{enumerate}
 \end{thm}
 \begin{proof}
-    (d)$\implies$(a) follows from \cref{prop:cond-expec-unif-int}. (b)$\implies$(c) is trivial. (a)$\implies$(b) is true because $\{X_n\}$ is bounded, and hence we may apply the \flcnameref{thm:martingale-conv-thm}. Then apply the 
+    (d)$\implies$(a) follows from \cref{prop:cond-expec-unif-int}. (b)$\implies$(c) is trivial. (a)$\implies$(b) is true because $\{X_n\}$ is bounded, and hence we may apply the \flcnameref{thm:martingale-conv-thm}.
 
     (c)$\implies$(d) is also not difficult. Let $X$ be the $L^1$ limit of $X_n$. Then for any $m > n$, we have $\E(X_m \giv \F_n) = X_n$. If we can show that $\E(X_m \giv \F_n) \to \E(X\giv \F_n)$ in $L^1$, then the proof is complete.
 
@@ -266,7 +385,7 @@ The same example also show that the \flcnameref{thm:martingale-conv-thm} does no
     \]
 \end{namedthm}
 
-\begin{namedthm}[Lebesgue dominated convergence theorem for conditional expectations]
+\begin{namedthm}[DCT for conditional expectations]
     Suppose $X_n \to X$ a.s.\ and for all $n \in \N_0$, $\abs{X_n} \leq Y$ for some $Y \in L^1$. Given that the $\sigma$-fields $\F_n \uparrow \F_\infty$, then \[
         \E(X_n \giv \F_n) \to \E(X \giv \F_\infty).
     \]
@@ -276,7 +395,7 @@ The same example also show that the \flcnameref{thm:martingale-conv-thm} does no
 
 \section{Backward martingales and their applications}
 \begin{defn}
-    A \df{backward filtration} is a $\Z_{\leq 0}$-indexed filtration, i.e., a sequence of sub-$\sigma$-fields of $\F$ \[
+    A \df{backward filtration} is a $\Z^{\leq 0}$-indexed filtration, i.e., a sequence of sub-$\sigma$-fields of $\F$ \[
         \dotsb\subseteq \F_2 \subseteq \F_1 \subseteq \F_0.
     \] Let $\F_\infty = \bigcap_{n=-\infty}^0 \F_n$, which we know is again a sub-$\sigma$-field of $\F$.
 \end{defn}
@@ -293,26 +412,56 @@ The same example also show that the \flcnameref{thm:martingale-conv-thm} does no
     
 \end{exa}
 
-\section{Martingales converging in \texorpdfstring{$L^p$}{Lp}}
+\section{\texorpdfstring{$L^p$}{Lp} convergence of martingales}
 
 \begin{namedthm}[Doob's maximal inequality]
     Let $\{X_n\}$ be a submartingale, then for every $a > 0$, we have \[
         a P\bigl(\max_{0\leq k \leq n} X_k \geq a\bigr) \leq \E\Bigl(X_n \ind\bigl\{\max_{0\leq k \leq n}X_n \geq a\bigr\}\Bigr) \leq \E X_n^+.
     \]
+    If $\{Y_n\}$ is a supermartingale, then  for every $a > 0$, we have \[
+        a P\bigl(\max_{0\leq k \leq n} Y_k \geq a\bigr) \leq \E Y_0 + \E Y_n^-.
+    \]
+    Combining the two cases above, we get for a submartingale or supermartingale $\{X_k\}$, it holds that \[
+        a P\bigl(\max_{0\leq k \leq n} \abs{X_k} \geq a\bigr) \leq \E \abs{X_0} + 2 \E \abs{X_n}.
+    \]
 \end{namedthm}
 
-\begin{namedthm}[Doob's $L^p$ inequality]
+The technique of introducing an appropriate stopping time
+
+Integrating the two sides of the first inequality, we can obtain an $L^p$ moment bound on $\E(\max X_k)$ for $1 < p < \infty$.
+
+\begin{namedthm}[Doob's $L^p$ inequality] \label{thm:Doob-Lp-discrete}
     Let $1 < p < \infty$ and $\{X_n\}$ be a nonnegative submartingale. For each $n\in \N_0$, we have \[
-        \E \bigl(\max_{0\leq k \leq n} X_k\bigr)^p \leq \biggl(\frac{p}{p-1}\biggr)^p \E(X_n)^p.
+        a^p P\bigl(\max_{0\leq k \leq n} X_k \geq a\bigr) \leq \E \bigl(\max_{0\leq k \leq n} X_k\bigr)^p \leq \biggl(\frac{p}{p-1}\biggr)^p \E(X_n)^p.
+    \]
+
+    Therefore if $\{Z_n\}$ is a martingale, then $\{\abs{Z_n}\}$ is a nonnegative submartingale. Therefore we have \[
+        a^p P\bigl(\max_{0\leq k \leq n} \abs{Z_k} \geq a\bigr) \leq \E \bigl(\max_{0\leq k \leq n} \abs{Z_k}\bigr)^p \leq \biggl(\frac{p}{p-1}\biggr)^p \E\abs{Z_n}^p.
     \]
 \end{namedthm}
 
 
-\begin{cor}
-    If $\{Z_n\}$ is a martingale, then $\{\abs{Z_n}\}$ is a nonnegative submartingale. Therefore we have \[
-        \E \bigl(\max_{0\leq k \leq n} \abs{Z_k}\bigr)^p \leq \biggl(\frac{p}{p-1}\biggr)^p \E\abs{Z_n}^p.
-    \]
-\end{cor}
+We say $\{X_n\}$ is a \df{square integrable martingale} if $\{X_n\}$ is a martingale, and each $X_n \in L^2(P)$.
+
+When $\{X_n\} \subseteq L^2$ is a martingale, then we have by \nameref{thm:Doob-Lp-discrete} ($p=2$) that \begin{equation}
+    \E \max_{0\leq k \leq n} X_k^2  \leq 4 \E X_n^2. \label{eq:apply-L2-maximal}
+\end{equation}
+We now show that a uniform control on $\{X_n\}_{n\in \N}$ can be obtained.
+\nameref{thm:doob-decomp} tells us that we can decompose the submartingale $X_n^2$ into $M_n + A_n$, where $\{M_n\}$ is a martingale, and $\{A_n\}$ is an increasing predictable sequence given by \begin{align*}
+    A_n & = \sum_{k=1}^n \E(X_k^2 - X_{k-1}^2 \giv \F_{k-1}) \\
+    & = \sum_{k=1}^n \E(X_k^2 - 2 X_k X_{k-1} + X_{k-1}^2 \giv \F_{k-1})\\
+    & = \sum_{k=1}^n \E[(X_k- X_{k-1})^2 \giv \F_{k-1}],
+\end{align*}
+where we have used $\E(X_k \giv \F_{k-1}) = X_{k-1}$ in the second equality. This increasing sequence has a special name, called the \df{quadratic variation} of the square integrable martingale $\{X_n\}$, which we denote by $\{\qv{X}_n\}$.
+
+Note $\E X_n^2 = \E M_n + \E \qv{X}_n = \E X_0^2 + \E \qv{X}_n$, and we may plug this into \eqref{eq:apply-L2-maximal}. By the monotone convergence theorem, we can therefore conclude 
+
+\begin{prop}
+    For martingale $\{X_n\} \subseteq L^2$, we have \[
+    \E \sup_n  X_n^2 \leq  4 \E \qv{X}_\infty + 4 \E X_0^2,
+\] where $\qv{X}_\infty = \lim_n \qv{X}_n$, which is possibly infinite.
+\end{prop}
+
 
 \begin{namedthm}[$L^p$ convergence theorem for martingales]
     Let $1<p<\infty$, and $\{X_n\}$ be a uniformly $L^p$-bounded martingale. Then $X_n$ converges a.s.\ and in $L^p$ to some $X_\infty$ satisfying \[
@@ -320,19 +469,21 @@ The same example also show that the \flcnameref{thm:martingale-conv-thm} does no
     \] Meanwhile \[
         \E \bigl(\sup_n\abs{X_n}\bigr)^p \leq \biggl(\frac{p}{p-1}\biggr)^p \E\abs{X_\infty}^p.
     \]
-\end{namedthm}
 
-\begin{thm}[(convergence of $L^2$ summable random series)]
+    \begin{thm}[(convergence of $L^2$ summable random series)]
     Let $\{X_n\}$ be a sequence of independent mean zero $L^2$ random variables, then the following are equivalent: \begin{enumerate}
         \item $\sum_{n=1}^\infty \E X_n^2 < \infty$;
         \item $\sum_{n=1}^\infty X_n^2$ converges a.s.\ and in $L^2$;
         \item $\sum_{n=1}^\infty X_n^2$ converges in $L^2$.
     \end{enumerate}
 \end{thm}
+\end{namedthm}
 
-\section{Martingales with bounded increments}
+% \section{Square integrable martingales}
+
+\section{Martingales of bounded increments}
 \begin{thm}[(convergence behavior)]
-    
+    For a martingale $\{X_n\}$ with $\sup_n \abs{X_{n+1} - X_n} < \infty$, we have almost surely either $\lim_n X_n$ exists and is finite, or $\limsup_n X_n= +\infty$ and $\liminf_n X_n = -\infty$. 
 \end{thm}
 
 \begin{fact}
@@ -343,26 +494,135 @@ The same example also show that the \flcnameref{thm:martingale-conv-thm} does no
     \] for any $n > m$, i.e., martingale differences are uncorrelated.
 \end{fact}
 
-\begin{namedthm}[Azuma--Hoeffding inequality]
-    Let $\{X_n\}$ be a supermartingale, and $\{A_n\}$ and $\{B_n\}$ are predictable with respect to the filtration $\{\F_n\}$, such that \[A_n \leq X_n \leq B_n.\] If for all $A_n$ and $B_n$ we have some positive constant $c_n$ such that $B_n - A_n \leq c_n$, then we have \[
-        P(X_n - X_0 \geq \epsilon) \leq \exp\biggl(-\frac{2 \epsilon^2}{\sum_{j=1}^n c_j^2}\biggr).
-    \]
+\begin{namedthm}[Azuma--Hoeffding inequality] \label{thm:Azuma-Hoeffding}
+    Let $\{X_n\}$ be a supermartingale, and $\{A_n\}$ and $\{B_n\}$ are predictable with respect to the filtration $\{\F_n\}$, such that \[A_n \leq X_n - X_{n-1} \leq B_n.\] If for all $A_n$ and $B_n$ we have some positive constant $c_n$ such that $B_n - A_n \leq c_n$, then we have \begin{equation} \label{eq:Azuma-Hoeffding-supmg}
+        P(X_n - X_0 \geq t) \leq \exp\biggl(-\frac{2 t^2}{\sum_{k=1}^n c_k^2}\biggr).
+    \end{equation}
 
     If the $\{X_n\}$ above is a submartingale instead, then we get \[
-        P(X_0 - X_n \geq \epsilon) \leq \exp\biggl(-\frac{2 \epsilon^2}{\sum_{j=1}^n c_j^2}\biggr).
+        P(X_0 - X_n \geq t) \leq \exp\biggl(-\frac{2 t^2}{\sum_{k=1}^n c_k^2}\biggr).
     \] Hence by a simple union bound, we get for a martingale $\{X_n\}$ with the described conditions, it holds that \[
-        P(\abs{X_n - X_0} \geq \epsilon) \leq 2\exp\biggl(-\frac{2 \epsilon^2}{\sum_{j=1}^n c_j^2}\biggr).
+        P(\abs{X_n - X_0} \geq t) \leq 2\exp\biggl(-\frac{2 t^2}{\sum_{k=1}^n c_k^2}\biggr).
     \]
 \end{namedthm}
-
-\begin{namedthm}[Hoeffding's lemma]
-    For a mean zero random variable $Y$ that is a.s.\ bounded within $[a,b]$, we have \[
-        \E\exp(\lambda Y) = \exp\biggl(\frac{\lambda(b - a)^2}{8}\biggr)
-    \]
-\end{namedthm}
-
-\begin{namedthm}[McDiarmid bounded difference inequality]
+\begin{proof}
+    We first show \eqref{eq:Azuma-Hoeffding-supmg} when $\{X_n\}$ is only a martingale, and at the end we extend the inequality to the supermartingale case by invoking \nameref{thm:doob-decomp}.
     
+    The Chernoff method is expected, just by observation of the inequality. For any $\lambda \in\R$, we have 
+\begin{equation}
+P(X_{n}-X_{0}\geq t)\leq\frac{\E\exp\bigl(\lambda (X_{n}-X_{0})\bigr)}{e^{\lambda t}}.\label{eq:chernoff}
+\end{equation}
+Now focus on $\E\exp\bigl(\lambda (X_{n}-X_{0})\bigr)$, which is equal to
+\begin{align}
+\E\exp\biggl(\lambda \sum_{k=1}^{n}X_{k}-X_{k-1}\biggr) & =\E\biggl[\exp \lambda (X_{n}-X_{n-1})\cdot\exp\Bigl(\lambda\sum_{k=1}^{n-1}X_{k}-X_{k-1}\Bigr)\biggr]\nonumber \\
+ & =\E\biggl[\E\Bigl(\exp \lambda(X_{n}-X_{n-1})\cdot\exp\Bigl(\lambda \sum_{k=1}^{n-1}X_{k}-X_{k-1}\Bigr)\Bigm\vert\F_{n-1}\Bigr)\biggr]\nonumber \\
+ & =\E\biggl[\exp\Bigl(\lambda \sum_{k=1}^{n-1}X_{k}-X_{k-1}\Bigr)\E\Bigl(\exp\bigl(\lambda(X_{n}-X_{n-1})\bigl)\Bigm\vert\F_{n-1}\Bigr)\biggr].\label{eq:one-step}
+\end{align}
+Since $\{X_{n}\}$ is an $\{\F_{n}\}$-adapted martingale, for the difference sequence $Y_{n}=X_{n}-X_{n-1}$, we should have 
+\[
+\E(Y_{n}\giv\F_{n-1}) = 0.
+\]
+Also by assumption for constant $c_{n}>0$ and random variable
+$A_{n}$ that is $\F_{n-1}$-measurable, we have 
+\[
+A_{n}\leq Y_{n}\leq A_{n}+c_{n},
+\]
+therefore by the conditional version of \nameref{lem:Hoeffding}, line~\eqref{eq:one-step} is 
+\[
+\leq \E\biggl[\exp\Bigl(\lambda \sum_{k=1}^{n-1}X_{k}-X_{k-1}\Bigr)\biggr]
+\exp\biggl(\frac{\lambda^{2}c_{n}^{2}}{8}\biggr).
+\]
+
+We may repeat the procedure above by first conditioning and then applying
+Hoeffding's lemma, and obtain in the end that 
+\begin{align*}
+\E\exp\biggl(\lambda \sum_{k=1}^{n}X_{k}-X_{k-1}\biggr) & \leq \prod_{k=1}^{n}\exp\biggl(\frac{\lambda^{2}c_{k}^{2}}{8}\biggr)\\
+ & =\exp\biggl(\frac{\lambda^{2}\sum_{k=1}^{n}c_{k}^{2}}{8}\biggr).
+\end{align*}
+Going back to \eqref{eq:chernoff}, we have 
+\[
+P(X_{n}-X_{0}\geq t) \leq \exp\biggl(\frac{\lambda^{2}\sum_{k=1}^{n}c_{k}^{2}}{8}-\lambda t\biggr).
+\]
+The quadratic expression $\frac{\sum_{k=1}^{n}c_{k}^{2}}{8}\lambda^{2}-t\lambda$ in $\lambda$ has minimum value 
+\[
+-\frac{t^{2}}{4\cdot\frac{\sum_{k=1}^{n}c_{k}^{2}}{8}}=-\frac{2t^{2}}{\sum_{k=1}^{n}c_{k}^{2}}.
+\] when $\lambda =-\frac{-t}{2\cdot\frac{\sum_{k=1}^{n}c_{k}^{2}}{8}}$.
+Therefore 
+\[
+P(X_{n}-X_{0}\geq t)\leq\exp\biggl(-\frac{2t^{2}}{\sum_{k=1}^{n}c_{k}^{2}}\biggr),
+\]
+finishing the proof for the martingale case.
+
+For a supermartingale $\widehat{X}_n$, we know by \nameref{thm:doob-decomp} that there is a (unique) decomposition $\widehat{X}_n = X_n + D_n$, where $X_n$ is a martingale and $D_n$ is a decreasing sequence. This implies that \begin{align*}
+    P(\widehat{X}_n - \widehat{X}_0 \geq t) & = P(X_n - X_0 + D_n - D_0 \geq t)\\
+    & \leq P(X_n - X_0 \geq t),
+\end{align*} as $D_n - D_0 \leq 0$. The proof is now complete.
+\end{proof}
+
+It is clear that \nameref{thm:Hoeffding-ineq} is simply a special case of the above martingale inequality. Another applicable consequence of \nameref{thm:Azuma-Hoeffding} is the following result about concentration of functions taking vector inputs of independent components.
+
+\begin{namedthm}[McDiarmid’s bounded difference inequality]
+\label{thm:bdd-diff} Let a measurable function $g\colon\prod_{k=1}^n S_k\to\R$ satisfy
+the bounded difference property with constants $c_{1},\dotsc,c_{n}$. This means for each $k\in[n]$, we have 
+\[
+\sup_{\substack{x_{1},\dotsc, x_{n}\\x_{k}'\in S_k}}\abs{g(x_{1},\dotsc x_{n})-g(x_{1},\dotsc x_{k-1},x_{k}',x_{k+1},\dotsc,x_{n})}\leq c_{k}.
+\]
+Let $\{X_{k}\}_{k=1}^n$ be independent $S_k$-valued random variables, then 
+\[
+P\bigl(g(X_{1},\dotsc,X_{n})-\E g(X_{1},\dotsc,X_{n})\geq t\bigr)\leq\exp\biggl(\frac{-2t^{2}}{\sum_{j}c_{j}^{2}}\biggr).
+\]
+
+(Note that by the triangle inequality, $g(\mathbf x) - g(\mathbf x') \leq \sum_{k=1}^n c_k$ for any $\mathbf x ,\mathbf x' \in \prod_{k}S_k$, and hence the function $g$ is bounded.)
+\end{namedthm}
+\begin{proof}
+    Define the martingale $Y_k = \E [g(X_1,\dotsc,X_n) \giv \F_k]$ for $0\leq k \leq n$, where $\F_k$ is the natural filtration with respect to $\{X_k\}$. It suffices to check the conditions of \nameref{thm:Azuma-Hoeffding}. Note $Y_k - Y_{k-1}$  can be expanded into \begin{equation} \label{eq:expand-mg-bdd-diff}
+        \E [g(X_1,\dotsc,X_{k},\xi_{k+1},\dotsc,\xi_{n}) - g(X_1,\dotsc,X_{k-1},\xi_{k},\dotsc,\xi_{n}) \giv \F_{k}], % \\ & \qquad - \E [g(X_1,\dotsc,X_{k},\xi_{k+1},\dotsc,\xi_{n} \giv \F_{k-1}]
+    \end{equation} where $\xi_k,\dotsc,\xi_n$ are copies of $X_{k},\dotsc,X_n$ that are independent of everything else.
+
+    Now we define our natural candidate for $A_k$ by \[
+        \inf_{z \in S_k} \E [g(X_1,\dotsc,X_{k-1},z,\xi_{k+1}\dotsc,\xi_{n}) - g(X_1,\dotsc,X_{k-1},\xi_{k},\xi_{k+1}\dotsc,\xi_{n}) \giv \F_{k}],
+    \] and let $B_k$ be the corresponding supremum; both are $\F_{k-1}$-measurable. The bounded difference condition gives that \begin{align*}
+        & \phantom{{}={}}B_k - A_k\\ & = \sup_{z,w\in S_k} \E[g(X_1,\dotsc,X_{k-1},z,\xi_{k+1}\dotsc,\xi_{n}) - g(X_1,\dotsc,X_{k-1},w,\xi_{k+1}\dotsc,\xi_{n}) \giv \F_k]
+        \\ & \leq c_k,
+    \end{align*} and hence we have verified all the conditions for invoking Azuma--Hoeffding.
+\end{proof}
+
+\begin{namedthm}[Efron--Stein inequality]
+    Define $\Var_j(x_1,\dotsc,x_n) = \Var(x_1,\dotsc,X_j,\dotsc,x_n)$. For independent $X_1,\dotsc,X_n$, we have \[
+        \Var f(X_1,\dotsc,X_n) \leq \E \biggl(\sum_{j=1}^n \Var_j f(X_1,\dotsc,X_n)\biggr).
+    \]
 \end{namedthm}
 
 \section{Gamblers' ruin and random walks}
+
+For a random process $\{X_t\}$ that starts $X_0 = x$, we often use $\bP_x$ instead of $P$ as the notation for the underlying probability measure. \emph{There is absolutely difference between the two in the context of this section.} The subscript $x$ here is merely used to emphasize where the random process starts. However, it deserves attention that $\bP_x$ is a distinct probability measure living on a different space that is induced from the usual $P$ on $(\Omega, \F)$. We will discuss this at a detailed level in the upcoming chapter, when discussing the canonical probability space for a Markov chain.
+
+\begin{thm}
+    Let $S_n$ be the symmetric random walk on $\Z$ that starts at $0$, and define $T = \min\{n  : S_n \notin (-a,b)\}$, where $-a < 0 \leq b$ are integers. We have $T< \infty$ a.s., and \[
+        \bP_0(S_T = - a) = \frac{b}{a+b},\ \bP_0(S_T = b) = \frac{a}{a+b}, \text{ and } \bE_0 T = ab.
+    \]
+\end{thm}
+
+Take $-a = -1$ and $b = N-1 \geq 0$. For any $y\in \N$, define the hitting time $T_y = \min\{n : S_n = y\}$, then \[
+    \bP_0(T_{-1} < T_{N-1}) = \frac{N - 1}{N} \text{ and }\bP_0(T_{-1} > T_{N-1}) = \frac{1}{N}.
+\] Therefore \[
+    \bP_0(T_{-1} < \infty) = \bP_0\biggl(\bigcup_{N=1}^\infty \{T_{-1} < T_{N-1}\}\biggr) = 1.
+\] However, $\bE_0 T_{-1} = \infty$.
+
+by monotone convergence
+
+\begin{thm}
+    Let $S_n = \sum_{j=1}^\infty \xi_j$ be the asymmetric random walk that starts from $0$, where each $\xi_j$ is i.i.d., with $P(\xi_j =1) = p > 1/2$ and $P(\xi_j = -1) = q = 1 - p < 1/2$.
+
+    \begin{enumerate}
+        \item First, one can verify that $\bigl\{(q/p)^{S_n}\bigr\}_n$ is a martingale.
+        \item Therefore let $f(y) = (q/p)^y$. Again define the hitting time $T_z = \min\{n : S_n = z\}$. For $- a < 0 < b$, we have\[
+        \bP_0 (T_{-a} < T_b) = \frac{\phi(b) - \phi(0)}{\phi(b) - \phi(-a)} \text{ and } \bP_0 (T_{-a} > T_b) = \frac{\phi(0) - \phi(-a)}{\phi(b) - \phi(-a)}.
+        \]
+        \item Now we look at the two hitting times individually: \[\bP_0(\min_n S_n \leq -a) = \bP_0(T_{-a} < \infty) = \biggl(\frac{1 - p}{p}\biggr)^a.\]
+        \[
+        \bP_0(\max_n S_n \geq b ) = \bP_0(T_b < \infty) = 1 \quad \bE_0 T_b = \frac{b}{2p-1}.
+    \]
+    \end{enumerate}
+    This stopping time conversion is very standard
+\end{thm}
